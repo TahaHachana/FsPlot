@@ -3,17 +3,20 @@
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
-#r """.\bin\debug\FsPlot.dll"""
+#r """.\bin\release\FsPlot.dll"""
 
-open FsPlot
+open FsPlot.Charting
 
-let data = [|"IE", 200; "Chrome", 253; "Firefox", 158|]
+let data = ["Chrome", 233; "Firefox", 141; "IE", 256]
+    
+// Create a pie chart
+let chart = Highcharts.Pie(data, "Visitors By Browser Breakdown")
 
-let chart = Highcharts.Pie(data, "Window Title", "Chart Title")
+// Display a legend
+chart.ShowLegend()
 
-chart.Data <- [|"IE", 200; "Chrome", 253; "Firefox", 158; "Opera", 59|]
+// Update the chart's data
+chart.SetData ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
 
-chart.Title <- Some "New Title"
-
-let js = chart.Js
-let html = chart.Html
+// Update the chart's title
+chart.SetTitle "Website Visitors By Browser Breakdown"

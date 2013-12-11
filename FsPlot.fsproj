@@ -42,9 +42,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChartWindow.fs" />
+    <Compile Include="Expr.fs" />
     <Compile Include="JS.fs" />
     <Compile Include="Html.fs" />
-    <Compile Include="Highcharts.fs" />
+    <Compile Include="Charting.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />
     <Resource Include="ChartIcon.ico">
