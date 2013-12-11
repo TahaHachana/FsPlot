@@ -22,20 +22,23 @@ Usage
 ```fsharp
 #load "FsPlot.fsx"
 
-open FsPlot
+open FsPlot.Charting
 
-let data = ["IE", 256; "Chrome", 233]
-
+let data = ["Chrome", 233; "Firefox", 141; "IE", 256]
+    
 // Create a pie chart
-let chart = Highcharts.Pie(data, "Visitors Breakdown", "Visitors by Browser")
+let chart = Highcharts.Pie(data, "Visitors By Browser Breakdown")
 
-// Update the data source
-chart.Data <- ["IE", 256; "Chrome", 233; "Firefox", 123; "Opera", 54]
+// Display a legend
+chart.ShowLegend()
 
-// Change the chart title
-chart.Title <- Some "Website Visitors by Browser"
+// Update the chart's data
+chart.SetData ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
+
+// Update the chart's title
+chart.SetTitle "Website Visitors By Browser"
 ```
-![Pie Chart](https://lh3.googleusercontent.com/-JwZ2yq1fPbY/UqRbPDkpuhI/AAAAAAAAAMc/6zZkq6odmto/w575-h410-no/pie.PNG)
+![Pie Chart](https://lh4.googleusercontent.com/-mKGde0NEjNg/UqhOZKp4uTI/AAAAAAAAANk/p2A_oW--4Gk/w698-h498-no/pie.PNG)
 
 Contact
 -------
