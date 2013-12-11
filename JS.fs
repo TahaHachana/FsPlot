@@ -9,25 +9,35 @@
 #endif
 
 open Microsoft.FSharp.Quotations
+open System
+open Expr
 
 [<ReflectedDefinition>]
 module internal Utils =
 
     let jq(selector:string) = Globals.Dollar.Invoke selector
 
-// data, window title, chart title, slices labels, color, XTitle, YTitle
-
 module Highcharts =
 
     module Pie =
-        
-        [<ReflectedDefinitionAttribute>]
-        let chart (data:(string*int) []) chartTitle =
+       
+        [<ReflectedDefinition>]
+        let chart (data:(string*#value) []) chartTitle legend =
             let options = createEmpty<HighchartsOptions>()
             let chartOpts = createEmpty<HighchartsChartOptions>()
             chartOpts.renderTo <- "chart"
             chartOpts._type <- "pie"
-            options.chart <- chartOpts        
+            options.chart <- chartOpts
+//            let legendOptions = createEmpty<HighchartsLegendOptions>()
+//            legendOptions.
+//            legendOptions.enabled <- legend
+//            options.legend <- legendOptions
+            let highPie = createEmpty<HighchartsPieChart>()
+            highPie.allowPointSelect <- true
+            highPie.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.pie <- highPie
+            options.plotOptions <- plotOptions
             let titleOptions = createEmpty<HighchartsTitleOptions>()
             titleOptions.text <- defaultArg chartTitle ""
             options.title <- titleOptions
@@ -38,22 +48,22 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js (data:seq<string*int>) (chartTitle:string option) =
-            let dataExpr =
-                Expr.NewArray(
-                    typeof<System.Tuple<System.String,System.Int32>>,
-                    [
-                        for (x, y) in data do
-                            yield Expr.NewTuple( [ Expr.Value(x); Expr.Value(y)])
-                    ])
-            let chartTitleExpr =
-                let infos = Reflection.FSharpType.GetUnionCases(typeof<string option>)
-                match chartTitle with
-                | None -> Expr.NewUnionCase(infos.[0], [])
-                | Some value -> Expr.NewUnionCase(infos.[1], [Expr.Value value])
+        let js data chartTitle legend =
+            let dataExpr = quoteTupleSeq data
+            let chartTitleExpr = quoteStrOption chartTitle
+            let legendExpr = quoteBool legend
+            FunScript.Compiler.Compiler.Compile(
+                <@ chart %%dataExpr %%chartTitleExpr %%legendExpr @>,
+                noReturn=true,
+                shouldCompress=true)
 
-            FunScript.Compiler.Compiler.Compile(<@ chart %%dataExpr %%chartTitleExpr @>, noReturn=true, shouldCompress=true)
 
-//        let data = [|"IE", 200; "Chrome", 253; "Firefox", 158|]
-//    
-//        let test = js data None
+
+//        let data = [|200|]
+//        let test = Pie.Js(data, None)
+//
+//        let data' = [|"IE", 200; "Chrome", 253; "Firefox", 158|]
+//        let test' = Pie.Js(data', None)
+
+
+
