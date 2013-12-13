@@ -8,9 +8,10 @@
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
 #endif
 
-open Microsoft.FSharp.Quotations
 open System
+open DataSeries
 open Expr
+open FunScript
 
 [<ReflectedDefinition>]
 module internal Utils =
@@ -20,50 +21,121 @@ module internal Utils =
 module Highcharts =
 
     module Pie =
-       
+
         [<ReflectedDefinition>]
-        let chart (data:(string*#value) []) chartTitle legend =
-            let options = createEmpty<HighchartsOptions>()
-            let chartOpts = createEmpty<HighchartsChartOptions>()
-            chartOpts.renderTo <- "chart"
-            chartOpts._type <- "pie"
-            options.chart <- chartOpts
-//            let legendOptions = createEmpty<HighchartsLegendOptions>()
-//            legendOptions.
-//            legendOptions.enabled <- legend
-//            options.legend <- legendOptions
-            let highPie = createEmpty<HighchartsPieChart>()
-            highPie.allowPointSelect <- true
-            highPie.showInLegend <- legend
+        let chart (series:Series []) chartTitle legend =
+            let data = series.[0]
+            let ho = createEmpty<HighchartsOptions>()
+            // chart options
+            let chartOptions = createEmpty<HighchartsChartOptions>()
+            chartOptions.renderTo <- "chart"
+            chartOptions._type <- "pie"
+            ho.chart <- chartOptions
+            // x axis options
+            let axisOptions = createEmpty<HighchartsAxisOptions>()
+            let xAxisType = match data.XType with System.TypeCode.DateTime -> "datetime" | System.TypeCode.String -> "category" | _ -> "linear"
+            axisOptions._type <- xAxisType
+            ho.xAxis <- axisOptions            
+            // plot options
+            let pieChart = createEmpty<HighchartsPieChart>()
+            pieChart.allowPointSelect <- true
+            pieChart.showInLegend <- legend
             let plotOptions = createEmpty<HighchartsPlotOptions>()
-            plotOptions.pie <- highPie
-            options.plotOptions <- plotOptions
+            plotOptions.pie <- pieChart
+            ho.plotOptions <- plotOptions
+            // title options
             let titleOptions = createEmpty<HighchartsTitleOptions>()
             titleOptions.text <- defaultArg chartTitle ""
-            options.title <- titleOptions
-            let seriesOp = createEmpty<HighchartsSeriesOptions>()
-            let data' = data |> Array.map (fun (k, v) -> box [|box k; box v|])
-            seriesOp.data <- data'
-            options.series <- [|seriesOp|]
+            ho.title <- titleOptions
+            // series options
+            let seriesOptions =
+                [|
+                    for s in series do
+                        let options = createEmpty<HighchartsSeriesOptions>()
+                        let data =
+                            Array.map (fun (k, v) ->
+                                match data.XType with
+                                | System.TypeCode.DateTime ->
+//                                    Globals.Number.Create
+                                    let d = Globals.parseFloat (k.ToString())
+                                    
+                                    box [|box d; box v|]
+                                | _ -> box [|box k; box v|]) s.Values
+                        options.data <- data
+                        options.name <- s.Name
+                        let chartType =  match s.Type with Area -> "area" | Pie -> "pie"
+                        options._type <- chartType
+                        yield options
+                |]
+            ho.series <- seriesOptions
             let chartElement = Utils.jq "#chart"
-            chartElement.highcharts(options) |> ignore
+            chartElement.highcharts(ho) |> ignore
 
-        let js data chartTitle legend =
-            let dataExpr = quoteTupleSeq data
+        let js (series:Series []) chartTitle legend =
+            let seriesExpr = quoteDataSeriesArr series
             let chartTitleExpr = quoteStrOption chartTitle
             let legendExpr = quoteBool legend
-            FunScript.Compiler.Compiler.Compile(
-                <@ chart %%dataExpr %%chartTitleExpr %%legendExpr @>,
+            Compiler.Compiler.Compile(
+                <@ chart %%seriesExpr %%chartTitleExpr %%legendExpr @>,
                 noReturn=true,
                 shouldCompress=true)
 
+    module Area =
 
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) =
+            let data = series.[0]
+            let ho = createEmpty<HighchartsOptions>()
+            // chart options
+            let chartOptions = createEmpty<HighchartsChartOptions>()
+            chartOptions.renderTo <- "chart"
+            chartOptions._type <- "area"
+            ho.chart <- chartOptions
+            // x axis
+            let axisOptions = createEmpty<HighchartsAxisOptions>()
+            let xAxisType = match data.XType with System.TypeCode.DateTime -> "datetime" | System.TypeCode.String -> "category" |  _ -> "linear"
+            axisOptions._type <- xAxisType
+            ho.xAxis <- axisOptions            
+            // plot options
+            let areaChart = createEmpty<HighchartsAreaChart>()
+            areaChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.area <- areaChart
+            ho.plotOptions <- plotOptions
+            // title options
+            let titleOptions = createEmpty<HighchartsTitleOptions>()
+            titleOptions.text <- defaultArg chartTitle ""
+            ho.title <- titleOptions
+            // series options
+            let seriesOptions =
+                [|
+                    for s in series do
+                        let options = createEmpty<HighchartsSeriesOptions>()
+                        let data =
+                            Array.map (fun (k, v) ->
+                                match data.XType with
+                                | System.TypeCode.DateTime ->
+//                                    Globals.Number.Create
+                                    let d = Globals.parseFloat (k.ToString())
+                                    
+                                    box [|box d; box v|]
+                                | _ -> box [|box k; box v|]) s.Values
+                        options.data <- data
+                        options.name <- s.Name
+                        let chartType =  match s.Type with Area -> "area" | Pie -> "pie"
+                        options._type <- chartType
+                        yield options
+                |]
+            ho.series <- seriesOptions
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(ho) |> ignore
 
-//        let data = [|200|]
-//        let test = Pie.Js(data, None)
-//
-//        let data' = [|"IE", 200; "Chrome", 253; "Firefox", 158|]
-//        let test' = Pie.Js(data', None)
-
-
+        let js (series:Series []) chartTitle legend =
+            let seriesExpr = quoteDataSeriesArr series
+            let chartTitleExpr = quoteStrOption chartTitle
+            let legendExpr = quoteBool legend
+            Compiler.Compiler.Compile(
+                <@ chart %%seriesExpr %%chartTitleExpr %%legendExpr @>,
+                noReturn=true,
+                shouldCompress=true)
 

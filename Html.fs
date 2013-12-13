@@ -1,4 +1,4 @@
-﻿module FsPlot.Html
+﻿module internal FsPlot.Html
 
 let highcharts js =
     String.concat

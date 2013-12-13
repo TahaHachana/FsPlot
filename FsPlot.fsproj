@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChartWindow.fs" />
+    <Compile Include="DataSeries.fs" />
     <Compile Include="Expr.fs" />
     <Compile Include="JS.fs" />
     <Compile Include="Html.fs" />
