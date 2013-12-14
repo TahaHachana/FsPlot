@@ -14,7 +14,9 @@ type ChartData =
 let private compileJs chartType data title legend =
     match chartType with
     | Area -> Highcharts.Area.js data title legend
+    | Line -> Highcharts.Line.js data title legend
     | Pie -> Highcharts.Pie.js data title legend
+
 
 type GenericChart(chartData:ChartData) as chart =
 
@@ -63,6 +65,9 @@ type HighchartsPie(chartData) =
     inherit GenericChart(chartData)
 
 type HighchartsArea(chartData) =
+    inherit GenericChart(chartData)
+
+type HighchartsLine(chartData) =
     inherit GenericChart(chartData)
 
 type Highcharts =
@@ -162,3 +167,78 @@ type Highcharts =
                 Type = Area
             }
         GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+
+    static member Line(data:seq<#key*#value>, ?chartTitle, ?legend) =
+        let series = Series.New "" ChartType.Line data
+        let ty = Seq.head data |> snd
+        let ty = ty.GetTypeCode()
+        let chartData =
+            {
+                Data = [|series|]
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+
+    static member Line(series, ?chartTitle, ?legend) =
+        let chartData =
+            {
+                Data = [|series|]
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+
+    static member Line(data:seq<seq<#key*#value>>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.New "" ChartType.Line x)
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+
+    static member Line(data:seq<(#key*#value) list>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.New "" ChartType.Line x)
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+
+    static member Line(data:seq<(#key*#value) []>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.New "" ChartType.Line x)
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+
+    static member Line(series, ?chartTitle, ?legend) =
+        let chartData =
+            {
+                Data = series |> Seq.toArray
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Line
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))

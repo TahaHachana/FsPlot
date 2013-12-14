@@ -20,8 +20,8 @@ module internal Utils =
 
     let setChartOptions renderTo chartType (options:HighchartsOptions) =
         let chartOptions = createEmpty<HighchartsChartOptions>()
-        chartOptions.renderTo <- "chart"
-        chartOptions._type <- "pie"
+        chartOptions.renderTo <- renderTo
+        chartOptions._type <- chartType
         options.chart <- chartOptions
 
     let setXAxisOptions (series:Series) (options:HighchartsOptions) =
@@ -43,6 +43,7 @@ module internal Utils =
         let chartType = 
             match series.Type with
             | Area -> "area"
+            | Line -> "line"
             | Pie -> "pie"
         options._type <- chartType
 
@@ -136,3 +137,31 @@ module Highcharts =
                 noReturn=true,
                 shouldCompress=true)
 
+    module Line =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            setChartOptions "chart" "line" options
+            // x axis options
+            setXAxisOptions series.[0] options        
+            // plot options
+            let lineChart = createEmpty<HighchartsLineChart>()
+            lineChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.line <- lineChart
+            options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)

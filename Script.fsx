@@ -78,4 +78,58 @@ module Area =
             DateTime.Now.AddDays(8.), 1030
         ]
         |> Highcharts.Area
+
+    // linear x axis
+    let area6 =
+        [
+            1950, 1000
+            1964, 1170
+            1975, 560
+            1982, 1030
+        ]
+        |> Highcharts.Area
         
+module Line =
+    
+    let line1 =
+        let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Highcharts.Line(salesData, "Company Sales", true)
+
+    let line2 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Series.New "Sales" ChartType.Line
+        |> fun x -> Highcharts.Line(x, "Company Sales", true)
+
+    let line3 =
+        let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
+        let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+        Highcharts.Line([salesData; expensesData], "Company Performance", true)
+
+    let line4 =
+        let sales =
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            |> Series.New "Sales" ChartType.Line
+        let expenses =
+            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+            |> Series.New "Expenses" ChartType.Line
+        Highcharts.Line([sales; expenses], "Company Performance", true)
+
+    // datetime x axis
+    let line5 =
+        [
+            DateTime.Now, 1000
+            DateTime.Now.AddDays(1.), 1170
+            DateTime.Now.AddDays(4.), 560
+            DateTime.Now.AddDays(8.), 1030
+        ]
+        |> Highcharts.Line
+
+    // linear x axis
+    let line6 =
+        [
+            950, 1000
+            964, 1170
+            975, 560
+            982, 1030
+        ]
+        |> Highcharts.Line
