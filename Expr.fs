@@ -35,8 +35,9 @@ let quoteChartType (chartType:ChartType) =
     let infos = Reflection.FSharpType.GetUnionCases(typeof<ChartType>)
     match chartType with
     | Area -> Expr.NewUnionCase(infos.[0], [])
-    | Line -> Expr.NewUnionCase(infos.[1], [])
-    | Pie -> Expr.NewUnionCase(infos.[2], [])
+    | Bar -> Expr.NewUnionCase(infos.[1], [])
+    | Line -> Expr.NewUnionCase(infos.[2], [])
+    | Pie -> Expr.NewUnionCase(infos.[3], [])
 
 let quoteDataSeriesArr (dataSeries:Series []) =
     Expr.NewArray(

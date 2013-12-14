@@ -133,3 +133,48 @@ module Line =
             982, 1030
         ]
         |> Highcharts.Line
+
+module Bar =
+    
+    let bar1 =
+        let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Highcharts.Bar(salesData, "Company Sales", true)
+
+    let bar2 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Series.New "Sales" ChartType.Bar
+        |> fun x -> Highcharts.Bar(x, "Company Sales", true)
+
+    let bar3 =
+        let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
+        let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+        Highcharts.Bar([salesData; expensesData], "Company Performance", true)
+
+    let bar4 =
+        let sales =
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            |> Series.New "Sales" ChartType.Bar
+        let expenses =
+            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+            |> Series.New "Expenses" ChartType.Bar
+        Highcharts.Bar([sales; expenses], "Company Performance", true)
+
+    // datetime x axis
+    let bar5 =
+        [
+            DateTime.Now, 1000
+            DateTime.Now.AddDays(1.), 1170
+            DateTime.Now.AddDays(4.), 560
+            DateTime.Now.AddDays(8.), 1030
+        ]
+        |> Highcharts.Bar
+
+    // linear x axis
+    let bar6 =
+        [
+            950, 1000
+            964, 1170
+            975, 560
+            982, 1030
+        ]
+        |> Highcharts.Bar

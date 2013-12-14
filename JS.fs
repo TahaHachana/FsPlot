@@ -42,6 +42,7 @@ module internal Utils =
     let setSeriesChartType (series:Series) (options:HighchartsSeriesOptions) =
         let chartType = 
             match series.Type with
+            | Bar -> "bar"
             | Area -> "area"
             | Line -> "line"
             | Pie -> "pie"
@@ -78,36 +79,6 @@ module Highcharts =
         let legendExpr = quoteBool legend
         seriesExpr, chartTitleExpr, legendExpr    
 
-    module Pie =
-
-        [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle legend =
-            let options = createEmpty<HighchartsOptions>()
-            // chart options
-            setChartOptions "chart" "pie" options
-            // x axis options
-            setXAxisOptions series.[0] options
-            // plot options
-            let pieChart = createEmpty<HighchartsPieChart>()
-            pieChart.allowPointSelect <- true
-            pieChart.showInLegend <- legend
-            let plotOptions = createEmpty<HighchartsPlotOptions>()
-            plotOptions.pie <- pieChart
-            options.plotOptions <- plotOptions
-            // title options
-            setTitleOptions chartTitle options
-            // series options
-            setSeriesOptions series options
-            let chartElement = Utils.jq "#chart"
-            chartElement.highcharts(options) |> ignore
-
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
-            Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
-                noReturn=true,
-                shouldCompress=true)
-
     module Area =
 
         [<ReflectedDefinition>]
@@ -137,6 +108,35 @@ module Highcharts =
                 noReturn=true,
                 shouldCompress=true)
 
+    module Bar =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            setChartOptions "chart" "bar" options
+            // x axis options
+            setXAxisOptions series.[0] options        
+            // plot options
+            let barChart = createEmpty<HighchartsBarChart>()
+            barChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.bar <- barChart
+            options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)
+
     module Line =
 
         [<ReflectedDefinition>]
@@ -151,6 +151,36 @@ module Highcharts =
             lineChart.showInLegend <- legend
             let plotOptions = createEmpty<HighchartsPlotOptions>()
             plotOptions.line <- lineChart
+            options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)
+
+    module Pie =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle legend =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            setChartOptions "chart" "pie" options
+            // x axis options
+            setXAxisOptions series.[0] options
+            // plot options
+            let pieChart = createEmpty<HighchartsPieChart>()
+            pieChart.allowPointSelect <- true
+            pieChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.pie <- pieChart
             options.plotOptions <- plotOptions
             // title options
             setTitleOptions chartTitle options

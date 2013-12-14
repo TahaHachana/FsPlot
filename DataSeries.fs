@@ -19,7 +19,7 @@ let private upcastValue' (k:#key, v:#value) =
     let date = (Convert.ToDateTime k).Subtract(DateTime(1970, 1,1)).TotalMilliseconds |> int64 |> string
     date :> key, v :> value
  
-type ChartType = Area | Line | Pie
+type ChartType = Area | Bar | Line | Pie
 
 type Series =
     {
