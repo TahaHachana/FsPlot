@@ -12,14 +12,19 @@ let date = DateTime(2010, 5, 5).ToUniversalTime().Subtract(DateTime(1970, 1,1)).
 type key = IConvertible
 type value = IConvertible
 
+let private upcastKeyValue xTypeCode (k:#key, v:#value) =
+    let k' =
+        match xTypeCode with
+        | TypeCode.DateTime ->
+            (Convert.ToDateTime k)
+                .Subtract(DateTime(1970, 1,1))
+                .TotalMilliseconds
+                |> int64
+                :> key
+        | _ -> k :> key
+    k', v :> value
 
-let private upcastValue (k:#key, v:#value) = k :> key, v :> value
-
-let private upcastValue' (k:#key, v:#value) =
-    let date = (Convert.ToDateTime k).Subtract(DateTime(1970, 1,1)).TotalMilliseconds |> int64 |> string
-    date :> key, v :> value
- 
-type ChartType = Area | Bar | Column | Line | Pie
+type ChartType = Area | Bar | Column | Line | Pie | Scatter
 
 type Series =
     {
@@ -32,20 +37,91 @@ type Series =
 
     static member New name chartType (values:seq<#key*#value>) =
         let k, v = Seq.head values
-        let xType, yType = k.GetTypeCode(), v.GetTypeCode()
-        let valuesArr =
-            match xType with
-            | TypeCode.DateTime ->
-                Seq.map upcastValue' values
-                |> Seq.toArray
-            | _ ->
-                Seq.map upcastValue values
-                |> Seq.toArray
-
+        let xTypeCode = k.GetTypeCode()
         {
             Name = name
-            Values = valuesArr
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
             Type = chartType
-            XType = xType
-            YType = yType
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Area name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Area
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Bar name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Bar
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Column name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Column
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Line name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Line
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Pie name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Pie
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Scatter name (values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (upcastKeyValue xTypeCode) values
+                |> Seq.toArray
+            Type = ChartType.Scatter
+            XType = xTypeCode
+            YType = v.GetTypeCode()
         }

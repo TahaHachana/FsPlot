@@ -24,7 +24,7 @@ chart.SetData ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208]
 
 // Update the chart's data in a more structured way
 ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
-|> Series.New "Browser Share" ChartType.Pie
+|> Series.Pie "Browser Share"
 |> chart.SetData
 
 
@@ -41,7 +41,7 @@ module Area =
 
     let area2 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Series.New "Sales" ChartType.Area
+        |> Series.Area "Sales"
         |> fun x -> Highcharts.Area(x, "Company Sales", true)
 
     let area3 =
@@ -52,10 +52,10 @@ module Area =
     let area4 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> Series.New "Sales" ChartType.Area
+            |> Series.Area "Sales"
         let expenses =
             ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> Series.New "Expenses" ChartType.Area
+            |> Series.Area "Expenses"
         Highcharts.Area([sales; expenses], "Company Performance", true)
 
     // datetime x axis
@@ -86,7 +86,7 @@ module Bar =
 
     let bar2 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Series.New "Sales" ChartType.Bar
+        |> Series.Bar "Sales"
         |> fun x -> Highcharts.Bar(x, "Company Sales", true)
 
     let bar3 =
@@ -97,10 +97,10 @@ module Bar =
     let bar4 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> Series.New "Sales" ChartType.Bar
+            |> Series.Bar "Sales"
         let expenses =
             ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> Series.New "Expenses" ChartType.Bar
+            |> Series.Bar "Expenses"
         Highcharts.Bar([sales; expenses], "Company Performance", true)
 
     // datetime x axis
@@ -131,7 +131,7 @@ module Column =
 
     let column2 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Series.New "Sales" ChartType.Column
+        |> Series.Column "Sales"
         |> fun x -> Highcharts.Column(x, "Company Sales", true)
 
     let column3 =
@@ -142,10 +142,10 @@ module Column =
     let column4 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> Series.New "Sales" ChartType.Column
+            |> Series.Column "Sales"
         let expenses =
             ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> Series.New "Expenses" ChartType.Column
+            |> Series.Column "Expenses"
         Highcharts.Column([sales; expenses], "Company Performance", true)
 
     // datetime x axis
@@ -176,7 +176,7 @@ module Pie =
 
     let pie2 =
         ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
-        |> Series.New "Browser Share" ChartType.Pie
+        |> Series.Pie "Browser Share"
         |> fun x -> Highcharts.Pie(x, "Website Visitors By Browser", true)
 
 module Line =
@@ -187,7 +187,7 @@ module Line =
 
     let line2 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Series.New "Sales" ChartType.Line
+        |> Series.Line "Sales"
         |> fun x -> Highcharts.Line(x, "Company Sales", true)
 
     let line3 =
@@ -198,10 +198,10 @@ module Line =
     let line4 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> Series.New "Sales" ChartType.Line
+            |> Series.Line "Sales"
         let expenses =
             ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> Series.New "Expenses" ChartType.Line
+            |> Series.Line "Expenses"
         Highcharts.Line([sales; expenses], "Company Performance", true)
 
     // datetime x axis
@@ -223,3 +223,18 @@ module Line =
             982, 1030
         ]
         |> Highcharts.Line
+
+module Scatter =
+
+    let scatter1 =
+        [8, 12; 4, 5; 11, 14; 4, 6; 3, 4; 6, 7]
+        |> Highcharts.Scatter
+
+    let scatter2 =
+        let male =
+            [8, 12; 4, 5; 11, 14; 5, 6; 3, 4; 6, 7]
+            |> Series.Scatter "Male"
+        let female =
+            [7, 11; 5, 7; 11, 13; 4, 7; 3, 3; 6, 9]
+            |> Series.Scatter "Female"
+        Highcharts.Scatter [male; female]

@@ -47,22 +47,17 @@ module internal Utils =
             | Column -> "column"
             | Line -> "line"
             | Pie -> "pie"
+            | Scatter -> "scatter"
         options._type <- chartType
 
-    let boxDataPoints (xType:TypeCode) (k:key, v:value) =
-        match xType with
-        | TypeCode.DateTime ->
-            let utc = Globals.parseFloat (k.ToString())
-            box [|box utc; box v|]
-        | _ -> box [|box k; box v|]
+    let boxDataPoints (k:key, v:value) = box [|box k; box v|]
 
     let setSeriesOptions (series:Series []) (options:HighchartsOptions) =
         let seriesOptions =
             [|
                 for x in series do
                     let options = createEmpty<HighchartsSeriesOptions>()
-                    let xType = x.XType
-                    let dataPoints = Array.map (fun dp -> boxDataPoints xType dp) x.Values
+                    let dataPoints = Array.map (fun dp -> boxDataPoints dp) x.Values
                     options.data <- dataPoints
                     options.name <- x.Name
                     setSeriesChartType x options
@@ -211,6 +206,42 @@ module Highcharts =
             pieChart.showInLegend <- legend
             let plotOptions = createEmpty<HighchartsPlotOptions>()
             plotOptions.pie <- pieChart
+            options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)
+
+    module Scatter =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle legend =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            let chartOptions = createEmpty<HighchartsChartOptions>()
+            chartOptions.renderTo <- "chart"
+            chartOptions._type <- "scatter"
+            chartOptions.zoomType <- "xy"
+            options.chart <- chartOptions
+
+//            setChartOptions "chart" "scatter" options
+            // x axis options
+            setXAxisOptions series.[0] options
+            // plot options
+            let scatterChart = createEmpty<HighchartsScatterChart>()
+            scatterChart.allowPointSelect <- true
+            scatterChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.scatter <- scatterChart
             options.plotOptions <- plotOptions
             // title options
             setTitleOptions chartTitle options
