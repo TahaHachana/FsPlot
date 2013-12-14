@@ -36,8 +36,9 @@ let quoteChartType (chartType:ChartType) =
     match chartType with
     | Area -> Expr.NewUnionCase(infos.[0], [])
     | Bar -> Expr.NewUnionCase(infos.[1], [])
-    | Line -> Expr.NewUnionCase(infos.[2], [])
-    | Pie -> Expr.NewUnionCase(infos.[3], [])
+    | Column -> Expr.NewUnionCase(infos.[2], [])
+    | Line -> Expr.NewUnionCase(infos.[3], [])
+    | Pie -> Expr.NewUnionCase(infos.[4], [])
 
 let quoteDataSeriesArr (dataSeries:Series []) =
     Expr.NewArray(

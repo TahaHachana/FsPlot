@@ -42,8 +42,9 @@ module internal Utils =
     let setSeriesChartType (series:Series) (options:HighchartsSeriesOptions) =
         let chartType = 
             match series.Type with
-            | Bar -> "bar"
             | Area -> "area"
+            | Bar -> "bar"
+            | Column -> "column"
             | Line -> "line"
             | Pie -> "pie"
         options._type <- chartType
@@ -122,6 +123,35 @@ module Highcharts =
             barChart.showInLegend <- legend
             let plotOptions = createEmpty<HighchartsPlotOptions>()
             plotOptions.bar <- barChart
+            options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)
+
+    module Column =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            setChartOptions "chart" "column" options
+            // x axis options
+            setXAxisOptions series.[0] options        
+            // plot options
+            let columnChart = createEmpty<HighchartsBarChart>()
+            columnChart.showInLegend <- legend
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.column <- columnChart
             options.plotOptions <- plotOptions
             // title options
             setTitleOptions chartTitle options
