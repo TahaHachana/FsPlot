@@ -18,57 +18,60 @@ let private compileJs chartType data title legend =
     | Pie -> Highcharts.Pie.js data title legend
 
 
-type GenericChart(chartData:ChartData) as chart =
+type GenericChart() as chart =
 
+    [<DefaultValue>] val mutable private chartData : ChartData
     [<DefaultValue>] val mutable private jsField : string
     [<DefaultValue>] val mutable private htmlField : string
 
     let wnd, browser = ChartWindow.show()
 
     let navigate() =
-        let js = compileJs chartData.Type chartData.Data chartData.Title chartData.Legend
+        let js = compileJs chart.chartData.Type chart.chartData.Data chart.chartData.Title chart.chartData.Legend
         let html = Html.highcharts js
         browser.NavigateToString html
         do chart.jsField <- js
         do chart.htmlField <- html
     
-    do navigate()
+    member __.Refresh() = navigate()
 
     member __.SetData data =
-        let series = Series.New "" chartData.Type data
-        chartData.Data <- [|series|] 
+        let series = Series.New "" chart.chartData.Type data
+        chart.chartData.Data <- [|series|] 
         navigate()
 
     member __.SetData series =
-        chartData.Data <- [|series|] 
+        chart.chartData.Data <- [|series|] 
         navigate()
 
-    static member internal Create(data:ChartData, f: unit -> #GenericChart ) =
+    static member internal Create(chartData:ChartData, f: unit -> #GenericChart ) =
         let t = f()
+        t.chartData <- chartData
+        t.Refresh()
         t
 
-    member __.Title = chartData.Title
+    member __.Title = chart.chartData.Title
 
     member __.SetTitle title =
-        chartData.Title <- Some title
+        chart.chartData.Title <- Some title
         navigate()
 
     member __.HideLegend() =
-        chartData.Legend <- false
+        chart.chartData.Legend <- false
         navigate()
 
     member __.ShowLegend() =
-        chartData.Legend <- true
+        chart.chartData.Legend <- true
         navigate()
 
-type HighchartsPie(chartData) =
-    inherit GenericChart(chartData)
+type HighchartsPie() =
+    inherit GenericChart()
 
-type HighchartsArea(chartData) =
-    inherit GenericChart(chartData)
+type HighchartsArea() =
+    inherit GenericChart()
 
-type HighchartsLine(chartData) =
-    inherit GenericChart(chartData)
+type HighchartsLine() =
+    inherit GenericChart()
 
 type Highcharts =
     
@@ -81,7 +84,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Pie
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsPie(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsPie()))
 
     static member Pie(series, ?chartTitle, ?legend) =
         let chartData =
@@ -91,7 +94,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Pie
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsPie(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsPie()))
 
     static member Area(data:seq<#key*#value>, ?chartTitle, ?legend) =
         let series = Series.New "" ChartType.Area data
@@ -104,7 +107,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Area(series, ?chartTitle, ?legend) =
         let chartData =
@@ -114,7 +117,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Area(data:seq<seq<#key*#value>>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -128,7 +131,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Area(data:seq<(#key*#value) list>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -142,7 +145,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Area(data:seq<(#key*#value) []>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -156,7 +159,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Area(series, ?chartTitle, ?legend) =
         let chartData =
@@ -166,7 +169,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Area
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsArea(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     static member Line(data:seq<#key*#value>, ?chartTitle, ?legend) =
         let series = Series.New "" ChartType.Line data
@@ -179,7 +182,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
     static member Line(series, ?chartTitle, ?legend) =
         let chartData =
@@ -189,7 +192,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
     static member Line(data:seq<seq<#key*#value>>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -203,7 +206,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
     static member Line(data:seq<(#key*#value) list>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -217,7 +220,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
     static member Line(data:seq<(#key*#value) []>, ?chartTitle, ?legend) =
         let dataSeries =
@@ -231,7 +234,7 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
     static member Line(series, ?chartTitle, ?legend) =
         let chartData =
@@ -241,4 +244,4 @@ type Highcharts =
                 Legend = defaultArg legend false
                 Type = Line
             }
-        GenericChart.Create(chartData, (fun () -> HighchartsLine(chartData)))
+        GenericChart.Create(chartData, (fun () -> HighchartsLine()))
