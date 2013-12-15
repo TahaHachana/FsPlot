@@ -25,25 +25,21 @@ Usage
 open FsPlot.Charting
 open FsPlot.DataSeries
 
-let data = ["Chrome", 233; "Firefox", 141; "IE", 256]
+let data = ["Chrome", 40.4; "Firefox", 36.5; "IE", 23.1]
     
 // Create a pie chart
 let chart = Highcharts.Pie data
 
-
 // Display a legend
 chart.ShowLegend()
 
-
 // Update the chart's data
-chart.SetData ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208]
-
+chart.SetData ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 24.2]
 
 // Update the chart's data in a more structured way
-["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
-|> Series.New "Browser Share" ChartType.Pie
+["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
+|> Series.Pie "Browser Share"
 |> chart.SetData
-
 
 // Add a title
 chart.SetTitle "Website Visitors By Browser"

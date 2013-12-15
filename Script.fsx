@@ -278,3 +278,22 @@ module Scatter =
             [7, 11; 5, 7; 11, 13; 4, 7; 3, 3; 6, 9]
             |> Series.Scatter "Female"
         Highcharts.Scatter [male; female]
+
+module Bubble =
+    
+    let bubble1 =
+        [97,36,79; 94,74,60; 68,76,58]
+        |> Highcharts.Bubble
+
+    let bubble2 =
+        [36,79; 74,60; 76,58]
+        |> Highcharts.Bubble
+
+    let bubble3 =
+        Series.NewBubble("", [36,79; 74,60; 76,58])
+        |> Highcharts.Bubble
+
+    let bubble4 =
+        let series1 = Series.Bubble "Series 1" [97,36,79; 94,74,60; 68,76,58; 64,87,56; 68,27,73]
+        let series2 = Series.Bubble "Series 1" [25,10,87; 2,75,59; 11,54,8; 86,55,93; 5,3,58]
+        Highcharts.Bubble [series1; series2]

@@ -16,6 +16,7 @@ let private compileJs (chartData:ChartData) =
     match chartType with
     | Area -> Highcharts.Area.js data title legend
     | Bar -> Highcharts.Bar.js data title legend
+    | Bubble -> Highcharts.Bubble.js data title legend
     | Column -> Highcharts.Column.js data title legend
     | Line -> Highcharts.Line.js data title legend
     | Pie -> Highcharts.Pie.js data title legend
@@ -28,7 +29,7 @@ type GenericChart() as chart =
     [<DefaultValue>] val mutable private htmlField : string
 
     let wnd, browser = ChartWindow.show()
-
+    
     let navigate() =
         let js = compileJs chart.chartData
         let html = Html.highcharts js
@@ -77,6 +78,9 @@ type HighchartsArea() =
     inherit GenericChart()
 
 type HighchartsBar() =
+    inherit GenericChart()
+
+type HighchartsBubble() =
     inherit GenericChart()
 
 type HighchartsColumn() =
@@ -382,6 +386,90 @@ type Highcharts =
                 Type = Bar
             }
         GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+
+    static member Bubble(data:seq<#key*#value*#value>, ?chartTitle, ?legend) =
+        let series = Series.Bubble "" data
+        let chartData =
+            {
+                Data = [|series|]
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(data:seq<#value*#value>, ?chartTitle, ?legend) =
+        let series = Series.NewBubble("", data)
+        let chartData =
+            {
+                Data = [|series|]
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(series, ?chartTitle, ?legend) =
+        let chartData =
+            {
+                Data = [|series|]
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(data:seq<seq<#value*#value>>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.NewBubble("", x))
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(data:seq<(#value*#value) list>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.NewBubble("", x))
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(data:seq<(#value*#value) []>, ?chartTitle, ?legend) =
+        let dataSeries =
+            data
+            |> Seq.map (fun x -> Series.NewBubble("", x))
+            |> Seq.toArray
+        let chartData =
+            {
+                Data = dataSeries
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
+
+    static member Bubble(series, ?chartTitle, ?legend) =
+        let chartData =
+            {
+                Data = series |> Seq.toArray
+                Title = chartTitle
+                Legend = defaultArg legend false
+                Type = Bubble
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsBubble()))
 
     static member Column(data:seq<#value>, ?chartTitle, ?legend) =
         let series = Series.New("", Column, data)

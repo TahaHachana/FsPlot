@@ -1,5 +1,6 @@
 ﻿module internal FsPlot.Expr
 
+open System
 open Microsoft.FSharp.Quotations
 open DataSeries
 
@@ -36,10 +37,11 @@ let quoteChartType (chartType:ChartType) =
     match chartType with
     | Area -> Expr.NewUnionCase(infos.[0], [])
     | Bar -> Expr.NewUnionCase(infos.[1], [])
-    | Column -> Expr.NewUnionCase(infos.[2], [])
-    | Line -> Expr.NewUnionCase(infos.[3], [])
-    | Pie -> Expr.NewUnionCase(infos.[4], [])
-    | Scatter -> Expr.NewUnionCase(infos.[5], [])
+    | Bubble -> Expr.NewUnionCase(infos.[2], [])
+    | Column -> Expr.NewUnionCase(infos.[3], [])
+    | Line -> Expr.NewUnionCase(infos.[4], [])
+    | Pie -> Expr.NewUnionCase(infos.[5], [])
+    | Scatter -> Expr.NewUnionCase(infos.[6], [])
 
 let quoteDataSeriesArr (dataSeries:Series []) =
     Expr.NewArray(
@@ -50,20 +52,54 @@ let quoteDataSeriesArr (dataSeries:Series []) =
                     Expr.NewRecord(
                         typeof<Series>,
                         [
-                            Expr.Value ds.Name                    
+                            Expr.Value ds.Name
                             Expr.NewArray(
-                                typeof<System.Tuple<key,value>>,
+                                typeof<obj>,
                                 [
-                                    for (k, v) in ds.Values do
-                                        yield Expr.NewTuple(
-                                            [
-                                                Expr.Value(k)
-                                                Expr.Value (v)
-                                            ])
+                                    for e in ds.Values do
+                                        match ds.Size with
+                                        | TypeCode.Empty ->
+                                            match ds.XType with
+                                            | TypeCode.Empty -> yield Expr.Call(boxInfo, [Expr.Value e])
+                                            | _ ->
+                                                let arr = unbox<obj []> e
+                                                yield Expr.Call(
+                                                    boxInfo,
+                                                    [Expr.NewArray(
+                                                        typeof<obj>,
+                                                        [
+                                                            Expr.Value arr.[0]
+                                                            Expr.Value arr.[1]
+                                                        ])])
+                                        | _ ->
+                                            match ds.XType with
+                                            | TypeCode.Empty -> 
+                                                let arr = unbox<obj []> e
+                                                yield Expr.Call(
+                                                    boxInfo,
+                                                    [Expr.NewArray(
+                                                        typeof<obj>,
+                                                        [
+                                                            Expr.Value arr.[0]
+                                                            Expr.Value arr.[1]
+                                                        ])])
+                                            | _ ->
+                                                let arr = unbox<obj []> e
+                                                yield Expr.Call(
+                                                    boxInfo,
+                                                    [Expr.NewArray(
+                                                        typeof<obj>,
+                                                        [
+                                                            Expr.Value arr.[0]
+                                                            Expr.Value arr.[1]
+                                                            Expr.Value arr.[2]
+                                                        ])]
+                                                )
                                 ])
                             quoteChartType ds.Type
                             Expr.Value ds.XType
                             Expr.Value ds.YType
+                            Expr.Value ds.Size
                         ])
         ])
 

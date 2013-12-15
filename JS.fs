@@ -44,6 +44,7 @@ module internal Utils =
             match series.Type with
             | Area -> "area"
             | Bar -> "bar"
+            | Bubble -> "bubble"
             | Column -> "column"
             | Line -> "line"
             | Pie -> "pie"
@@ -60,8 +61,8 @@ module internal Utils =
             [|
                 for x in series do
                     let options = createEmpty<HighchartsSeriesOptions>()
-                    let dataPoints = Array.map (fun dp -> boxDataPoints x.XType dp) x.Values
-                    options.data <- dataPoints
+//                    let dataPoints = Array.map (fun dp -> boxDataPoints x.XType dp) x.Values
+                    options.data <- x.Values // dataPoints
                     options.name <- x.Name
                     setSeriesChartType x options
                     yield options
@@ -122,6 +123,35 @@ module Highcharts =
             let plotOptions = createEmpty<HighchartsPlotOptions>()
             plotOptions.bar <- barChart
             options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend =
+            let expr, expr', expr'' = quoteArgs series chartTitle legend
+            Compiler.Compiler.Compile(
+                <@ chart %%expr %%expr' %%expr'' @>,
+                noReturn=true,
+                shouldCompress=true)
+
+    module Bubble =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) =
+            let options = createEmpty<HighchartsOptions>()
+            // chart options
+            setChartOptions "chart" "bubble" options
+            // x axis options
+            setXAxisOptions series.[0] options        
+            // plot options
+//            let barChart = createEmpty<HighchartsB>()
+//            barChart.showInLegend <- legend
+//            let plotOptions = createEmpty<HighchartsPlotOptions>()
+//            plotOptions.bar <- barChart
+//            options.plotOptions <- plotOptions
             // title options
             setTitleOptions chartTitle options
             // series options
@@ -230,12 +260,6 @@ module Highcharts =
         let chart (series:Series []) chartTitle legend =
             let options = createEmpty<HighchartsOptions>()
             // chart options
-//            let chartOptions = createEmpty<HighchartsChartOptions>()
-//            chartOptions.renderTo <- "chart"
-//            chartOptions._type <- "scatter"
-//            chartOptions.zoomType <- "xy"
-//            options.chart <- chartOptions
-
             setChartOptions "chart" "scatter" options
             // x axis options
             setXAxisOptions series.[0] options
