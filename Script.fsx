@@ -8,25 +8,21 @@
 open FsPlot.Charting
 open FsPlot.DataSeries
 
-let data = ["Chrome", 233; "Firefox", 141; "IE", 256]
+let data = ["Chrome", 40.4; "Firefox", 36.5; "IE", 23.1]
     
 // Create a pie chart
 let chart = Highcharts.Pie data
 
-
 // Display a legend
 chart.ShowLegend()
 
-
 // Update the chart's data
-chart.SetData ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208]
-
+chart.SetData ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 24.2]
 
 // Update the chart's data in a more structured way
-["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
+["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
 |> Series.Pie "Browser Share"
 |> chart.SetData
-
 
 // Add a title
 chart.SetTitle "Website Visitors By Browser"
@@ -36,20 +32,28 @@ open System
 module Area =
     
     let area1 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Area
+
+    let area2 =
+        Series.New("Sales", Area, [1000; 1170; 560; 1030])
+        |> Highcharts.Area
+    
+    let area3 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Highcharts.Area(salesData, "Company Sales", true)
 
-    let area2 =
+    let area4 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Series.Area "Sales"
         |> fun x -> Highcharts.Area(x, "Company Sales", true)
 
-    let area3 =
+    let area5 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
         let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
         Highcharts.Area([salesData; expensesData], "Company Performance", true)
 
-    let area4 =
+    let area6 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
             |> Series.Area "Sales"
@@ -59,7 +63,7 @@ module Area =
         Highcharts.Area([sales; expenses], "Company Performance", true)
 
     // datetime x axis
-    let area5 =
+    let area7 =
         [
             DateTime.Now, 1000
             DateTime.Now.AddDays(1.), 1170
@@ -69,7 +73,7 @@ module Area =
         |> Highcharts.Area
 
     // linear x axis
-    let area6 =
+    let area8 =
         [
             1950, 1000
             1964, 1170
@@ -79,22 +83,30 @@ module Area =
         |> Highcharts.Area
 
 module Bar =
-    
+
     let bar1 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Bar
+
+    let bar2 =
+        Series.New("Sales", Bar, [1000; 1170; 560; 1030])
+        |> Highcharts.Bar
+    
+    let bar3 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Highcharts.Bar(salesData, "Company Sales", true)
 
-    let bar2 =
+    let bar4 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Series.Bar "Sales"
         |> fun x -> Highcharts.Bar(x, "Company Sales", true)
 
-    let bar3 =
+    let bar5 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
         let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
         Highcharts.Bar([salesData; expensesData], "Company Performance", true)
 
-    let bar4 =
+    let bar6 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
             |> Series.Bar "Sales"
@@ -104,7 +116,7 @@ module Bar =
         Highcharts.Bar([sales; expenses], "Company Performance", true)
 
     // datetime x axis
-    let bar5 =
+    let bar7 =
         [
             DateTime.Now, 1000
             DateTime.Now.AddDays(1.), 1170
@@ -114,7 +126,7 @@ module Bar =
         |> Highcharts.Bar
 
     // linear x axis
-    let bar6 =
+    let bar8 =
         [
             950, 1000
             964, 1170
@@ -124,22 +136,30 @@ module Bar =
         |> Highcharts.Bar
 
 module Column =
-    
+
     let column1 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Column
+
+    let column2 =
+        Series.New("Sales", Column, [1000; 1170; 560; 1030])
+        |> Highcharts.Column
+    
+    let column3 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Highcharts.Column(salesData, "Company Sales", true)
 
-    let column2 =
+    let column4 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Series.Column "Sales"
         |> fun x -> Highcharts.Column(x, "Company Sales", true)
 
-    let column3 =
+    let column5 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
         let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
         Highcharts.Column([salesData; expensesData], "Company Performance", true)
 
-    let column4 =
+    let column6 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
             |> Series.Column "Sales"
@@ -149,7 +169,7 @@ module Column =
         Highcharts.Column([sales; expenses], "Company Performance", true)
 
     // datetime x axis
-    let column5 =
+    let column8 =
         [
             DateTime.Now, 1000
             DateTime.Now.AddDays(1.), 1170
@@ -159,7 +179,7 @@ module Column =
         |> Highcharts.Column
 
     // linear x axis
-    let column6 =
+    let column9 =
         [
             950, 1000
             964, 1170
@@ -171,31 +191,43 @@ module Column =
 module Pie =
     
     let pie1 =
-        let data = ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
-        Highcharts.Pie(data, "Website Visitors By Browser", true)
+        [30.3; 26.5; 18.8; 15.2 ; 8.2]
+        |> Highcharts.Pie
 
     let pie2 =
-        ["Chrome", 233; "Firefox", 141; "IE", 256; "Safari", 208; "Others", 75]
+        Series.New("Browser Share", Pie, [30.3; 26.5; 18.8; 15.2 ; 8.2])
+        |> Highcharts.Pie
+
+    let pie3 =
+        ["Chrome", 30.3; "Firefox", 26.5; "IE", 18.8; "Safari", 15.2; "Others", 8.2]
         |> Series.Pie "Browser Share"
         |> fun x -> Highcharts.Pie(x, "Website Visitors By Browser", true)
 
 module Line =
     
     let line1 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Line
+
+    let line2 =
+        Series.New("Sales", Line, [1000; 1170; 560; 1030])
+        |> Highcharts.Line
+
+    let line3 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Highcharts.Line(salesData, "Company Sales", true)
 
-    let line2 =
+    let line4 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Series.Line "Sales"
         |> fun x -> Highcharts.Line(x, "Company Sales", true)
 
-    let line3 =
+    let line5 =
         let salesData = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]        
         let expensesData = ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
         Highcharts.Line([salesData; expensesData], "Company Performance", true)
 
-    let line4 =
+    let line6 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
             |> Series.Line "Sales"
@@ -205,7 +237,7 @@ module Line =
         Highcharts.Line([sales; expenses], "Company Performance", true)
 
     // datetime x axis
-    let line5 =
+    let line7 =
         [
             DateTime.Now, 1000
             DateTime.Now.AddDays(1.), 1170
@@ -215,7 +247,7 @@ module Line =
         |> Highcharts.Line
 
     // linear x axis
-    let line6 =
+    let line8 =
         [
             950, 1000
             964, 1170
@@ -227,10 +259,18 @@ module Line =
 module Scatter =
 
     let scatter1 =
-        [8, 12; 4, 5; 11, 14; 4, 6; 3, 4; 6, 7]
+        [12; 5; 14; 6; 4; 7]
         |> Highcharts.Scatter
 
     let scatter2 =
+        Series.New("Male", Scatter, [12; 5; 14; 6; 4; 7])
+        |> Highcharts.Scatter
+
+    let scatter3 =
+        [8, 12; 4, 5; 11, 14; 4, 6; 3, 4; 6, 7]
+        |> Highcharts.Scatter
+
+    let scatter4 =
         let male =
             [8, 12; 4, 5; 11, 14; 5, 6; 3, 4; 6, 7]
             |> Series.Scatter "Male"

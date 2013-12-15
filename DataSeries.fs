@@ -35,7 +35,7 @@ type Series =
         YType : TypeCode
     }
 
-    static member New name chartType (values:seq<#key*#value>) =
+    static member New(name, chartType, values:seq<#key*#value>) =
         let k, v = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
@@ -45,6 +45,19 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member New(name, chartType, values:seq<#value>) =
+        let v = Seq.head values
+//        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> null, v :> value) values
+                |> Seq.toArray
+            Type = chartType
+            XType = TypeCode.Empty
             YType = v.GetTypeCode()
         }
 
@@ -112,6 +125,19 @@ type Series =
             XType = xTypeCode
             YType = v.GetTypeCode()
         }
+
+//    static member Pie(name, values:seq<#value>) =
+//        let v = Seq.head values
+////        let xTypeCode = k.GetTypeCode()
+//        {
+//            Name = name
+//            Values =
+//                Seq.map (fun v -> null, v :> value) values
+//                |> Seq.toArray
+//            Type = ChartType.Pie
+//            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+//        }
 
     static member Scatter name (values:seq<#key*#value>) =
         let k, v = Seq.head values

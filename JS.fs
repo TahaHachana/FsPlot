@@ -50,14 +50,17 @@ module internal Utils =
             | Scatter -> "scatter"
         options._type <- chartType
 
-    let boxDataPoints (k:key, v:value) = box [|box k; box v|]
+    let boxDataPoints xType (k:key, v:value) =
+        match xType with
+        | TypeCode.Empty -> box v
+        | _ -> box [|box k; box v|]
 
     let setSeriesOptions (series:Series []) (options:HighchartsOptions) =
         let seriesOptions =
             [|
                 for x in series do
                     let options = createEmpty<HighchartsSeriesOptions>()
-                    let dataPoints = Array.map (fun dp -> boxDataPoints dp) x.Values
+                    let dataPoints = Array.map (fun dp -> boxDataPoints x.XType dp) x.Values
                     options.data <- dataPoints
                     options.name <- x.Name
                     setSeriesChartType x options
@@ -227,13 +230,13 @@ module Highcharts =
         let chart (series:Series []) chartTitle legend =
             let options = createEmpty<HighchartsOptions>()
             // chart options
-            let chartOptions = createEmpty<HighchartsChartOptions>()
-            chartOptions.renderTo <- "chart"
-            chartOptions._type <- "scatter"
-            chartOptions.zoomType <- "xy"
-            options.chart <- chartOptions
+//            let chartOptions = createEmpty<HighchartsChartOptions>()
+//            chartOptions.renderTo <- "chart"
+//            chartOptions._type <- "scatter"
+//            chartOptions.zoomType <- "xy"
+//            options.chart <- chartOptions
 
-//            setChartOptions "chart" "scatter" options
+            setChartOptions "chart" "scatter" options
             // x axis options
             setXAxisOptions series.[0] options
             // plot options
