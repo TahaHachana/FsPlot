@@ -4,9 +4,9 @@ open System.Reflection
 [<assembly: AssemblyTitle("FsPlot")>]
 [<assembly: AssemblyProduct("FsPlot")>]
 [<assembly: AssemblyDescription("A Data Visualization Library for F# Using HTML5")>]
-[<assembly: AssemblyVersionAttribute("0.2.14")>]
-[<assembly: AssemblyFileVersionAttribute("0.2.14")>]
+[<assembly: AssemblyVersionAttribute("0.2.15")>]
+[<assembly: AssemblyFileVersionAttribute("0.2.15")>]
 ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] Version = "0.2.14"
+    let [<Literal>] Version = "0.2.15"
