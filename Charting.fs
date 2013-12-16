@@ -20,6 +20,7 @@ let private compileJs (chartData:ChartData) =
     | Area -> Highcharts.Area.js data title legend categories xTitle yTitle
     | Bar -> Highcharts.Bar.js data title legend categories xTitle yTitle
     | Bubble -> Highcharts.Bubble.js data title legend categories xTitle yTitle
+    | Combination -> Highcharts.Combination.js data title legend categories xTitle yTitle
     | Column -> Highcharts.Column.js data title legend categories xTitle yTitle
     | Line -> Highcharts.Line.js data title legend categories xTitle yTitle
     | Pie -> Highcharts.Pie.js data title legend categories xTitle yTitle
@@ -103,6 +104,9 @@ type HighchartsBar() =
 type HighchartsBubble() =
     inherit GenericChart()
 
+type HighchartsCombination() =
+    inherit GenericChart()
+
 type HighchartsColumn() =
     inherit GenericChart()
 
@@ -116,6 +120,20 @@ type HighchartsScatter() =
     inherit GenericChart()
 
 type Highcharts =
+
+    static member Combine(data:seq<Series>, ?chartTitle, ?legend, ?categories, ?xTitle, ?yTitle) =
+//        let series = Series.New("", Pie, data)
+        let chartData =
+            {
+                Data = Seq.toArray data
+                Title=chartTitle
+                Legend = defaultArg legend false
+                Categories = match categories with None -> [||] | Some value -> Seq.toArray value
+                XTitle = xTitle
+                YTitle = yTitle
+                Type = Combination
+            }
+        GenericChart.Create(chartData, (fun () -> HighchartsCombination()))
 
     static member Pie(data:seq<#value>, ?chartTitle, ?legend, ?categories, ?xTitle, ?yTitle) =
         let series = Series.New("", Pie, data)

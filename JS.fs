@@ -59,6 +59,7 @@ module internal Utils =
             | Area -> "area"
             | Bar -> "bar"
             | Bubble -> "bubble"
+            | Combination -> ""
             | Column -> "column"
             | Line -> "line"
             | Pie -> "pie"
@@ -295,6 +296,29 @@ module Highcharts =
             let plotOptions = createEmpty<HighchartsPlotOptions>()
             plotOptions.scatter <- scatterChart
             options.plotOptions <- plotOptions
+            // title options
+            setTitleOptions chartTitle options
+            // series options
+            setSeriesOptions series options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
+            Compiler.Compiler.Compile(
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
+                noReturn=true,
+                shouldCompress=true)
+
+    module Combination =
+
+        [<ReflectedDefinition>]
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
+            let options = createEmpty<HighchartsOptions>()
+            // x axis options
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // title options
             setTitleOptions chartTitle options
             // series options

@@ -59,8 +59,8 @@ let private upcastKeyValueValue xTypeCode (values:seq<#key*#value*#value>) =
 //    box [|k'; v :> value|]
 //    box k' //[|k'; box v|]
 
-
-type ChartType = Area | Bar | Bubble | Column | Line | Pie | Scatter
+[<ReflectedDefinition>]
+type ChartType = Area | Bar | Bubble | Column | Combination | Line | Pie | Scatter
 
 type Series =
     {

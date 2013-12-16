@@ -39,9 +39,10 @@ let quoteChartType (chartType:ChartType) =
     | Bar -> Expr.NewUnionCase(infos.[1], [])
     | Bubble -> Expr.NewUnionCase(infos.[2], [])
     | Column -> Expr.NewUnionCase(infos.[3], [])
-    | Line -> Expr.NewUnionCase(infos.[4], [])
-    | Pie -> Expr.NewUnionCase(infos.[5], [])
-    | Scatter -> Expr.NewUnionCase(infos.[6], [])
+    | Combination -> Expr.NewUnionCase(infos.[4], [])
+    | Line -> Expr.NewUnionCase(infos.[5], [])
+    | Pie -> Expr.NewUnionCase(infos.[6], [])
+    | Scatter -> Expr.NewUnionCase(infos.[7], [])
 
 let quoteDataSeriesArr (dataSeries:Series []) =
     Expr.NewArray(

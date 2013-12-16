@@ -141,6 +141,25 @@ module Bar =
         ]
         |> Highcharts.Bar
 
+module Combination =
+
+//['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+
+    let jane =
+        ["Apples", 5; "Oranges", 6; "Pears", 4]
+        |> Series.Column "Jane"
+
+    let joe =
+        ["Apples", 4; "Oranges", 3; "Pears", 6]
+        |> Series.Column "Joe"
+
+    let average =
+        ["Apples", 4.5; "Oranges", 4.5; "Pears", 5.]
+        |> Series.Line "Average"
+
+    let c = Highcharts.Combine [jane; joe; average]
+    c.Categories <- ["Apples"; "Oranges"; "Bananas"]
+        
 module Column =
 
     let column1 =
