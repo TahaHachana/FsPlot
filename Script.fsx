@@ -35,6 +35,12 @@ module Area =
         [1000; 1170; 560; 1030]
         |> Highcharts.Area
 
+    area1.Categories <- ["2010"; "2011"; "2012"; "2013"]
+
+    area1.SetXTitle "X Axis"
+    
+    area1.SetYTitle "Y Axis"
+
     let area2 =
         Series.New("Sales", Area, [1000; 1170; 560; 1030])
         |> Highcharts.Area
@@ -192,7 +198,9 @@ module Pie =
     
     let pie1 =
         [30.3; 26.5; 18.8; 15.2 ; 8.2]
-        |> Highcharts.Pie
+        |> fun x -> Highcharts.Pie(x, categories=["Chrome"; "Firefox"; "IE"; "Safari"; "Others"])
+
+    pie1.Categories <- ["Chrome"; "Firefox"; "IE"; "Safari"; "Others"]
 
     let pie2 =
         Series.New("Browser Share", Pie, [30.3; 26.5; 18.8; 15.2 ; 8.2])

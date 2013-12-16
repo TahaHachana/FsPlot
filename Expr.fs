@@ -16,13 +16,13 @@ let quoteTupleSeq (col:seq<#key*#value>) =
                     ])
         ])
 
-//let quoteSeq (col:seq<#value>) =
-//    Expr.NewArray(
-//        typeof<value>,
-//        [
-//            for v in col do
-//                yield Expr.Value (v :> value)
-//        ])
+let quoteStringArr (arr:string []) =
+    Expr.NewArray(
+        typeof<string>,
+        [
+            for str in arr do
+                yield Expr.Value str
+        ])
 
 let quoteStrOption (strOption:string option) =
     let infos = Reflection.FSharpType.GetUnionCases(typeof<string option>)

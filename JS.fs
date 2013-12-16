@@ -24,7 +24,7 @@ module internal Utils =
         chartOptions._type <- chartType
         options.chart <- chartOptions
 
-    let setXAxisOptions (series:Series) (options:HighchartsOptions) =
+    let setXAxisOptions (series:Series) (options:HighchartsOptions) categories xTitle =
         let axisOptions = createEmpty<HighchartsAxisOptions>()
         let xAxisType =
             match series.XType with
@@ -32,7 +32,21 @@ module internal Utils =
             | TypeCode.String -> "category"
             | _ -> "linear"
         axisOptions._type <- xAxisType
+//        match Array.isEmpty categories with
+//        | true -> do ()
+//        | _ -> axisOptions.categories <- categories
+        axisOptions.categories <- categories
+        let axisTitle = createEmpty<HighchartsAxisTitle>()
+        axisTitle.text <- defaultArg xTitle ""
+        axisOptions.title <- axisTitle
         options.xAxis <- axisOptions
+
+    let setYAxisOptions (series:Series) (options:HighchartsOptions) yTitle =
+        let axisOptions = createEmpty<HighchartsAxisOptions>()
+        let axisTitle = createEmpty<HighchartsAxisTitle>()
+        axisTitle.text <- defaultArg yTitle ""
+        axisOptions.title <- axisTitle
+        options.yAxis <- axisOptions
 
     let setTitleOptions chartTitle (options:HighchartsOptions) =
         let titleOptions = createEmpty<HighchartsTitleOptions>()
@@ -73,21 +87,26 @@ module Highcharts =
 
     open Utils
 
-    let private quoteArgs (series:Series []) chartTitle legend =
+    let private quoteArgs (series:Series []) chartTitle legend categories xTitle yTitle =
         let seriesExpr = quoteDataSeriesArr series
         let chartTitleExpr = quoteStrOption chartTitle
         let legendExpr = quoteBool legend
-        seriesExpr, chartTitleExpr, legendExpr    
+        let categoriesExpr = quoteStringArr categories
+        let xTitleExpr = quoteStrOption xTitle
+        let yTitleExpr = quoteStrOption yTitle
+        seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr
 
     module Area =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle (legend:bool) =
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "area" options
             // x axis options
-            setXAxisOptions series.[0] options        
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let areaChart = createEmpty<HighchartsAreaChart>()
             areaChart.showInLegend <- legend
@@ -101,22 +120,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Bar =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle (legend:bool) =
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "bar" options
             // x axis options
-            setXAxisOptions series.[0] options        
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let barChart = createEmpty<HighchartsBarChart>()
             barChart.showInLegend <- legend
@@ -130,28 +151,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Bubble =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle (legend:bool) =
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "bubble" options
             // x axis options
-            setXAxisOptions series.[0] options        
-            // plot options
-//            let barChart = createEmpty<HighchartsB>()
-//            barChart.showInLegend <- legend
-//            let plotOptions = createEmpty<HighchartsPlotOptions>()
-//            plotOptions.bar <- barChart
-//            options.plotOptions <- plotOptions
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // title options
             setTitleOptions chartTitle options
             // series options
@@ -159,22 +176,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Column =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle (legend:bool) =
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "column" options
             // x axis options
-            setXAxisOptions series.[0] options        
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let columnChart = createEmpty<HighchartsBarChart>()
             columnChart.showInLegend <- legend
@@ -188,22 +207,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Line =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle (legend:bool) =
+        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "line" options
             // x axis options
-            setXAxisOptions series.[0] options        
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let lineChart = createEmpty<HighchartsLineChart>()
             lineChart.showInLegend <- legend
@@ -217,22 +238,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Pie =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle legend =
+        let chart (series:Series []) chartTitle legend categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "pie" options
             // x axis options
-            setXAxisOptions series.[0] options
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let pieChart = createEmpty<HighchartsPieChart>()
             pieChart.allowPointSelect <- true
@@ -247,22 +270,24 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
 
     module Scatter =
 
         [<ReflectedDefinition>]
-        let chart (series:Series []) chartTitle legend =
+        let chart (series:Series []) chartTitle legend categories xTitle yTitle =
             let options = createEmpty<HighchartsOptions>()
             // chart options
             setChartOptions "chart" "scatter" options
             // x axis options
-            setXAxisOptions series.[0] options
+            setXAxisOptions series.[0] options categories xTitle
+            // y axis options
+            setYAxisOptions  series.[0] options yTitle
             // plot options
             let scatterChart = createEmpty<HighchartsScatterChart>()
             scatterChart.allowPointSelect <- true
@@ -277,9 +302,9 @@ module Highcharts =
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
-        let js series chartTitle legend =
-            let expr, expr', expr'' = quoteArgs series chartTitle legend
+        let js series chartTitle legend categories xTitle yTitle =
+            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
             Compiler.Compiler.Compile(
-                <@ chart %%expr %%expr' %%expr'' @>,
+                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
                 noReturn=true,
                 shouldCompress=true)
