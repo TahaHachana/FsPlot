@@ -20,11 +20,11 @@ module Area =
         |> Highcharts.Area
 
     let area3 =
-        AreaSeries.New [1000; 1170; 560; 1030]
+        Series.Area [1000; 1170; 560; 1030]
         |> Highcharts.Area
 
     let area4 =
-        AreaSeries.New ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Area
 
     let area5 =
@@ -54,15 +54,88 @@ module Area =
     let area8 =
         let sales =
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> AreaSeries.New
+            |> Series.Area
         let expenses =
             ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> AreaSeries.New
+            |> Series.Area
         Highcharts.Area [sales; expenses]
 
+
+    // datetime x axis
+    let area9 =
+        [
+            DateTime.Now, 1000
+            DateTime.Now.AddDays(1.), 1170
+            DateTime.Now.AddDays(4.), 560
+            DateTime.Now.AddDays(8.), 1030
+        ]
+        |> Highcharts.Area
+
+
+    // linear x axis
+    let area10 =
+        [
+            1950, 1000
+            1964, 1170
+            1975, 560
+            1982, 1030
+        ]
+        |> Highcharts.Area
+
+//module Bar =
+//    
+//    let area1 =
+//        [1000; 1170; 560; 1030]
+//        |> Highcharts.Area
+//
+//    let area2 =
+//        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+//        |> Highcharts.Area
+//
+//    let area3 =
+//        Series.Area [1000; 1170; 560; 1030]
+//        |> Highcharts.Area
+//
+//    let area4 =
+//        Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+//        |> Highcharts.Area
+//
+//    let area5 =
+//        [
+//            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+//            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+//        ]
+//        |> Seq.ofList
+//        |> Highcharts.Area
+//
+//    let area6 =
+//        [
+//            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+//            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+//        ]
+//        |> Seq.ofList
+//        |> Highcharts.Area
+//
+//    let area7 =
+//        [
+//            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+//            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+//        ]
+//        |> Seq.ofList
+//        |> Highcharts.Area
+//
+//    let area8 =
+//        let sales =
+//            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+//            |> Series.Area
+//        let expenses =
+//            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+//            |> Series.Area
+//        Highcharts.Area [sales; expenses]
+//
 //
 //    // datetime x axis
-//    let area7 =
+//    let area9 =
 //        [
 //            DateTime.Now, 1000
 //            DateTime.Now.AddDays(1.), 1170
@@ -71,8 +144,9 @@ module Area =
 //        ]
 //        |> Highcharts.Area
 //
+//
 //    // linear x axis
-//    let area8 =
+//    let area10 =
 //        [
 //            1950, 1000
 //            1964, 1170
@@ -80,7 +154,6 @@ module Area =
 //            1982, 1030
 //        ]
 //        |> Highcharts.Area
-
 
 
 

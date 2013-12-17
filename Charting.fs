@@ -1,39 +1,39 @@
 ﻿module FsPlot.Charting
 
 open DataSeries
-open JS
 
 type ChartData =
     {
         mutable Categories : string []
-        mutable Data : obj []
+        mutable Data : Series []
         mutable Legend : bool
+        mutable PointFormat : string option
         mutable Title : string option
         Type : ChartType
         mutable XTitle : string option
         mutable YTitle : string option
     }
 
-    static member New categories data legend title chartType xTitle yTitle =
+    static member New categories data legend pointFormat title chartType xTitle yTitle =
         {
             Categories = categories
             Data = data
             Legend = legend
+            PointFormat = pointFormat
             Title = title
             Type = chartType
             XTitle = xTitle
             YTitle = yTitle
         }
 
-let unboxAreaSeries data = Array.map (fun x -> unbox<AreaSeries> x) data
-
 let private compileJs (chartData:ChartData) =
-    let chartType, data, title, legend, categories, xTitle, yTitle = chartData.Type, chartData.Data, chartData.Title, chartData.Legend , chartData.Categories, chartData.XTitle, chartData.YTitle
+    let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle =
+        chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
+        chartData.Legend , chartData.Categories, chartData.XTitle,
+        chartData.YTitle
     match chartType with
-    | Area ->
-        let data' = unboxAreaSeries data
-        Highcharts.Area.js data' title legend categories xTitle yTitle
-//    | Bar -> Highcharts.Bar.js data title legend categories xTitle yTitle
+    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat
+//    | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle
 //    | Bubble -> Highcharts.Bubble.js data title legend categories xTitle yTitle
 //    | Combination -> Highcharts.Combination.js data title legend categories xTitle yTitle
 //    | Column -> Highcharts.Column.js data title legend categories xTitle yTitle
@@ -62,22 +62,26 @@ type GenericChart() as chart =
         and set(categories) =
             chart.chartData.Categories <- Seq.toArray categories    
             navigate()
+    
+    member __.SetPointFormat(pointFormat) =
+        chart.chartData.PointFormat <- Some pointFormat
+        navigate()
 
     member __.Refresh() = navigate()
 
-//    member __.SetData (data:seq<#key*#value>) =
-//        let series = AreaSeries.New data
-//        chart.chartData.Data <- [|series|] 
-//        navigate()
-//
-//    member __.SetData (data:seq<#value>) =
-//        let series = AreaSeries.New data
-//        chart.chartData.Data <- [|series|] 
-//        navigate()
+    member __.SetData (data:seq<#key*#value>) =
+        let series = Series.New(chart.chartData.Type, data)
+        chart.chartData.Data <- [|series|] 
+        navigate()
 
-//    member __.SetData series =
-//        chart.chartData.Data <- [|series|] 
-//        navigate()
+    member __.SetData (data:seq<#value>) =
+        let series = Series.New(chart.chartData.Type, data)
+        chart.chartData.Data <- [|series|] 
+        navigate()
+
+    member __.SetData series =
+        chart.chartData.Data <- [|series|] 
+        navigate()
 
     static member internal Create(chartData:ChartData, f: unit -> #GenericChart ) =
         let t = f()
@@ -135,104 +139,200 @@ type HighchartsPie() =
 type HighchartsScatter() =
     inherit GenericChart()
 
-let newChartData categories data legend title chartType xTitle yTitle =
+let newChartData categories data legend pointFormat title chartType xTitle yTitle =
     let legend = defaultArg legend false
-    let categories = match categories with None -> [||] | Some value -> Seq.toArray value
-    ChartData.New categories data legend title chartType xTitle yTitle
+    let categories =
+        match categories with 
+        | None -> [||]
+        | Some value -> Seq.toArray value
+    ChartData.New categories data legend pointFormat title chartType xTitle yTitle
 
 type Highcharts =
 
-    /// <summary>Creates a pie chart.</summary>
-    /// <param name="data">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
+    /// <summary>Creates an area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
     /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
-    static member Area(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let series = AreaSeries.New data
-        let chartData = newChartData categories [|series|] legend title Area xTitle yTitle
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Area(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
-    /// <summary>Creates a pie chart.</summary>
+    /// <summary>Creates an area chart.</summary>
     /// <param name="data">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
+    /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
     /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Area(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Area data
+        let chartData = newChartData categories [|series|] legend None title Area xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
+
+    /// <summary>Creates an area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let series = AreaSeries.New data
-        let chartData = newChartData categories [|series|] legend title Area xTitle yTitle
+        let series = Series.Area data
+        let chartData = newChartData categories [|series|] legend None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
         
-    /// <summary>Creates a pie chart.</summary>
+    /// <summary>Creates an area chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
+    /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
     /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
-    static member Area(data:AreaSeries, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend title Area xTitle yTitle
-        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
-
-    /// <summary>Creates a pie chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
-    /// <param name="legend">Whether to display a legend or not.</param>
-    /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
-    static member Area(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let data =
-            data
-            |> Seq.map (AreaSeries.New >> box)
-            |> Seq.toArray
-        let chartData = newChartData categories data legend title Area xTitle yTitle
-        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
-
-    /// <summary>Creates a pie chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
-    /// <param name="legend">Whether to display a legend or not.</param>
-    /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data =
             data
-            |> Seq.map (AreaSeries.New >> box)
+            |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
-    /// <summary>Creates a pie chart.</summary>
+    /// <summary>Creates an area chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
+    /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
     /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data =
             data
-            |> Seq.map (AreaSeries.New >> box)
+            |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
-    /// <summary>Creates a pie chart.</summary>
+    /// <summary>Creates an area chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The x axis categories.</param>
+    /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
     /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis' title.</param>
-    /// <param name="yTitle">The Y-axis' title.</param>
-    static member Area(data:seq<AreaSeries>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let data = Seq.map box data |> Seq.toArray
-        let chartData = newChartData categories data legend title Area xTitle yTitle
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Area(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
+
+    /// <summary>Creates an area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Area(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Area
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None title Area xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArea()))
+
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="series">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let chartData = newChartData categories [|data|] legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="data">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let series = Series.Bar data
+//        let chartData = newChartData categories [|series|] legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="data">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let series = Series.Bar data
+//        let chartData = newChartData categories [|series|] legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//        
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="series">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let data =
+//            data
+//            |> Seq.map Series.Bar
+//            |> Seq.toArray
+//        let chartData = newChartData categories data legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="series">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let data =
+//            data
+//            |> Seq.map Series.Bar
+//            |> Seq.toArray
+//        let chartData = newChartData categories data legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="series">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let data = Seq.toArray data
+//        let chartData = newChartData categories data legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+//
+//    /// <summary>Creates a bar chart.</summary>
+//    /// <param name="series">The chart's data.</param>
+//    /// <param name="categories">The X-axis categories.</param>
+//    /// <param name="legend">Whether to display a legend or not.</param>
+//    /// <param name="title">The chart's title.</param>
+//    /// <param name="xTitle">The X-axis title.</param>
+//    /// <param name="yTitle">The Y-axis title.</param>
+//    static member Bar(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+//        let data =
+//            data
+//            |> Seq.map Series.Bar
+//            |> Seq.toArray
+//        let chartData = newChartData categories data legend title Bar xTitle yTitle
+//        GenericChart.Create(chartData, (fun () -> HighchartsBar()))
+
 
 
 

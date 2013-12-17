@@ -44,7 +44,7 @@
     <Compile Include="ChartWindow.fs" />
     <Compile Include="DataSeries.fs" />
     <Compile Include="Expr.fs" />
-    <Compile Include="JS.fs" />
+    <Compile Include="HighchartsJs.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Charting.fs" />
     <None Include="Script.fsx" />
@@ -52,6 +52,7 @@
     <Resource Include="ChartIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <None Include="Examples.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

@@ -50,16 +50,64 @@ type ChartType =
     | Pie
     | Scatter
 
-type AreaSeries =
+type Series =
     {
         Name : string
-        Values : obj []
         Type : ChartType
+        Values : obj []
         XType : TypeCode
         YType : TypeCode
     }
     
-    static member New(values:seq<#value>) =
+    static member SetName name series = { series with Name = name }
+
+    static member New(chartType, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = chartType
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member New(name, chartType, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = chartType
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member New(chartType, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = chartType
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member New(name, chartType, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = chartType
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Area(values:seq<#value>) =
         let v = Seq.head values
         {
             Name = ""
@@ -71,7 +119,7 @@ type AreaSeries =
             YType = v.GetTypeCode()
         }
 
-    static member New(name, values:seq<#value>) =
+    static member Area(name, values:seq<#value>) =
         let v = Seq.head values
         {
             Name = name
@@ -83,7 +131,7 @@ type AreaSeries =
             YType = v.GetTypeCode()
         }
 
-    static member New(values:seq<#key*#value>) =
+    static member Area(values:seq<#key*#value>) =
         let k, v = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
@@ -94,7 +142,7 @@ type AreaSeries =
             YType = v.GetTypeCode()
         }
 
-    static member New(name, values:seq<#key*#value>) =
+    static member Area(name, values:seq<#key*#value>) =
         let k, v = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
@@ -104,7 +152,52 @@ type AreaSeries =
             XType = xTypeCode
             YType = v.GetTypeCode()
         }
+        
+    static member Bar(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Bar
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
 
+    static member Bar(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Bar
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Bar(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Bar
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Bar(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Bar
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
 
 
 //    static member New(name, chartType, values:seq<#value>) =

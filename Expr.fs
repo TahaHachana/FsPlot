@@ -82,11 +82,12 @@ let objArrExpr (arr:obj []) xType =
 //                            ])
         ])
 
-let areaSeriesExpr (x:AreaSeries) =
+let areaSeriesExpr (x:Series) =
     Expr.NewRecord(
-        typeof<AreaSeries>,
+        typeof<Series>,
         [
             Expr.Value x.Name
+            quoteChartType x.Type
             objArrExpr x.Values x.XType
 //            Expr.NewArray(
 //                typeof<obj>,
@@ -107,19 +108,18 @@ let areaSeriesExpr (x:AreaSeries) =
 //                                            ])
 //                                    ])
 //                ])
-            quoteChartType x.Type
             Expr.Value x.XType
             Expr.Value x.YType
         ])
 
-let quoteAreaSeriesArr (series:AreaSeries []) =
+let quoteSeriesArr (series:Series []) =
     Expr.NewArray(
-        typeof<AreaSeries>,
+        typeof<Series>,
         [
             for x in series do
                 yield areaSeriesExpr x
 //                    Expr.NewRecord(
-//                        typeof<AreaSeries>,
+//                        typeof<Series>,
 //                        [
 //                            Expr.Value x.Name
 //                            Expr.NewArray(
@@ -155,14 +155,14 @@ let quoteAreaSeriesArr (series:AreaSeries []) =
 
 //
 //
-//let quoteAreaSeriesArr (series:AreaSeries []) =
+//let quoteSeriesArr (series:Series []) =
 //    Expr.NewArray(
-//        typeof<AreaSeries>,
+//        typeof<Series>,
 //        [
 //            for x in series do
 //                yield
 //                    Expr.NewRecord(
-//                        typeof<AreaSeries>,
+//                        typeof<Series>,
 //                        [
 //                            Expr.Value x.Name
 //                            Expr.NewArray(
