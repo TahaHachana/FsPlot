@@ -4,12 +4,12 @@ FsPlot
 About
 -----
 
-FsPlot is an HTML5 data visualization library designed for F# interactive data scripting and exploratory analysis. [FunScript](http://funscript.info/) is used to compile F# code into JavaScript and only few of [HighCharts](http://highcharts.com/)' chart types are currently supported.
+FsPlot is an HTML5 data visualization library designed for F# interactive data scripting and exploratory analysis. [FunScript](http://funscript.info/) is used to compile F# code into JavaScript.
 
 Supported Chart Types
 ---------------------
-1. Highcharts
-* Area: [Basic Area](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md)
+* Highcharts
+    1. Area: [Basic Area](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md)
 
 NuGet
 -----
