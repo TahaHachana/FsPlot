@@ -89,7 +89,7 @@ module internal Utils =
 open Utils
 open Microsoft.FSharp.Quotations
 
-let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat =
+let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let seriesExpr = quoteSeriesArr series
     let chartTitleExpr = quoteStrOption chartTitle
     let legendExpr = quoteBool legend
@@ -97,14 +97,12 @@ let private quoteArgs series chartTitle legend categories xTitle yTitle pointFor
     let xTitleExpr = quoteStrOption xTitle
     let yTitleExpr = quoteStrOption yTitle
     let pointFormatExpr = quoteStrOption pointFormat
-    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr
+    let subtitleExpr = quoteStrOption subtitle
+    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr
 
 [<ReflectedDefinition>]
-let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat =
+let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle =
     let options = createEmpty<HighchartsOptions>()
-//    let lang = createEmpty<HighchartsLangOptions>()
-//    lang.thousandsSep <- ""
-//    options.lang <- lang
     setChartOptions "chart" "area" options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
@@ -123,16 +121,22 @@ let private areaChart (series:Series []) chartTitle (legend:bool) categories xTi
     plotOptions.area <- areaChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
+    match subtitle with
+    | None -> ()
+    | Some value ->
+        let subtitleOptions = createEmpty<HighchartsSubtitleOptions>()
+        subtitleOptions.text <- value
+        options.subtitle <- subtitleOptions
     setSeriesOptions series options
     setTooltipOptions pointFormat options
     let chartElement = Utils.jq "#chart"
     chartElement.highcharts(options) |> ignore
 
-let area series chartTitle legend categories xTitle yTitle pointFormat =
-    let expr1, expr2, expr3, expr4, expr5, expr6, expr7 =
-        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat
+let area series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
-        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 @>,
+        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
         shouldCompress=true)
 

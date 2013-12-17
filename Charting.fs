@@ -8,18 +8,20 @@ type ChartData =
         mutable Data : Series []
         mutable Legend : bool
         mutable PointFormat : string option
+        mutable Subtitle : string option
         mutable Title : string option
         Type : ChartType
         mutable XTitle : string option
         mutable YTitle : string option
     }
 
-    static member New categories data legend pointFormat title chartType xTitle yTitle =
+    static member New categories data legend pointFormat subtitle title chartType xTitle yTitle =
         {
             Categories = categories
             Data = data
             Legend = legend
             PointFormat = pointFormat
+            Subtitle = subtitle
             Title = title
             Type = chartType
             XTitle = xTitle
@@ -27,12 +29,12 @@ type ChartData =
         }
 
 let private compileJs (chartData:ChartData) =
-    let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle =
+    let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
         chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
         chartData.Legend , chartData.Categories, chartData.XTitle,
-        chartData.YTitle
+        chartData.YTitle, chartData.Subtitle
     match chartType with
-    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat
+    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle
 //    | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle
 //    | Bubble -> Highcharts.Bubble.js data title legend categories xTitle yTitle
 //    | Combination -> Highcharts.Combination.js data title legend categories xTitle yTitle
@@ -56,6 +58,10 @@ type GenericChart() as chart =
         browser.NavigateToString html
         do chart.jsField <- js
         do chart.htmlField <- html
+
+    member __.SetSubtite subtitle =
+        chart.chartData.Subtitle <- Some subtitle
+        navigate()
 
     member __.Categories
         with get() = chart.chartData.Categories |> Array.toSeq
@@ -139,13 +145,13 @@ type HighchartsPie() =
 type HighchartsScatter() =
     inherit GenericChart()
 
-let newChartData categories data legend pointFormat title chartType xTitle yTitle =
+let newChartData categories data legend pointFormat subtitle title chartType xTitle yTitle =
     let legend = defaultArg legend false
     let categories =
         match categories with 
         | None -> [||]
         | Some value -> Seq.toArray value
-    ChartData.New categories data legend pointFormat title chartType xTitle yTitle
+    ChartData.New categories data legend pointFormat subtitle title chartType xTitle yTitle
 
 type Highcharts =
 
@@ -157,7 +163,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None title Area xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     /// <summary>Creates an area chart.</summary>
@@ -169,7 +175,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None title Area xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     /// <summary>Creates an area chart.</summary>
@@ -181,7 +187,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None title Area xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
         
     /// <summary>Creates an area chart.</summary>
@@ -196,7 +202,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     /// <summary>Creates an area chart.</summary>
@@ -211,7 +217,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     /// <summary>Creates an area chart.</summary>
@@ -223,7 +229,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
     /// <summary>Creates an area chart.</summary>
@@ -238,7 +244,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
 
 //    /// <summary>Creates a bar chart.</summary>
