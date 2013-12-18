@@ -1,7 +1,8 @@
-﻿module internal FsPlot.Expr
+﻿module FsPlot.Expr
 
 open System
 open Microsoft.FSharp.Quotations
+open Options
 open DataSeries
 
 let quoteStringArr (arr:string []) =
@@ -78,3 +79,11 @@ let quoteSeriesArr (series:Series []) =
             for x in series do
                 yield areaSeriesExpr x
         ])
+
+let stackingInfos = Reflection.FSharpType.GetUnionCases(typeof<Stacking>)
+
+let quoteStacking (stacking:Stacking) =
+    match stacking with
+    | Disabled -> Expr.NewUnionCase(stackingInfos.[0], [])
+    | Normal -> Expr.NewUnionCase(stackingInfos.[1], [])
+    | Percent -> Expr.NewUnionCase(stackingInfos.[2], [])

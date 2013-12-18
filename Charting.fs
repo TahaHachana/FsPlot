@@ -1,5 +1,6 @@
 ﻿module FsPlot.Charting
 
+open Options
 open DataSeries
 
 type ChartData =
@@ -34,7 +35,7 @@ let private compileJs (chartData:ChartData) =
         chartData.Legend , chartData.Categories, chartData.XTitle,
         chartData.YTitle, chartData.Subtitle
     match chartType with
-    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle
+    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
 //    | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle
 //    | Bubble -> Highcharts.Bubble.js data title legend categories xTitle yTitle
 //    | Combination -> Highcharts.Combination.js data title legend categories xTitle yTitle
@@ -49,15 +50,20 @@ type GenericChart() as chart =
     [<DefaultValue>] val mutable private chartData : ChartData
     [<DefaultValue>] val mutable private jsField : string
     [<DefaultValue>] val mutable private htmlField : string
-
+    
+    let mutable compileFun = compileJs
+    
     let wnd, browser = ChartWindow.show()
     
     let navigate() =
-        let js = compileJs chart.chartData
+        let js = compileFun chart.chartData
         let html = Html.highcharts js
         browser.NavigateToString html
         do chart.jsField <- js
         do chart.htmlField <- html
+
+    member __.JsFun
+        with set(f) = compileFun <- f
 
     member __.SetSubtite subtitle =
         chart.chartData.Subtitle <- Some subtitle
@@ -123,7 +129,28 @@ type GenericChart() as chart =
 
 type HighchartsArea() =
     inherit GenericChart()
+    let mutable stacking = Stacking.Disabled
 
+    let compileJs (chartData:ChartData) =
+        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
+            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
+            chartData.Legend , chartData.Categories, chartData.XTitle,
+            chartData.YTitle, chartData.Subtitle
+        HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle stacking
+
+    do base.JsFun <- compileJs
+
+    member __.SetStacking x =
+        stacking <- x
+        base.Refresh()
+
+//    areaChart    
+
+//    __.Stacking
+//        with get() = stacking
+//        and set(stacking) = 
+        
+         
 type HighchartsBar() =
     inherit GenericChart()
 

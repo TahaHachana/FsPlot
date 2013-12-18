@@ -35,6 +35,8 @@ module Area =
         |> Seq.ofList
         |> Highcharts.Area
 
+    area5.SetStacking FsPlot.Expr.Stacking.Percent
+
     let area6 =
         [
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]

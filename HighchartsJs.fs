@@ -9,9 +9,10 @@
 #endif
 
 open System
+open FunScript
+open Options
 open DataSeries
 open Expr
-open FunScript
 
 [<ReflectedDefinition>]
 module internal Utils =
@@ -84,12 +85,10 @@ module internal Utils =
             tooltipOptions.pointFormat <- value
             options.tooltip <- tooltipOptions
 
-//module Highcharts =
-
 open Utils
 open Microsoft.FSharp.Quotations
 
-let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
     let seriesExpr = quoteSeriesArr series
     let chartTitleExpr = quoteStrOption chartTitle
     let legendExpr = quoteBool legend
@@ -98,10 +97,11 @@ let private quoteArgs series chartTitle legend categories xTitle yTitle pointFor
     let yTitleExpr = quoteStrOption yTitle
     let pointFormatExpr = quoteStrOption pointFormat
     let subtitleExpr = quoteStrOption subtitle
-    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr
+    let stackingExpr = quoteStacking stacking
+    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr, stackingExpr
 
 [<ReflectedDefinition>]
-let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle =
+let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle stacking =
     let options = createEmpty<HighchartsOptions>()
     setChartOptions "chart" "area" options
     setXAxisOptions series.[0].XType options categories xTitle
@@ -117,6 +117,10 @@ let private areaChart (series:Series []) chartTitle (legend:bool) categories xTi
     states.hover <- state
     marker.states <- states
     areaChart.marker <- marker
+    match stacking with
+    | Disabled -> ()
+    | Normal -> areaChart.stacking <- "normal"
+    | Percent -> areaChart.stacking <- "percent"
     let plotOptions = createEmpty<HighchartsPlotOptions>()
     plotOptions.area <- areaChart
     options.plotOptions <- plotOptions
@@ -132,11 +136,11 @@ let private areaChart (series:Series []) chartTitle (legend:bool) categories xTi
     let chartElement = Utils.jq "#chart"
     chartElement.highcharts(options) |> ignore
 
-let area series chartTitle legend categories xTitle yTitle pointFormat subtitle =
-    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
+let area series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8, expr9 =
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking
     Compiler.Compiler.Compile(
-        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
+        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%expr9 @>,
         noReturn=true,
         shouldCompress=true)
 
