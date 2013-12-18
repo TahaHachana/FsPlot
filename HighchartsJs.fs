@@ -25,15 +25,18 @@ module internal Utils =
         chartOptions._type <- chartType
         options.chart <- chartOptions
 
-    let setXAxisOptions xType (options:HighchartsOptions) categories xTitle =
+    let setXAxisOptions xType (options:HighchartsOptions) (categories:string []) xTitle =
         let axisOptions = createEmpty<HighchartsAxisOptions>()
         let xAxisType =
-            match xType with
-            | TypeCode.DateTime -> "datetime"
-            | TypeCode.String ->
+            match categories.Length with
+            | 0 ->
+                match xType with
+                | TypeCode.DateTime -> "datetime"
+                | TypeCode.String -> "category"
+                | _ -> "linear"
+            | _ ->
                 axisOptions.categories <- categories
                 "category"
-            | _ -> "linear"
         axisOptions._type <- xAxisType
         let axisTitle = createEmpty<HighchartsAxisTitle>()
         axisTitle.text <- defaultArg xTitle ""
