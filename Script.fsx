@@ -56,6 +56,52 @@ module Area =
         |> Seq.ofList
         |> Highcharts.Area
 
+module Areaspline =
+    
+    let areaspline1 =
+        Series.Areaspline [1000; 1170; 560; 1030]
+        |> Highcharts.Areaspline
+
+    let areaspline2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Areaspline
+
+    let areaspline3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Areaspline
+
+    let areaspline4 =
+        [
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Areaspline
+
+    let areaspline5 =
+        [
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Areaspline
+
+    let areaspline6 =
+        [
+            Series.Area ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Areaspline
+
+    let areaspline7 =
+        [
+            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Areaspline
+
 module Bar =
     
     let bar1 =

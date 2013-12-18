@@ -67,6 +67,7 @@ module internal Utils =
         let chartTypeStr = 
             match chartType with
             | Area -> "area"
+            | Areaspline -> "areaspline"
             | Bar -> "bar"
             | Bubble -> "bubble"
             | Combination -> ""
@@ -173,6 +174,36 @@ let area series chartTitle legend categories xTitle yTitle pointFormat subtitle 
     let invertedExpr = quoteBool inverted
     Compiler.Compiler.Compile(
         <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr %%invertedExpr @>,
+        noReturn=true,
+        shouldCompress=true)
+
+[<ReflectedDefinition>]
+let private areasplineChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle stacking inverted =
+    let options = createEmpty<HighchartsOptions>()
+    areaChartOptions "chart" "area" inverted options
+    setXAxisOptions series.[0].XType options categories xTitle
+    setYAxisOptions options yTitle
+    let areaChart = createEmpty<HighchartsAreaChart>()
+    areaChart.showInLegend <- legend
+    setAreaMarker areaChart
+    areaStacking stacking areaChart
+    let plotOptions = createEmpty<HighchartsPlotOptions>()
+    plotOptions.area <- areaChart
+    options.plotOptions <- plotOptions
+    setTitleOptions chartTitle options
+    setSubtitle subtitle options
+    setSeriesOptions series options
+    setTooltipOptions pointFormat options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
+
+let areaspline series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    let stackingExpr = quoteStacking stacking
+    let invertedExpr = quoteBool inverted
+    Compiler.Compiler.Compile(
+        <@ areasplineChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr %%invertedExpr @>,
         noReturn=true,
         shouldCompress=true)
 

@@ -27,13 +27,14 @@ let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 let quoteChartType (chartType:ChartType) =
     match chartType with
     | Area -> chartTypeExpr 0
-    | Bar -> chartTypeExpr 1
-    | Bubble -> chartTypeExpr 2
-    | Column -> chartTypeExpr 3
-    | Combination -> chartTypeExpr 4
-    | Line -> chartTypeExpr 5
-    | Pie -> chartTypeExpr 6
-    | Scatter -> chartTypeExpr 7
+    | Areaspline -> chartTypeExpr 1
+    | Bar -> chartTypeExpr 2
+    | Bubble -> chartTypeExpr 3
+    | Column -> chartTypeExpr 4
+    | Combination -> chartTypeExpr 5
+    | Line -> chartTypeExpr 6
+    | Pie -> chartTypeExpr 7
+    | Scatter -> chartTypeExpr 8
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(

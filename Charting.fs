@@ -36,6 +36,7 @@ let private compileJs (chartData:ChartData) =
         chartData.YTitle, chartData.Subtitle
     match chartType with
     | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
+    | Areaspline -> HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
     | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
@@ -136,6 +137,30 @@ type HighchartsArea() =
             chartData.Legend , chartData.Categories, chartData.XTitle,
             chartData.YTitle, chartData.Subtitle
         HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle stacking inverted
+
+    do base.JsFun <- compileJs
+
+    member __.SetStacking x =
+        stacking <- x
+        base.Navigate()
+
+    member __.Inverted
+        with get() = inverted
+        and set(x) =
+            inverted <- x
+            base.Navigate()
+
+type HighchartsAreaspline() =
+    inherit GenericChart()
+    let mutable stacking = Stacking.Disabled
+    let mutable inverted = false
+
+    let compileJs (chartData:ChartData) =
+        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
+            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
+            chartData.Legend , chartData.Categories, chartData.XTitle,
+            chartData.YTitle, chartData.Subtitle
+        HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle stacking inverted
 
     do base.JsFun <- compileJs
 
@@ -285,6 +310,98 @@ type Highcharts =
             |> Seq.toArray
         let chartData = newChartData categories data legend None None title Area xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsArea()))
+
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Areaspline data
+        let chartData = newChartData categories [|series|] legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Areaspline data
+        let chartData = newChartData categories [|series|] legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+        
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Areaspline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Areaspline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an areaspline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Areaspline(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Areaspline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
 
     /// <summary>Creates a bar chart.</summary>
     /// <param name="series">The chart's data.</param>
