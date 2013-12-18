@@ -146,3 +146,20 @@ module Area =
 
     invertedAxesArea.Inverted <- true
 
+module Areaspline =
+    
+    let basic =
+        let jane =
+            ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
+            |> Series.Areaspline
+            |> Series.SetName "Jane"
+        let john =
+            ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
+            |> Series.Areaspline
+            |> Series.SetName "John"
+        Highcharts.Areaspline(
+            [john; jane],
+            legend = true,
+            title = "Average Fruit Consumption",
+            yTitle = "Fruit Units")
+
