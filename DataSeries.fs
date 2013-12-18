@@ -55,7 +55,7 @@ type Series =
         Type : ChartType
         Values : obj []
         XType : TypeCode
-        YType : TypeCode
+//        YType : TypeCode
     }
     
     static member SetName name series = { series with Name = name }
@@ -69,7 +69,6 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
         }
 
     static member New(name, chartType, values:seq<#value>) =
@@ -81,7 +80,7 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
 
     static member New(chartType, values:seq<#key*#value>) =
@@ -92,7 +91,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
 
     static member New(name, chartType, values:seq<#key*#value>) =
@@ -103,8 +102,21 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
+
+//    static member Area(values:seq<#key*obj>) =
+//        let k, _ = Seq.head values
+//        {
+//            Name = ""
+//            Values =
+//                values
+//                |> Seq.map (fun (k, v) -> box [|box k; v|])
+//                |> Seq.toArray
+//            Type = Area
+//            XType = k.GetTypeCode()
+//////            YType = v.GetTypeCode()
+//        }
 
     static member Area(values:seq<#value>) =
         let v = Seq.head values
@@ -115,7 +127,7 @@ type Series =
                 |> Seq.toArray
             Type = Area
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
 
     static member Area(name, values:seq<#value>) =
@@ -127,7 +139,7 @@ type Series =
                 |> Seq.toArray
             Type = Area
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
 
     static member Area(values:seq<#key*#value>) =
@@ -138,7 +150,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Area
             XType = xTypeCode
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
 
     static member Area(name, values:seq<#key*#value>) =
@@ -149,7 +161,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Area
             XType = xTypeCode
-            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
         }
         
     static member Bar(values:seq<#value>) =
@@ -161,7 +173,7 @@ type Series =
                 |> Seq.toArray
             Type = Bar
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bar(name, values:seq<#value>) =
@@ -173,7 +185,7 @@ type Series =
                 |> Seq.toArray
             Type = Bar
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bar(values:seq<#key*#value>) =
@@ -184,7 +196,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Bar
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bar(name, values:seq<#key*#value>) =
@@ -195,7 +207,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Bar
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bubble(values:seq<#key*#value*#value>) =
@@ -206,7 +218,7 @@ type Series =
             Values = upcastKeyValueValue xTypeCode values               
             Type = Bubble
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bubble(values:seq<#value*#value>) =
@@ -219,7 +231,7 @@ type Series =
                 |> Seq.toArray
             Type = Bubble
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bubble(name, values:seq<#key*#value*#value>) =
@@ -230,7 +242,7 @@ type Series =
             Values = upcastKeyValueValue xTypeCode values               
             Type = Bubble
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Bubble(name, values:seq<#value*#value>) =
@@ -243,7 +255,7 @@ type Series =
                 |> Seq.toArray
             Type = Bubble
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Column(values:seq<#value>) =
@@ -255,7 +267,7 @@ type Series =
                 |> Seq.toArray
             Type = Column
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Column(name, values:seq<#value>) =
@@ -267,7 +279,7 @@ type Series =
                 |> Seq.toArray
             Type = Column
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Column(values:seq<#key*#value>) =
@@ -278,7 +290,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Column
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Column(name, values:seq<#key*#value>) =
@@ -289,7 +301,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Column
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Line(values:seq<#value>) =
@@ -301,7 +313,7 @@ type Series =
                 |> Seq.toArray
             Type = Line
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Line(name, values:seq<#value>) =
@@ -313,7 +325,7 @@ type Series =
                 |> Seq.toArray
             Type = Line
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Line(values:seq<#key*#value>) =
@@ -324,7 +336,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Line
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Line(name, values:seq<#key*#value>) =
@@ -335,7 +347,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Line
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Pie(values:seq<#value>) =
@@ -347,7 +359,7 @@ type Series =
                 |> Seq.toArray
             Type = Pie
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Pie(name, values:seq<#value>) =
@@ -359,7 +371,7 @@ type Series =
                 |> Seq.toArray
             Type = Pie
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Pie(values:seq<#key*#value>) =
@@ -370,7 +382,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Pie
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Pie(name, values:seq<#key*#value>) =
@@ -381,7 +393,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Pie
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Scatter(values:seq<#value>) =
@@ -393,7 +405,7 @@ type Series =
                 |> Seq.toArray
             Type = Scatter
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Scatter(name, values:seq<#value>) =
@@ -405,7 +417,7 @@ type Series =
                 |> Seq.toArray
             Type = Scatter
             XType = TypeCode.Empty
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Scatter(values:seq<#key*#value>) =
@@ -416,7 +428,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Scatter
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
     static member Scatter(name, values:seq<#key*#value>) =
@@ -427,7 +439,7 @@ type Series =
             Values = upcastKeyValue xTypeCode values               
             Type = Scatter
             XType = xTypeCode
-            YType = v.GetTypeCode()
+//            YType = v.GetTypeCode()
         }
 
 
@@ -454,7 +466,7 @@ type Series =
 //                |> Seq.toArray
 //            Type = chartType
 //            XType = TypeCode.Empty
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -468,7 +480,7 @@ type Series =
 //                |> Seq.toArray
 //            Type = Bubble
 //            XType = TypeCode.Empty
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = v'.GetTypeCode()
 //        }
 //
@@ -482,7 +494,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Area
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -496,7 +508,7 @@ type Series =
 ////                |> Seq.toArray
 ////            Type = Area
 ////            XType = TypeCode.Empty
-////            YType = v.GetTypeCode()
+//////            YType = v.GetTypeCode()
 ////            Size = TypeCode.Empty
 ////        }
 //
@@ -510,7 +522,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Bar
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -524,7 +536,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Bubble
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = v'.GetTypeCode()
 //        }
 //
@@ -538,7 +550,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Column
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -552,7 +564,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Line
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -566,7 +578,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Pie
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //
@@ -580,7 +592,7 @@ type Series =
 ////                |> Seq.toArray
 ////            Type = ChartType.Pie
 ////            XType = TypeCode.Empty
-////            YType = v.GetTypeCode()
+//////            YType = v.GetTypeCode()
 ////        }
 //
 //    static member Scatter name (values:seq<#key*#value>) =
@@ -593,7 +605,7 @@ type Series =
 ////                |> Seq.toArray
 //            Type = ChartType.Scatter
 //            XType = xTypeCode
-//            YType = v.GetTypeCode()
+////            YType = v.GetTypeCode()
 //            Size = TypeCode.Empty
 //        }
 //

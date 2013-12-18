@@ -8,6 +8,7 @@
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
 #endif
 
+open Microsoft.FSharp.Quotations
 open System
 open FunScript
 open Options
@@ -18,6 +19,13 @@ open Expr
 module internal Utils =
 
     let jq(selector:string) = Globals.Dollar.Invoke selector
+
+    let areaChartOptions renderTo chartType inverted (options:HighchartsOptions) =
+        let chartOptions = createEmpty<HighchartsChartOptions>()
+        chartOptions.renderTo <- renderTo
+        chartOptions._type <- chartType
+        chartOptions.inverted <- inverted
+        options.chart <- chartOptions
 
     let setChartOptions renderTo chartType (options:HighchartsOptions) =
         let chartOptions = createEmpty<HighchartsChartOptions>()
@@ -106,10 +114,14 @@ module internal Utils =
             let subtitleOptions = createEmpty<HighchartsSubtitleOptions>()
             subtitleOptions.text <- value
             options.subtitle <- subtitleOptions
-
+    
+    let areaStacking stacking (areaChart:HighchartsAreaChart) =
+        match stacking with
+        | Disabled -> ()
+        | Normal -> areaChart.stacking <- "normal"
+        | Percent -> areaChart.stacking <- "percent"
 
 open Utils
-open Microsoft.FSharp.Quotations
 
 let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
     let seriesExpr = quoteSeriesArr series
@@ -123,19 +135,27 @@ let private quoteArgs series chartTitle legend categories xTitle yTitle pointFor
     let stackingExpr = quoteStacking stacking
     seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr, stackingExpr
 
+let private quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let seriesExpr = quoteSeriesArr series
+    let chartTitleExpr = quoteStrOption chartTitle
+    let legendExpr = quoteBool legend
+    let categoriesExpr = quoteStringArr categories
+    let xTitleExpr = quoteStrOption xTitle
+    let yTitleExpr = quoteStrOption yTitle
+    let pointFormatExpr = quoteStrOption pointFormat
+    let subtitleExpr = quoteStrOption subtitle
+    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr
+
 [<ReflectedDefinition>]
-let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle stacking =
+let private areaChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle stacking inverted =
     let options = createEmpty<HighchartsOptions>()
-    setChartOptions "chart" "area" options
+    areaChartOptions "chart" "area" inverted options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
     let areaChart = createEmpty<HighchartsAreaChart>()
     areaChart.showInLegend <- legend
     setAreaMarker areaChart
-    match stacking with
-    | Disabled -> ()
-    | Normal -> areaChart.stacking <- "normal"
-    | Percent -> areaChart.stacking <- "percent"
+    areaStacking stacking areaChart
     let plotOptions = createEmpty<HighchartsPlotOptions>()
     plotOptions.area <- areaChart
     options.plotOptions <- plotOptions
@@ -146,11 +166,13 @@ let private areaChart (series:Series []) chartTitle (legend:bool) categories xTi
     let chartElement = Utils.jq "#chart"
     chartElement.highcharts(options) |> ignore
 
-let area series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
-    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8, expr9 =
-        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking
+let area series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    let stackingExpr = quoteStacking stacking
+    let invertedExpr = quoteBool inverted
     Compiler.Compiler.Compile(
-        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%expr9 @>,
+        <@ areaChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr %%invertedExpr @>,
         noReturn=true,
         shouldCompress=true)
 

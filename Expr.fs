@@ -2,18 +2,16 @@
 
 open System
 open Microsoft.FSharp.Quotations
+open Microsoft.FSharp.Reflection
 open Options
 open DataSeries
 
 let quoteStringArr (arr:string []) =
     Expr.NewArray(
         typeof<string>,
-        [
-            for str in arr do
-                yield Expr.Value str
-        ])
+        [for str in arr -> Expr.Value str])
 
-let strOptionInfos = Reflection.FSharpType.GetUnionCases(typeof<string option>)
+let strOptionInfos = FSharpType.GetUnionCases(typeof<string option>)
 
 let quoteStrOption (strOption:string option) =
     match strOption with
@@ -22,7 +20,7 @@ let quoteStrOption (strOption:string option) =
 
 let quoteBool (b:bool) = Expr.Value b
 
-let chartTypeInfos = Reflection.FSharpType.GetUnionCases(typeof<ChartType>)
+let chartTypeInfos = FSharpType.GetUnionCases(typeof<ChartType>)
 
 let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 
@@ -69,7 +67,6 @@ let areaSeriesExpr (x:Series) =
             quoteChartType x.Type
             objArrExpr x.Values x.XType
             Expr.Value x.XType
-            Expr.Value x.YType
         ])
 
 let quoteSeriesArr (series:Series []) =

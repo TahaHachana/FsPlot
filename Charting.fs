@@ -35,7 +35,7 @@ let private compileJs (chartData:ChartData) =
         chartData.Legend , chartData.Categories, chartData.XTitle,
         chartData.YTitle, chartData.Subtitle
     match chartType with
-    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
+    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
     | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
@@ -128,19 +128,26 @@ type GenericChart() as chart =
 type HighchartsArea() =
     inherit GenericChart()
     let mutable stacking = Stacking.Disabled
+    let mutable inverted = false
 
     let compileJs (chartData:ChartData) =
         let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
             chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
             chartData.Legend , chartData.Categories, chartData.XTitle,
             chartData.YTitle, chartData.Subtitle
-        HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle stacking
+        HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle stacking inverted
 
     do base.JsFun <- compileJs
 
     member __.SetStacking x =
         stacking <- x
         base.Navigate()
+
+    member __.Inverted
+        with get() = inverted
+        and set(x) =
+            inverted <- x
+            base.Navigate()
 
 type HighchartsBar() =
     inherit GenericChart()
