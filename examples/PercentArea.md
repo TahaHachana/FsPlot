@@ -1,5 +1,5 @@
-Highcharts Basic Area
-=====================
+Highcharts Percent Area
+=======================
 
 ```fsharp
 #load "FsPlot.fsx"

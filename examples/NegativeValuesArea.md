@@ -1,5 +1,5 @@
-Highcharts Basic Area
-=====================
+Highcharts Area with Negative Values
+====================================
 
 ```fsharp
 #load "FsPlot.fsx"

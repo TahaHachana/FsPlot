@@ -1,5 +1,5 @@
-Highcharts Basic Area
-=====================
+Highcharts Stacked Area
+=======================
 
 ```fsharp
 #load "FsPlot.fsx"
