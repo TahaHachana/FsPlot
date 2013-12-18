@@ -19,23 +19,22 @@ let utc (x:#key) =
         |> int64
         :> key
 
+let utcIfDatetime typecode (x:#key) =
+    match typecode with
+    | TypeCode.DateTime -> utc x
+    | _ -> x :> key
+
 let private upcastKeyValue xTypeCode (values:seq<#key*#value>) =
     values
     |> Seq.map (fun (k, v) ->
-        let k' =
-            match xTypeCode with
-            | TypeCode.DateTime -> utc k
-            | _ -> k :> key
+        let k' = utcIfDatetime xTypeCode k
         box [|k'; v :> value|])
     |> Seq.toArray
 
 let private upcastKeyValueValue xTypeCode (values:seq<#key*#value*#value>) =
     values
     |> Seq.map (fun (k, v, v') ->
-        let k' =
-            match xTypeCode with
-            | TypeCode.DateTime -> utc k
-            | _ -> k :> key
+        let k' = utcIfDatetime xTypeCode k
         box [|k'; v :> value; v' :> value|])
     |> Seq.toArray
 
@@ -198,6 +197,251 @@ type Series =
             XType = xTypeCode
             YType = v.GetTypeCode()
         }
+
+    static member Bubble(values:seq<#key*#value*#value>) =
+        let k, v, v' = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValueValue xTypeCode values               
+            Type = Bubble
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Bubble(values:seq<#value*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values =
+                Seq.map (fun (v, v') -> box [|v :> value; v' :> value|]) values
+                |> Seq.toArray
+            Type = Bubble
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Bubble(name, values:seq<#key*#value*#value>) =
+        let k, v, v' = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValueValue xTypeCode values               
+            Type = Bubble
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Bubble(name, values:seq<#value*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values =
+                Seq.map (fun (v, v') -> box [|v :> value; v' :> value|]) values
+                |> Seq.toArray
+            Type = Bubble
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Column(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Column
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Column(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Column
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Column(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Column
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Column(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Column
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Line(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Line
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Line(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Line
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Line(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Line
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Line(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Line
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Pie(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Pie
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Pie(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Pie
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Pie(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Pie
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Pie(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Pie
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Scatter(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Scatter
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Scatter(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Scatter
+            XType = TypeCode.Empty
+            YType = v.GetTypeCode()
+        }
+
+    static member Scatter(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Scatter
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+    static member Scatter(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Scatter
+            XType = xTypeCode
+            YType = v.GetTypeCode()
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //    static member New(name, chartType, values:seq<#value>) =

@@ -6,6 +6,7 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
+open FsPlot.Options
 open FsPlot.Charting
 open FsPlot.DataSeries
 
@@ -34,8 +35,6 @@ module Area =
         ]
         |> Seq.ofList
         |> Highcharts.Area
-
-    area5.SetStacking FsPlot.Expr.Stacking.Percent
 
     let area6 =
         [
@@ -84,80 +83,84 @@ module Area =
         ]
         |> Highcharts.Area
 
-//module Bar =
-//    
-//    let area1 =
-//        [1000; 1170; 560; 1030]
-//        |> Highcharts.Area
-//
-//    let area2 =
-//        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-//        |> Highcharts.Area
-//
-//    let area3 =
-//        Series.Area [1000; 1170; 560; 1030]
-//        |> Highcharts.Area
-//
-//    let area4 =
-//        Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-//        |> Highcharts.Area
-//
-//    let area5 =
-//        [
-//            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-//            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-//        ]
-//        |> Seq.ofList
-//        |> Highcharts.Area
-//
-//    let area6 =
-//        [
-//            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-//            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-//        ]
-//        |> Seq.ofList
-//        |> Highcharts.Area
-//
-//    let area7 =
-//        [
-//            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
-//            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
-//        ]
-//        |> Seq.ofList
-//        |> Highcharts.Area
-//
-//    let area8 =
-//        let sales =
-//            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-//            |> Series.Area
-//        let expenses =
-//            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-//            |> Series.Area
-//        Highcharts.Area [sales; expenses]
-//
-//
-//    // datetime x axis
-//    let area9 =
-//        [
-//            DateTime.Now, 1000
-//            DateTime.Now.AddDays(1.), 1170
-//            DateTime.Now.AddDays(4.), 560
-//            DateTime.Now.AddDays(8.), 1030
-//        ]
-//        |> Highcharts.Area
-//
-//
-//    // linear x axis
-//    let area10 =
-//        [
-//            1950, 1000
-//            1964, 1170
-//            1975, 560
-//            1982, 1030
-//        ]
-//        |> Highcharts.Area
+module Bar =
+    
+    let bar1 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Bar
+
+    let bar2 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Bar
+
+    let bar3 =
+        Series.Bar [1000; 1170; 560; 1030]
+        |> Highcharts.Bar
+
+    let area4 =
+        Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Area
+
+    let bar5 =
+        [
+            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Bar
+
+    let bar6 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Bar
+
+    let bar7 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Bar
+
+    let bar8 =
+        let sales =
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            |> Series.Bar
+        let expenses =
+            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
+            |> Series.Bar
+        Highcharts.Bar [sales; expenses]
 
 
+    // datetime x axis
+    let bar9 =
+        [
+            DateTime.Now, 1000
+            DateTime.Now.AddDays(1.), 1170
+            DateTime.Now.AddDays(4.), 560
+            DateTime.Now.AddDays(8.), 1030
+        ]
+        |> Highcharts.Bar
+
+
+    // linear x axis
+    let bar10 =
+        [
+            1950, 1000
+            1964, 1170
+            1975, 560
+            1982, 1030
+        ]
+        |> Highcharts.Bar
+
+module Bubble =
+    
+    let bubble1 =
+        Series.Bubble [97,36,79; 94,74,60; 68,76,58]
+        |> Highcharts.Bubble
 
 
 

@@ -24,7 +24,7 @@ let quoteBool (b:bool) = Expr.Value b
 
 let chartTypeInfos = Reflection.FSharpType.GetUnionCases(typeof<ChartType>)
 
-let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[0], [])
+let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 
 let quoteChartType (chartType:ChartType) =
     match chartType with
