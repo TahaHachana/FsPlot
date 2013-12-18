@@ -9,7 +9,7 @@ FsPlot is an HTML5 data visualization library designed for F# interactive data s
 Supported Chart Types
 ---------------------
 * Highcharts
-    * Area: [Basic Area](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md)
+    * Area: [Basic Area](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Area with Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/NegativeValuesArea.md)
 
 NuGet
 -----
