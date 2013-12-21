@@ -174,4 +174,79 @@ module Arearange =
             |> Series.Arearange
             |> Series.SetName "Tempratures"
         Highcharts.Arearange(data, title = "Temprature Variation")
-      
+
+module Bar =
+    
+    let basicBar =
+        [
+            Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+            Series.Bar("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+        ]
+        |> Highcharts.Bar
+
+    basicBar.ShowLegend()
+    basicBar.SetTitle "Company Performance"
+
+module Bubble =
+    
+    let basicBubble =
+        [
+            [(97,36,79); (94,74,60); (68,76,58); (64,87,56)]
+            [(68,27,73); (74,99,42); (7,93,87); (51,69,40)]
+        ]
+        |> Highcharts.Bubble
+
+module Column =
+
+    let basicColumn =
+        [
+            Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+            Series.Column("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+        ]
+        |> Highcharts.Column
+
+    basicColumn.SetTitle "Company Performance"
+
+module Combination =
+
+    let basicComb =
+        [
+            Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+            Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+        ]
+        |> Highcharts.Combine
+
+    basicComb.SetTitle "Company Performance"
+
+module Line =
+
+    let basicLine =
+        [
+            Series.Line("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+            Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+        ]
+        |> Highcharts.Line
+
+    basicLine.HideLegend()
+    basicLine.SetTitle "Company Performance"
+
+module Pie =
+    
+    let basicPie =
+        Series.Pie("Browser Share", ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
+        |> Highcharts.Pie
+
+    basicPie.ShowLegend()        
+    basicPie.SetTitle "Website Visitors By Browser"
+
+module Scatter =
+    
+    let basicScatter =
+        [
+            Series.Scatter("Female", [(161.2, 51.6); (167.5, 59.0); (159.5, 49.2); (157.0, 63.0)])
+            Series.Scatter("Male", [(155.8, 53.6); (170.0, 59.0); (159.1, 47.6); (166.0, 69.8)])
+        ]
+        |> Highcharts.Scatter
+
+    basicScatter.SetXTitle "Height (cm)"
+    basicScatter.SetYTitle "Weight (kg)"          

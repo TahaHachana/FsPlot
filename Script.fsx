@@ -188,73 +188,42 @@ module Arearange =
 module Bar =
     
     let bar1 =
-        [1000; 1170; 560; 1030]
+        Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Bar
 
     let bar2 =
-        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        [1000; 1170; 560; 1030]
         |> Highcharts.Bar
 
     let bar3 =
-        Series.Bar [1000; 1170; 560; 1030]
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Bar
 
-    let area4 =
-        Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Highcharts.Area
-
-    let bar5 =
-        [
-            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        ]
-        |> Seq.ofList
-        |> Highcharts.Bar
-
-    let bar6 =
+    let bar4 =
         [
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
             ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         ]
-        |> Seq.ofList
         |> Highcharts.Bar
 
-    let bar7 =
+    let bar5 =
         [
             [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
             [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         ]
-        |> Seq.ofList
         |> Highcharts.Bar
 
-    let bar8 =
-        let sales =
-            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-            |> Series.Bar
-        let expenses =
-            ["2010", 600; "2011", 760; "2012", 420; "2013", 540]
-            |> Series.Bar
-        Highcharts.Bar [sales; expenses]
-
-
-    // datetime x axis
-    let bar9 =
+    let bar6 =
         [
-            DateTime.Now, 1000
-            DateTime.Now.AddDays(1.), 1170
-            DateTime.Now.AddDays(4.), 560
-            DateTime.Now.AddDays(8.), 1030
+            Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         ]
         |> Highcharts.Bar
 
-
-    // linear x axis
-    let bar10 =
+    let bar7 =
         [
-            1950, 1000
-            1964, 1170
-            1975, 560
-            1982, 1030
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         ]
         |> Highcharts.Bar
 
@@ -264,11 +233,115 @@ module Bubble =
         Series.Bubble [97,36,79; 94,74,60; 68,76,58]
         |> Highcharts.Bubble
 
+    let bubble2 =
+        [97,36,79; 94,74,60; 68,76,58]
+        |> Highcharts.Bubble
 
+    let bubble3 =
+        [
+            [36,79; 74,60; 76,58]
+        ]
+        |> Highcharts.Bubble
 
+    let bubble4 =
+        [
+            [54,26,59; 64,74,60; 70,26,58]
+            [97,36,79; 94,74,60; 68,76,58]
+        ]
+        |> Highcharts.Bubble
 
+    let bubble5 =
+        [
+            [26,59; 74,60; 26,58]
+            [36,79; 74,60; 76,58]
+        ]
+        |> Highcharts.Bubble
 
+    let bubble6 =
+        [
+            [|54,26,59; 64,74,60; 70,26,58|]
+            [|97,36,79; 94,74,60; 68,76,58|]
+        ]
+        |> Highcharts.Bubble
 
+    let bubble7 =
+        [
+            [|26,59; 74,60; 26,58|]
+            [|36,79; 74,60; 76,58|]
+        ]
+        |> Highcharts.Bubble
+
+    let bubble8 =
+        [
+            Series.Bubble [|26,59; 74,60; 26,58|]
+            Series.Bubble [|36,79; 74,60; 76,58|]
+        ]
+        |> Highcharts.Bubble
+
+    let bubble9 =
+        [
+            Seq.ofArray [|54,26,59; 64,74,60; 70,26,58|]
+            Seq.ofArray [|97,36,79; 94,74,60; 68,76,58|]
+        ]
+        |> Highcharts.Bubble
+
+    let bubble10 =
+        [
+            Seq.ofArray [|26,59; 74,60; 26,58|]
+            Seq.ofArray [|36,79; 74,60; 76,58|]
+        ]
+        |> Highcharts.Bubble
+
+module Column =
+
+    let column1 =
+        Series.Column ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Column
+
+    let column2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Column
+
+    let column3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Column
+
+    let column4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.Column
+
+    let column5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.Column
+
+    let column6 =
+        [
+            Series.Column ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.Column ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.Column
+
+    let column7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.Column
+
+module Combination =
+
+    let comb1 =
+        [
+            Series.Column [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Series.Line [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|] 
+        ]
+        |> Highcharts.Combine
 
 
 

@@ -5,15 +5,15 @@ open DataSeries
 
 type ChartData =
     {
-        mutable Categories : string []
-        mutable Data : Series []
-        mutable Legend : bool
-        mutable PointFormat : string option
-        mutable Subtitle : string option
-        mutable Title : string option
+        Categories : string []
+        Data : Series []
+        Legend : bool
+        PointFormat : string option
+        Subtitle : string option
+        Title : string option
         Type : ChartType
-        mutable XTitle : string option
-        mutable YTitle : string option
+        XTitle : string option
+        YTitle : string option
     }
 
     static member New categories data legend pointFormat subtitle title chartType xTitle yTitle =
@@ -60,17 +60,17 @@ type GenericChart() as chart =
         with set(f) = compileFun <- f
 
     member __.SetSubtite subtitle =
-        chart.chartData.Subtitle <- Some subtitle
+        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
         __.Navigate()
 
     member __.Categories
         with get() = chart.chartData.Categories |> Array.toSeq
         and set(categories) =
-            chart.chartData.Categories <- Seq.toArray categories    
+            chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
             __.Navigate()
     
     member __.SetPointFormat(pointFormat) =
-        chart.chartData.PointFormat <- Some pointFormat
+        chart.chartData <- { chart.chartData with PointFormat = Some pointFormat }
         __.Navigate()
 
     member __.Navigate() =
@@ -83,16 +83,16 @@ type GenericChart() as chart =
 
     member __.SetData (data:seq<#key*#value>) =
         let series = Series.New(chart.chartData.Type, data)
-        chart.chartData.Data <- [|series|] 
+        chart.chartData <- { chart.chartData with Data = [|series|] }
         __.Navigate()
 
     member __.SetData (data:seq<#value>) =
         let series = Series.New(chart.chartData.Type, data)
-        chart.chartData.Data <- [|series|] 
+        chart.chartData <- { chart.chartData with Data = [|series|] }
         __.Navigate()
 
     member __.SetData series =
-        chart.chartData.Data <- [|series|] 
+        chart.chartData <- { chart.chartData with Data = [|series|] }
         __.Navigate()
 
     static member internal Create(chartData:ChartData, f: unit -> #GenericChart ) =
@@ -104,27 +104,27 @@ type GenericChart() as chart =
     member __.Title = chart.chartData.Title
 
     member __.SetTitle title =
-        chart.chartData.Title <- Some title
+        chart.chartData <- { chart.chartData with Title = Some title }
         __.Navigate()
 
     member __.HideLegend() =
-        chart.chartData.Legend <- false
+        chart.chartData <- { chart.chartData with Legend = false }
         __.Navigate()
 
     member __.ShowLegend() =
-        chart.chartData.Legend <- true
+        chart.chartData <- { chart.chartData with Legend = true }
         __.Navigate()
         
     member __.XTitle = chart.chartData.XTitle
     
     member __.SetXTitle(title) =
-        chart.chartData.XTitle <- Some title
+        chart.chartData <- { chart.chartData with XTitle = Some title }
         __.Navigate()
 
     member __.YTitle = chart.chartData.YTitle
 
     member __.SetYTitle(title) =
-        chart.chartData.YTitle <- Some title
+        chart.chartData <- { chart.chartData with YTitle = Some title }
         __.Navigate()
 
 type HighchartsArea() =
@@ -815,8 +815,8 @@ type Highcharts =
     /// <param name="title">The chart's title.</param>
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
-    static member Combine(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Combination xTitle yTitle
+    static member Combine(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories (Seq.toArray data) legend None None title Combination xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsCombination()))
 
     /// <summary>Creates a line chart.</summary>

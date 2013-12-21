@@ -6,12 +6,18 @@ About
 
 FsPlot is an HTML5 data visualization library designed for F# interactive data scripting and exploratory analysis. [FunScript](http://funscript.info/) is used to compile F# code into JavaScript.
 
-Supported Chart Types
----------------------
+Demos
+-----
 * Highcharts
     * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/NegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/StackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/PercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/InvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/BasicAreaspline.md)
     * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaRange.md)
+    * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md)
+    * Bubble: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBubble.md)
+    * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md)
+    * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md)
+    * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
+    * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
 
 NuGet
 -----

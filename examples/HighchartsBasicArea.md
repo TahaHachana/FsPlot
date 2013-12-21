@@ -1,5 +1,5 @@
-Highcharts Basic Area
-=====================
+Highcharts Basic Bar
+====================
 
 ```fsharp
 #load "FsPlot.fsx"
@@ -56,4 +56,4 @@ basicArea.SetYTitle "Nuclear warheads"
 // Change the tooltip point format.
 basicArea.SetPointFormat "{series.name} produced <b>{point.y:,.0f}</b><br/>warheads."
 ```
-![Highcharts Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsArea.PNG)
+![Highcharts Basic Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicArea.PNG)
