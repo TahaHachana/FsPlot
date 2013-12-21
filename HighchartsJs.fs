@@ -298,7 +298,7 @@ let bubble series chartTitle legend categories xTitle yTitle pointFormat subtitl
         shouldCompress=true)
 
 [<ReflectedDefinition>]
-let private columnChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) subtitle stacking =
+let private columnChart (series:Series []) chartTitle legend categories xTitle yTitle (pointFormat:string option) subtitle stacking =
     let options = createEmpty<HighchartsOptions>()
     setChartOptions "chart" "column" options
     setXAxisOptions series.[0].XType options categories xTitle
@@ -310,7 +310,7 @@ let private columnChart (series:Series []) chartTitle (legend:bool) categories x
     | Normal -> barChart.stacking <- "normal"
     | Percent -> barChart.stacking <- "percent"
     let plotOptions = createEmpty<HighchartsPlotOptions>()
-    plotOptions.bar <- barChart
+    plotOptions.column <- barChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
     setSubtitle subtitle options
@@ -329,17 +329,17 @@ let column series chartTitle legend categories xTitle yTitle pointFormat subtitl
 
 [<ReflectedDefinition>]
 let private combChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) (subtitle:string option) (stacking:Stacking) =
-        let options = createEmpty<HighchartsOptions>()
-        // x axis options
-        setXAxisOptions series.[0].XType options categories xTitle
-        // y axis options
-        setYAxisOptions options yTitle
-        // title options
-        setTitleOptions chartTitle options
-        // series options
-        setSeriesOptions series options
-        let chartElement = Utils.jq "#chart"
-        chartElement.highcharts(options) |> ignore
+    let options = createEmpty<HighchartsOptions>()
+    // x axis options
+    setXAxisOptions series.[0].XType options categories xTitle
+    // y axis options
+    setYAxisOptions options yTitle
+    // title options
+    setTitleOptions chartTitle options
+    // series options
+    setSeriesOptions series options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
 
 let comb series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8, expr9 =
@@ -355,14 +355,14 @@ let private lineChart (series:Series []) chartTitle (legend:bool) categories xTi
     setChartOptions "chart" "line" options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
-    let barChart = createEmpty<HighchartsBarChart>()
-    barChart.showInLegend <- legend
+    let lineChart = createEmpty<HighchartsLineChart>()
+    lineChart.showInLegend <- legend
 //    match stacking with
 //    | Disabled -> ()
 //    | Normal -> barChart.stacking <- "normal"
 //    | Percent -> barChart.stacking <- "percent"
     let plotOptions = createEmpty<HighchartsPlotOptions>()
-    plotOptions.bar <- barChart
+    plotOptions.line <- lineChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
     setSubtitle subtitle options
@@ -382,17 +382,17 @@ let line series chartTitle legend categories xTitle yTitle pointFormat subtitle 
 [<ReflectedDefinition>]
 let private pieChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) subtitle (stacking:Stacking) =
     let options = createEmpty<HighchartsOptions>()
-    setChartOptions "chart" "line" options
+    setChartOptions "chart" "pie" options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
-    let barChart = createEmpty<HighchartsBarChart>()
-    barChart.showInLegend <- legend
+    let pieChart = createEmpty<HighchartsPieChart>()
+    pieChart.showInLegend <- legend
 //    match stacking with
 //    | Disabled -> ()
 //    | Normal -> barChart.stacking <- "normal"
 //    | Percent -> barChart.stacking <- "percent"
     let plotOptions = createEmpty<HighchartsPlotOptions>()
-    plotOptions.bar <- barChart
+    plotOptions.pie <- pieChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
     setSubtitle subtitle options
@@ -415,14 +415,14 @@ let private scatterChart (series:Series []) chartTitle (legend:bool) categories 
     setChartOptions "chart" "scatter" options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
-    let barChart = createEmpty<HighchartsBarChart>()
-    barChart.showInLegend <- legend
+    let scatterChart = createEmpty<HighchartsScatterChart>()
+    scatterChart.showInLegend <- legend
 //    match stacking with
 //    | Disabled -> ()
 //    | Normal -> barChart.stacking <- "normal"
 //    | Percent -> barChart.stacking <- "percent"
     let plotOptions = createEmpty<HighchartsPlotOptions>()
-    plotOptions.bar <- barChart
+    plotOptions.scatter <- scatterChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
     setSubtitle subtitle options
@@ -438,153 +438,3 @@ let scatter series chartTitle legend categories xTitle yTitle pointFormat subtit
         <@ scatterChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%expr9 @>,
         noReturn=true,
         shouldCompress=true)
-
-//            let options = createEmpty<HighchartsOptions>()
-//            // x axis options
-//            setXAxisOptions series.[0] options categories xTitle
-//            // y axis options
-//            setYAxisOptions  series.[0] options yTitle
-//            // title options
-//            setTitleOptions chartTitle options
-//            // series options
-//            setSeriesOptions series options
-//            let chartElement = Utils.jq "#chart"
-//            chartElement.highcharts(options) |> ignore
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//    module Line =
-//
-//        [<ReflectedDefinition>]
-//        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
-//            let options = createEmpty<HighchartsOptions>()
-//            // chart options
-//            setChartOptions "chart" "line" options
-//            // x axis options
-//            setXAxisOptions series.[0] options categories xTitle
-//            // y axis options
-//            setYAxisOptions  series.[0] options yTitle
-//            // plot options
-//            let lineChart = createEmpty<HighchartsLineChart>()
-//            lineChart.showInLegend <- legend
-//            let plotOptions = createEmpty<HighchartsPlotOptions>()
-//            plotOptions.line <- lineChart
-//            options.plotOptions <- plotOptions
-//            // title options
-//            setTitleOptions chartTitle options
-//            // series options
-//            setSeriesOptions series options
-//            let chartElement = Utils.jq "#chart"
-//            chartElement.highcharts(options) |> ignore
-//
-//        let js series chartTitle legend categories xTitle yTitle =
-//            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
-//            Compiler.Compiler.Compile(
-//                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
-//                noReturn=true,
-//                shouldCompress=true)
-//
-//    module Pie =
-//
-//        [<ReflectedDefinition>]
-//        let chart (series:Series []) chartTitle legend categories xTitle yTitle =
-//            let options = createEmpty<HighchartsOptions>()
-//            // chart options
-//            setChartOptions "chart" "pie" options
-//            // x axis options
-//            setXAxisOptions series.[0] options categories xTitle
-//            // y axis options
-//            setYAxisOptions  series.[0] options yTitle
-//            // plot options
-//            let pieChart = createEmpty<HighchartsPieChart>()
-//            pieChart.allowPointSelect <- true
-//            pieChart.showInLegend <- legend
-//            //pieChart.center
-//            let plotOptions = createEmpty<HighchartsPlotOptions>()
-//            plotOptions.pie <- pieChart
-//            options.plotOptions <- plotOptions
-//            // title options
-//            setTitleOptions chartTitle options
-//            // series options
-//            setSeriesOptions series options
-//            let chartElement = Utils.jq "#chart"
-//            chartElement.highcharts(options) |> ignore
-//
-//        let js series chartTitle legend categories xTitle yTitle =
-//            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
-//            Compiler.Compiler.Compile(
-//                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
-//                noReturn=true,
-//                shouldCompress=true)
-//
-//    module Scatter =
-//
-//        [<ReflectedDefinition>]
-//        let chart (series:Series []) chartTitle legend categories xTitle yTitle =
-//            let options = createEmpty<HighchartsOptions>()
-//            // chart options
-//            setChartOptions "chart" "scatter" options
-//            // x axis options
-//            setXAxisOptions series.[0] options categories xTitle
-//            // y axis options
-//            setYAxisOptions  series.[0] options yTitle
-//            // plot options
-//            let scatterChart = createEmpty<HighchartsScatterChart>()
-//            scatterChart.allowPointSelect <- true
-//            scatterChart.showInLegend <- legend
-//            let plotOptions = createEmpty<HighchartsPlotOptions>()
-//            plotOptions.scatter <- scatterChart
-//            options.plotOptions <- plotOptions
-//            // title options
-//            setTitleOptions chartTitle options
-//            // series options
-//            setSeriesOptions series options
-//            let chartElement = Utils.jq "#chart"
-//            chartElement.highcharts(options) |> ignore
-//
-//        let js series chartTitle legend categories xTitle yTitle =
-//            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
-//            Compiler.Compiler.Compile(
-//                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
-//                noReturn=true,
-//                shouldCompress=true)
-//
-//    module Combination =
-//
-//        [<ReflectedDefinition>]
-//        let chart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle =
-//            let options = createEmpty<HighchartsOptions>()
-//            // x axis options
-//            setXAxisOptions series.[0] options categories xTitle
-//            // y axis options
-//            setYAxisOptions  series.[0] options yTitle
-//            // title options
-//            setTitleOptions chartTitle options
-//            // series options
-//            setSeriesOptions series options
-//            let chartElement = Utils.jq "#chart"
-//            chartElement.highcharts(options) |> ignore
-//
-//        let js series chartTitle legend categories xTitle yTitle =
-//            let expr1, expr2, expr3, expr4, expr5, expr6 = quoteArgs series chartTitle legend categories xTitle yTitle
-//            Compiler.Compiler.Compile(
-//                <@ chart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 @>,
-//                noReturn=true,
-//                shouldCompress=true)

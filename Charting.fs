@@ -79,6 +79,7 @@ type GenericChart() as chart =
         browser.NavigateToString html
         do chart.jsField <- js
         do chart.htmlField <- html
+        printfn "%b" chart.chartData.Legend
 
 
     member __.SetData (data:seq<#key*#value>) =

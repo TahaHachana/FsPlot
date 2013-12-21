@@ -207,6 +207,8 @@ module Column =
 
     basicColumn.SetTitle "Company Performance"
 
+    basicColumn.HideLegend()
+
 module Combination =
 
     let basicComb =
@@ -216,6 +218,7 @@ module Combination =
         ]
         |> Highcharts.Combine
 
+    basicComb.HideLegend()
     basicComb.SetTitle "Company Performance"
 
 module Line =
@@ -227,7 +230,7 @@ module Line =
         ]
         |> Highcharts.Line
 
-    basicLine.HideLegend()
+    basicLine.ShowLegend()
     basicLine.SetTitle "Company Performance"
 
 module Pie =
