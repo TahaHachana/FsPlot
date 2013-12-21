@@ -68,6 +68,7 @@ module internal Utils =
             match chartType with
             | Area -> "area"
             | Areaspline -> "areaspline"
+            | Arearange -> "arearange"
             | Bar -> "bar"
             | Bubble -> "bubble"
             | Combination -> ""
@@ -204,6 +205,39 @@ let areaspline series chartTitle legend categories xTitle yTitle pointFormat sub
     let invertedExpr = quoteBool inverted
     Compiler.Compiler.Compile(
         <@ areasplineChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr %%invertedExpr @>,
+        noReturn=true,
+        shouldCompress=true)
+
+[<ReflectedDefinition>]
+let private arearangeChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle =
+    let options = createEmpty<HighchartsOptions>()
+    setChartOptions "chart" "arearange" options
+    setXAxisOptions series.[0].XType options categories xTitle
+    setYAxisOptions options yTitle
+    let arearangeChart = createEmpty<HighchartsAreaRangeChart>()
+    arearangeChart.showInLegend <- legend
+    let plotOptions = createEmpty<HighchartsPlotOptions>()
+    plotOptions.arearange <- arearangeChart
+    options.plotOptions <- plotOptions
+    setTitleOptions chartTitle options
+    setSubtitle subtitle options
+    setSeriesOptions series options
+    let tooltipOptions = createEmpty<HighchartsTooltipOptions>()
+    match pointFormat with
+    | None -> ()
+    | Some value -> tooltipOptions.pointFormat <- value
+    tooltipOptions.crosshairs <- true
+    options.tooltip <- tooltipOptions
+
+//    setTooltipOptions pointFormat options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
+
+let arearange series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    Compiler.Compiler.Compile(
+        <@ arearangeChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
         shouldCompress=true)
 

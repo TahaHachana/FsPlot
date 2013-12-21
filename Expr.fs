@@ -28,13 +28,14 @@ let quoteChartType (chartType:ChartType) =
     match chartType with
     | Area -> chartTypeExpr 0
     | Areaspline -> chartTypeExpr 1
-    | Bar -> chartTypeExpr 2
-    | Bubble -> chartTypeExpr 3
-    | Column -> chartTypeExpr 4
-    | Combination -> chartTypeExpr 5
-    | Line -> chartTypeExpr 6
-    | Pie -> chartTypeExpr 7
-    | Scatter -> chartTypeExpr 8
+    | Arearange -> chartTypeExpr 2
+    | Bar -> chartTypeExpr 3
+    | Bubble -> chartTypeExpr 4
+    | Column -> chartTypeExpr 5
+    | Combination -> chartTypeExpr 6
+    | Line -> chartTypeExpr 7
+    | Pie -> chartTypeExpr 8
+    | Scatter -> chartTypeExpr 9
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(
@@ -42,10 +43,12 @@ let boxArrExpr (arr:obj []) =
         [
             Expr.NewArray(
                 typeof<obj>,
-                [
-                    Expr.Value arr.[0]
-                    Expr.Value arr.[1]
-                ])
+                Array.map (fun x -> Expr.Value x) arr
+                |> Array.toList)
+//                [
+//                    Expr.Value arr.[0]
+//                    Expr.Value arr.[1]
+//                ])
         ])
 
 let objArrExpr (arr:obj []) xType =

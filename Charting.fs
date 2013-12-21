@@ -37,6 +37,7 @@ let private compileJs (chartData:ChartData) =
     match chartType with
     | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
     | Areaspline -> HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
+    | Arearange -> HighchartsJs.arearange data title legend categories xTitle yTitle pointFormat subtitle
     | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
@@ -173,6 +174,9 @@ type HighchartsAreaspline() =
         and set(x) =
             inverted <- x
             base.Navigate()
+
+type HighchartsArearange() =
+    inherit GenericChart()
 
 type HighchartsBar() =
     inherit GenericChart()
@@ -402,6 +406,86 @@ type Highcharts =
             |> Seq.toArray
         let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsAreaspline()))
+
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
+
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:seq<#key*#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Arearange data
+        let chartData = newChartData categories [|series|] legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
+        
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:seq<(#key*#value*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Arearange
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
+
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:seq<(#key*#value*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Arearange
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
+
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
+
+    /// <summary>Creates an arearange chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Arearange(data:seq<seq<#key*#value*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Arearange
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsArearange()))
 
     /// <summary>Creates a bar chart.</summary>
     /// <param name="series">The chart's data.</param>

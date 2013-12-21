@@ -42,6 +42,7 @@ let private upcastKeyValueValue xTypeCode (values:seq<#key*#value*#value>) =
 type ChartType =
     | Area
     | Areaspline
+    | Arearange
     | Bar
     | Bubble
     | Column
@@ -209,6 +210,28 @@ type Series =
             Type = Areaspline
             XType = xTypeCode
 ////            YType = v.GetTypeCode()
+        }
+
+    static member Arearange(values:seq<#key*#value*#value>) =
+        let k, v, v' = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValueValue xTypeCode values               
+            Type = Arearange
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Arearange(name, values:seq<#key*#value*#value>) =
+        let k, v, v' = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValueValue xTypeCode values               
+            Type = Arearange
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
         }
         
     static member Bar(values:seq<#value>) =

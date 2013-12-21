@@ -102,6 +102,89 @@ module Areaspline =
         |> Seq.ofList
         |> Highcharts.Areaspline
 
+module Arearange =
+    
+    let arearange1 =
+        [
+            DateTime.Now, -2.5, 5.
+            DateTime.Now.AddDays 1., -3., 2.
+            DateTime.Now.AddDays 2., 3., 15.
+        ]
+        |> Series.Arearange
+        |> Highcharts.Arearange
+
+    let arearange2 =
+        [
+            DateTime.Now, -2.5, 5.
+            DateTime.Now.AddDays 1., -3., 2.
+            DateTime.Now.AddDays 2., 3., 15.
+        ]
+        |> Highcharts.Arearange
+
+    let arearange3 =
+        [
+            [
+                DateTime.Now, -2.5, 5.
+                DateTime.Now.AddDays 1., -3., 2.
+                DateTime.Now.AddDays 2., 3., 15.
+            ]
+            [
+                DateTime.Now, -5., 15.
+                DateTime.Now.AddDays 3., -3., 2.
+                DateTime.Now.AddDays 4., 3., 15.
+            ]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Arearange
+
+    let arearange4 =
+        [
+            [|
+                DateTime.Now, -2.5, 5.
+                DateTime.Now.AddDays 1., -3., 2.
+                DateTime.Now.AddDays 2., 3., 15.
+            |]
+            [|
+                DateTime.Now, -5., 15.
+                DateTime.Now.AddDays 3., -3., 2.
+                DateTime.Now.AddDays 4., 3., 15.
+            |]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Arearange
+
+    let arearange5 =
+        [
+            Seq.ofArray [|
+                DateTime.Now, -2.5, 5.
+                DateTime.Now.AddDays 1., -3., 2.
+                DateTime.Now.AddDays 2., 3., 15.
+            |]
+            Seq.ofArray [|
+                DateTime.Now, -5., 15.
+                DateTime.Now.AddDays 3., -3., 2.
+                DateTime.Now.AddDays 4., 3., 15.
+            |]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Arearange
+
+    let arearange6 =
+        [
+            Series.Arearange [|
+                DateTime.Now, -2.5, 5.
+                DateTime.Now.AddDays 1., -3., 2.
+                DateTime.Now.AddDays 2., 3., 15.
+            |]
+            Series.Arearange [|
+                DateTime.Now, -5., 15.
+                DateTime.Now.AddDays 3., -3., 2.
+                DateTime.Now.AddDays 4., 3., 15.
+            |]
+        ]
+        |> Seq.ofList
+        |> Highcharts.Arearange
+
 module Bar =
     
     let bar1 =
