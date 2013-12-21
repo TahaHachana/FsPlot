@@ -163,3 +163,15 @@ module Areaspline =
             title = "Average Fruit Consumption",
             yTitle = "Fruit Units")
 
+module Arearange =
+
+    let basicArearange =
+        let data =
+            let rnd = Random()
+            [0. .. 6.]
+            |> List.map(fun x ->
+                DateTime.Now.AddDays x, rnd.Next(-5, -1), rnd.Next(4, 8))
+            |> Series.Arearange
+            |> Series.SetName "Tempratures"
+        Highcharts.Arearange(data, title = "Temprature Variation")
+      

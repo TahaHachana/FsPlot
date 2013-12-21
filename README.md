@@ -11,6 +11,7 @@ Supported Chart Types
 * Highcharts
     * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/NegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/StackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/PercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/InvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/BasicAreaspline.md)
+    * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaRange.md)
 
 NuGet
 -----
