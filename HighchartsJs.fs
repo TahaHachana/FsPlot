@@ -181,7 +181,7 @@ let area series chartTitle legend categories xTitle yTitle pointFormat subtitle 
 [<ReflectedDefinition>]
 let private areasplineChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle pointFormat subtitle stacking inverted =
     let options = createEmpty<HighchartsOptions>()
-    areaChartOptions "chart" "area" inverted options
+    areaChartOptions "chart" "areaspline" inverted options
     setXAxisOptions series.[0].XType options categories xTitle
     setYAxisOptions options yTitle
     let areaChart = createEmpty<HighchartsAreaChart>()
@@ -189,7 +189,7 @@ let private areasplineChart (series:Series []) chartTitle (legend:bool) categori
     setAreaMarker areaChart
     areaStacking stacking areaChart
     let plotOptions = createEmpty<HighchartsPlotOptions>()
-    plotOptions.area <- areaChart
+    plotOptions.areaspline <- areaChart
     options.plotOptions <- plotOptions
     setTitleOptions chartTitle options
     setSubtitle subtitle options

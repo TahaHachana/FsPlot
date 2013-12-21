@@ -1,6 +1,9 @@
 Highcharts Basic Combination
 ============================
 
+Code
+----
+
 ```fsharp
 #load "FsPlot.fsx"
 
@@ -16,4 +19,7 @@ let basicComb =
 
 basicComb.SetTitle "Company Performance"
 ```
+Chart
+-----
+
 ![Highcharts Basic Combination](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicComb.PNG)

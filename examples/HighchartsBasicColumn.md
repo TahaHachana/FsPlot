@@ -1,5 +1,8 @@
-Highcharts Basic Bar
-====================
+Highcharts Basic Column
+=======================
+
+Code
+----
 
 ```fsharp
 #load "FsPlot.fsx"
@@ -14,6 +17,10 @@ let basicColumn =
     ]
     |> Highcharts.Column
 
+basicColumn.ShowLegend()
 basicColumn.SetTitle "Company Performance"
 ```
+Chart
+-----
+
 ![Highcharts Basic Column](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicColumn.PNG)

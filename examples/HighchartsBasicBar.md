@@ -1,15 +1,25 @@
-Highcharts Basic Scatter
-========================
+Highcharts Basic Bar
+====================
+
+Code
+----
 
 ```fsharp
-let basicScatter =
-    [
-        Series.Scatter("Female", [(161.2, 51.6); (167.5, 59.0); (159.5, 49.2); (157.0, 63.0)])
-        Series.Scatter("Male", [(155.8, 53.6); (170.0, 59.0); (159.1, 47.6); (166.0, 69.8)])
-    ]
-    |> Highcharts.Scatter
+let basicBar =
+    let sales =
+        ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
+        |> Series.Bar
+        |> Series.SetName "Sales"
+    let expenses =
+        ["2010", 1000; "2011", 1170; "2012", 580; "2013", 1030]
+        |> Series.Bar
+        |> Series.SetName "Expenses"
+    Highcharts.Bar [sales; expenses]
 
-basicScatter.SetXTitle "Height (cm)"
-basicScatter.SetYTitle "Weight (kg)"
+basicBar.ShowLegend()
+basicBar.SetTitle "Company Performance"
 ```
-![Highcharts Basic Scatter](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicScatter.PNG)
+Chart
+-----
+
+![Highcharts Basic Bar](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicBar.PNG)

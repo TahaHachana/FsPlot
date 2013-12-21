@@ -4,20 +4,21 @@ FsPlot
 About
 -----
 
-FsPlot is an HTML5 data visualization library designed for F# interactive data scripting and exploratory analysis. [FunScript](http://funscript.info/) is used to compile F# code into JavaScript.
+FsPlot is an interactive data visualization library for F# using HTML5/JavaScript.
 
 Demos
 -----
 * Highcharts
-    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/NegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/StackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/PercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/InvertedAxesArea.md)
+    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/BasicAreaspline.md)
-    * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaRange.md)
+    * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArearange.md)
     * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md)
     * Bubble: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBubble.md)
     * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md)
     * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md)
     * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
+* Kendo UI DataViz
 
 NuGet
 -----
@@ -46,7 +47,8 @@ chart.SetData ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 24.2]
 
 // Update the chart's data in a more structured way
 ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
-|> Series.Pie "Browser Share"
+|> Series.Pie
+|> Series.SetName "Browser Share"
 |> chart.SetData
 
 // Add a title

@@ -1,6 +1,9 @@
 Highcharts Basic Area Range
 ===========================
 
+Code
+----
+
 ```fsharp
 #load "FsPlot.fsx"
 
@@ -18,4 +21,7 @@ let basicArearange =
         |> Series.SetName "Tempratures"
     Highcharts.Arearange(data, title = "Temprature Variation")
 ```
+Chart
+-----
+
 ![Highcharts Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsAreaRange.PNG)
