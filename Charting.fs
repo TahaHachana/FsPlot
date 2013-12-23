@@ -197,10 +197,24 @@ type HighchartsBar() =
 type HighchartsBubble() =
     inherit GenericChart()
 
-type HighchartsCombination() =
-    inherit GenericChart()
-
 type HighchartsColumn() =
+    inherit GenericChart()
+    let mutable stacking = Stacking.Disabled
+
+    let compileJs (chartData:ChartData) =
+        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
+            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
+            chartData.Legend , chartData.Categories, chartData.XTitle,
+            chartData.YTitle, chartData.Subtitle
+        HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle stacking
+
+    do base.JsFun <- compileJs
+
+    member __.SetStacking x =
+        stacking <- x
+        base.Navigate()
+
+type HighchartsCombination() =
     inherit GenericChart()
 
 type HighchartsLine() =
