@@ -187,6 +187,16 @@ module Bar =
     basicBar.ShowLegend()
     basicBar.SetTitle "Company Performance"
 
+    let stackedBar =
+        let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2])
+        let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1])
+        let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4])
+        Highcharts.Bar [joe; jane; john]
+
+    stackedBar.ShowLegend()
+    stackedBar.SetYTitle "Total Fruit Consumption"
+    stackedBar.SetStacking Stacking.Normal
+
 module Bubble =
     
     let basicBubble =
