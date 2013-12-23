@@ -12,7 +12,7 @@ Demos
     * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaspline.md)
     * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArearange.md)
-    * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md)
+    * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentBar.md)
     * Bubble: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBubble.md)
     * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md)
     * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md)
