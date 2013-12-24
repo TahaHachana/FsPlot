@@ -39,12 +39,13 @@ let private compileJs (chartData:ChartData) =
     | Areaspline -> HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
     | Arearange -> HighchartsJs.arearange data title legend categories xTitle yTitle pointFormat subtitle
     | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
+    | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
+    | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle
+    | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
+    | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle
+    | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle
+    | Spline -> HighchartsJs.spline data title legend categories xTitle yTitle pointFormat subtitle
 
 type GenericChart() as chart =
 
@@ -224,6 +225,9 @@ type HighchartsPie() =
     inherit GenericChart()
 
 type HighchartsScatter() =
+    inherit GenericChart()
+
+type HighchartsSpline() =
     inherit GenericChart()
 
 let newChartData categories data legend pointFormat subtitle title chartType xTitle yTitle =
@@ -1050,3 +1054,95 @@ type Highcharts =
             |> Seq.toArray
         let chartData = newChartData categories data legend None None title Scatter xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsScatter()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Spline data
+        let chartData = newChartData categories [|series|] legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Spline data
+        let chartData = newChartData categories [|series|] legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+        
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Spline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Spline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Spline(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Spline
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsSpline()))

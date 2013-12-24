@@ -263,6 +263,17 @@ module Combination =
     basicComb.HideLegend()
     basicComb.SetTitle "Company Performance"
 
+//    let colLinePieComb =
+//        let jane = Series.Column("Jane", [3; 2; 1; 3; 4])
+//        let john = Series.Column("John", [2; 3; 5; 7; 6])
+//        let joe = Series.Column("Joe", [4; 3; 3; 9; 0])
+//        let avg = Series.Line("Average", [3.; 2.67; 3.; 6.33; 3.33])
+//        let total = Series.Pie("Total", ["Jane", 13; "John", 23; "Joe", 19])
+//        Highcharts.Combine [jane; john; joe; avg; total]
+//
+//    colLinePieComb.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+
+
 module Line =
 
     let basicLine =
@@ -295,3 +306,15 @@ module Scatter =
 
     basicScatter.SetXTitle "Height (cm)"
     basicScatter.SetYTitle "Weight (kg)"          
+
+module Spline =
+
+    let basicSpline =
+        [
+            Series.Spline("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+            Series.Spline("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+        ]
+        |> Highcharts.Spline
+
+    basicSpline.ShowLegend()
+    basicSpline.SetTitle "Company Performance"

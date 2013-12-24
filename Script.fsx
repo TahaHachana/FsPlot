@@ -441,5 +441,46 @@ module Scatter =
         ]
         |> Highcharts.Scatter
 
+module Spline =
+
+    let spline1 =
+        Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Spline
+
+    let spline2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Spline
+
+    let spline3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Spline
+
+    let spline4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.Spline
+
+    let spline5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.Spline
+
+    let spline6 =
+        [
+            Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.Spline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.Spline
+
+    let spline7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.Spline
 
 

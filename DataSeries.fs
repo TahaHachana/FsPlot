@@ -50,6 +50,7 @@ type ChartType =
     | Line
     | Pie
     | Scatter
+    | Spline
 
 type Series =
     {
@@ -511,6 +512,53 @@ type Series =
             XType = xTypeCode
 //            YType = v.GetTypeCode()
         }
+
+    static member Spline(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Spline
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Spline(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Spline
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Spline(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Spline
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Spline(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Spline
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
 
 
 

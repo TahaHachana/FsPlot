@@ -36,6 +36,7 @@ let quoteChartType (chartType:ChartType) =
     | Line -> chartTypeExpr 7
     | Pie -> chartTypeExpr 8
     | Scatter -> chartTypeExpr 9
+    | Spline -> chartTypeExpr 10
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(
