@@ -73,8 +73,8 @@ module internal Utils =
             | Bubble -> "bubble"
             | Combination -> ""
             | Column -> "column"
+            | Donut | Pie -> "pie"
             | Line -> "line"
-            | Pie -> "pie"
             | Scatter -> "scatter"
             | Spline -> "spline"
         options._type <- chartTypeStr
@@ -362,6 +362,33 @@ let comb series chartTitle legend categories xTitle yTitle pointFormat subtitle 
         quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ combChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+[<ReflectedDefinition>]
+let private donutChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) subtitle =
+    let options = createEmpty<HighchartsOptions>()
+    setChartOptions "chart" "pie" options
+    setXAxisOptions series.[0].XType options categories xTitle
+    setYAxisOptions options yTitle
+    let pieChart = createEmpty<HighchartsPieChart>()
+    pieChart.showInLegend <- legend
+    pieChart.innerSize <- "50%"
+    let plotOptions = createEmpty<HighchartsPlotOptions>()
+    plotOptions.pie <- pieChart
+    options.plotOptions <- plotOptions
+    setTitleOptions chartTitle options
+    setSubtitle subtitle options
+    setSeriesOptions series options
+    setTooltipOptions pointFormat options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
+
+let donut series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    Compiler.Compiler.Compile(
+        <@ donutChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
         shouldCompress=true)
 

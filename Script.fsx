@@ -343,6 +343,20 @@ module Combination =
         ]
         |> Highcharts.Combine
 
+module Donut =
+
+    let donut1 =
+        Series.Donut ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Donut
+
+    let donut2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Donut
+
+    let donut3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Donut
+
 module Line =
 
     let line1 =

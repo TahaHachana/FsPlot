@@ -47,6 +47,7 @@ type ChartType =
     | Bubble
     | Column
     | Combination
+    | Donut
     | Line
     | Pie
     | Scatter
@@ -371,6 +372,52 @@ type Series =
             Name = name
             Values = upcastKeyValue xTypeCode values               
             Type = Column
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Donut(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Donut
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Donut(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Donut
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Donut(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Donut
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Donut(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Donut
             XType = xTypeCode
 //            YType = v.GetTypeCode()
         }

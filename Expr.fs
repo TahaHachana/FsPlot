@@ -33,10 +33,11 @@ let quoteChartType (chartType:ChartType) =
     | Bubble -> chartTypeExpr 4
     | Column -> chartTypeExpr 5
     | Combination -> chartTypeExpr 6
-    | Line -> chartTypeExpr 7
-    | Pie -> chartTypeExpr 8
-    | Scatter -> chartTypeExpr 9
-    | Spline -> chartTypeExpr 10
+    | Donut -> chartTypeExpr 7
+    | Line -> chartTypeExpr 8
+    | Pie -> chartTypeExpr 9
+    | Scatter -> chartTypeExpr 10
+    | Spline -> chartTypeExpr 11
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(

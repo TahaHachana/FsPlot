@@ -42,6 +42,7 @@ let private compileJs (chartData:ChartData) =
     | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle
+    | Donut -> HighchartsJs.donut data title legend categories xTitle yTitle pointFormat subtitle
     | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
     | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle
     | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle
@@ -216,6 +217,9 @@ type HighchartsColumn() =
         base.Navigate()
 
 type HighchartsCombination() =
+    inherit GenericChart()
+
+type HighchartsDonut() =
     inherit GenericChart()
 
 type HighchartsLine() =
@@ -835,6 +839,41 @@ type Highcharts =
     static member Combine(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let chartData = newChartData categories (Seq.toArray data) legend None None title Combination xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsCombination()))
+
+    /// <summary>Creates a donut chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Donut(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Donut xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsDonut()))
+
+    /// <summary>Creates a donut chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Donut(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Donut data
+        let chartData = newChartData categories [|series|] legend None None title Donut xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsDonut()))
+
+    /// <summary>Creates a donut chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Donut(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Donut data
+        let chartData = newChartData categories [|series|] legend None None title Donut xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsDonut()))
 
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
