@@ -285,6 +285,22 @@ module Donut =
     basicDonut.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"
     basicDonut.ShowLegend()
 
+module Funnel =
+
+    let basicFunnel =
+        [
+            "Website visits", 15654
+            "Downloads", 4064
+            "Requested price list", 1987
+            "Invoice sent", 976
+            "Finalized", 846
+        ]
+        |> Series.Funnel
+        |> Series.SetName "Unique users"
+        |> Highcharts.Funnel
+
+    basicFunnel.SetTitle "Sales Funnel"
+
 module Line =
 
     let basicLine =

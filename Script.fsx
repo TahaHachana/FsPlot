@@ -357,6 +357,20 @@ module Donut =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Donut
 
+module Funnel =
+
+    let funnel1 =
+        Series.Funnel ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Funnel
+
+    let funnel2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Funnel
+
+    let funnel3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Funnel
+
 module Line =
 
     let line1 =

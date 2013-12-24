@@ -43,6 +43,7 @@ let private compileJs (chartData:ChartData) =
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle
     | Donut -> HighchartsJs.donut data title legend categories xTitle yTitle pointFormat subtitle
+    | Funnel -> HighchartsJs.funnel data title legend categories xTitle yTitle pointFormat subtitle
     | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
     | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle
     | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle
@@ -220,6 +221,9 @@ type HighchartsCombination() =
     inherit GenericChart()
 
 type HighchartsDonut() =
+    inherit GenericChart()
+
+type HighchartsFunnel() =
     inherit GenericChart()
 
 type HighchartsLine() =
@@ -875,6 +879,41 @@ type Highcharts =
         let chartData = newChartData categories [|series|] legend None None title Donut xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsDonut()))
 
+    /// <summary>Creates a funnel chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Funnel(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Funnel xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsFunnel()))
+
+    /// <summary>Creates a funnel chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Funnel(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Funnel data
+        let chartData = newChartData categories [|series|] legend None None title Funnel xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsFunnel()))
+
+    /// <summary>Creates a funnel chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Funnel(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Funnel data
+        let chartData = newChartData categories [|series|] legend None None title Funnel xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsFunnel()))
+
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
@@ -952,7 +991,7 @@ type Highcharts =
         let chartData = newChartData categories data legend None None title Line xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
-    /// <summary>Creates an line chart.</summary>
+    /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>

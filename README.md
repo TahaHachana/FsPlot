@@ -17,6 +17,7 @@ Demos
     * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedColumn.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentColumn.md)
     * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md)
     * Donut: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicDonut.md)
+    * Funnel: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicFunnel.md)
     * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
     * Spline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicSpline.md)

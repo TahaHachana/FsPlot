@@ -48,6 +48,7 @@ type ChartType =
     | Column
     | Combination
     | Donut
+    | Funnel
     | Line
     | Pie
     | Scatter
@@ -418,6 +419,52 @@ type Series =
             Name = name
             Values = upcastKeyValue xTypeCode values               
             Type = Donut
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Funnel(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Funnel
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Funnel(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Funnel
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Funnel(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Funnel
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Funnel(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Funnel
             XType = xTypeCode
 //            YType = v.GetTypeCode()
         }

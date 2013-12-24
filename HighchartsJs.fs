@@ -74,6 +74,7 @@ module internal Utils =
             | Combination -> ""
             | Column -> "column"
             | Donut | Pie -> "pie"
+            | Funnel -> "funnel"
             | Line -> "line"
             | Scatter -> "scatter"
             | Spline -> "spline"
@@ -389,6 +390,32 @@ let donut series chartTitle legend categories xTitle yTitle pointFormat subtitle
         quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ donutChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+[<ReflectedDefinition>]
+let private funnelChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) subtitle =
+    let options = createEmpty<HighchartsOptions>()
+    setChartOptions "chart" "funnel" options
+    setXAxisOptions series.[0].XType options categories xTitle
+    setYAxisOptions options yTitle
+//    let pieChart = createEmpty<Highcharts PieChart>()
+//    pieChart.showInLegend <- legend
+//    let plotOptions = createEmpty<HighchartsPlotOptions>()
+//    plotOptions.pie <- pieChart
+//    options.plotOptions <- plotOptions
+    setTitleOptions chartTitle options
+    setSubtitle subtitle options
+    setSeriesOptions series options
+    setTooltipOptions pointFormat options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
+
+let funnel series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    Compiler.Compiler.Compile(
+        <@ funnelChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
         shouldCompress=true)
 
