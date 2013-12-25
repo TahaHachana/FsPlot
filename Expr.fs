@@ -92,3 +92,20 @@ let quoteStacking (stacking:Stacking) =
     | Disabled -> Expr.NewUnionCase(stackingInfos.[0], [])
     | Normal -> Expr.NewUnionCase(stackingInfos.[1], [])
     | Percent -> Expr.NewUnionCase(stackingInfos.[2], [])
+
+let pieOptionsExpr (x:PieOptions) =
+    Expr.NewRecord(
+        typeof<PieOptions>,
+        [
+            Expr.NewArray(
+                typeof<int>,
+                [for i in x.Center -> Expr.Value i])
+            Expr.Call(boxInfo, [Expr.Value x.Size])
+        ])
+
+let pieOptionsInfos = FSharpType.GetUnionCases(typeof<PieOptions option>)
+
+let quotePieOptions (x:PieOptions option) =
+    match x with
+    | None -> Expr.NewUnionCase(pieOptionsInfos.[0], [])
+    | Some value -> Expr.NewUnionCase(pieOptionsInfos.[1], [pieOptionsExpr value])

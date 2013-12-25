@@ -41,7 +41,7 @@ let private compileJs (chartData:ChartData) =
     | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
     | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle
     | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle
+    | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle None
     | Donut -> HighchartsJs.donut data title legend categories xTitle yTitle pointFormat subtitle
     | Funnel -> HighchartsJs.funnel data title legend categories xTitle yTitle pointFormat subtitle
     | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
@@ -220,6 +220,21 @@ type HighchartsColumn() =
 
 type HighchartsCombination() =
     inherit GenericChart()
+
+    let mutable pieOptions = None
+
+    let compileJs (chartData:ChartData) =
+        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
+            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
+            chartData.Legend , chartData.Categories, chartData.XTitle,
+            chartData.YTitle, chartData.Subtitle
+        HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle pieOptions
+
+    do base.JsFun <- compileJs
+
+    member __.SetPieOptions x =
+        pieOptions <- Some x
+        base.Navigate()
 
 type HighchartsDonut() =
     inherit GenericChart()

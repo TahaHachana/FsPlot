@@ -71,8 +71,8 @@ module internal Utils =
             | Arearange -> "arearange"
             | Bar -> "bar"
             | Bubble -> "bubble"
-            | Combination -> ""
             | Column -> "column"
+            | Combination -> ""
             | Donut | Pie -> "pie"
             | Funnel -> "funnel"
             | Line | Radar -> "line"
@@ -128,19 +128,7 @@ module internal Utils =
 
 open Utils
 
-let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
-    let seriesExpr = quoteSeriesArr series
-    let chartTitleExpr = quoteStrOption chartTitle
-    let legendExpr = quoteBool legend
-    let categoriesExpr = quoteStringArr categories
-    let xTitleExpr = quoteStrOption xTitle
-    let yTitleExpr = quoteStrOption yTitle
-    let pointFormatExpr = quoteStrOption pointFormat
-    let subtitleExpr = quoteStrOption subtitle
-    let stackingExpr = quoteStacking stacking
-    seriesExpr, chartTitleExpr, legendExpr, categoriesExpr, xTitleExpr, yTitleExpr, pointFormatExpr, subtitleExpr, stackingExpr
-
-let private quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+let private quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let seriesExpr = quoteSeriesArr series
     let chartTitleExpr = quoteStrOption chartTitle
     let legendExpr = quoteBool legend
@@ -173,7 +161,7 @@ let private areaChart (series:Series []) chartTitle (legend:bool) categories xTi
 
 let area series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     let stackingExpr = quoteStacking stacking
     let invertedExpr = quoteBool inverted
     Compiler.Compiler.Compile(
@@ -203,7 +191,7 @@ let private areasplineChart (series:Series []) chartTitle (legend:bool) categori
 
 let areaspline series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     let stackingExpr = quoteStacking stacking
     let invertedExpr = quoteBool inverted
     Compiler.Compiler.Compile(
@@ -238,7 +226,7 @@ let private arearangeChart (series:Series []) chartTitle (legend:bool) categorie
 
 let arearange series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ arearangeChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -267,10 +255,11 @@ let private barChart (series:Series []) chartTitle (legend:bool) categories xTit
     chartElement.highcharts(options) |> ignore
 
 let bar series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
-    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8, expr9 =
-        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    let stackingExpr = quoteStacking stacking
     Compiler.Compiler.Compile(
-        <@ barChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%expr9 @>,
+        <@ barChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr @>,
         noReturn=true,
         shouldCompress=true)
 
@@ -294,7 +283,7 @@ let private bubbleChart (series:Series []) chartTitle (legend:bool) categories x
 
 let bubble series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ bubbleChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -323,15 +312,28 @@ let private columnChart (series:Series []) chartTitle legend categories xTitle y
     chartElement.highcharts(options) |> ignore
 
 let column series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking =
-    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8, expr9 =
-        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle stacking
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    let stackingExpr = quoteStacking stacking
     Compiler.Compiler.Compile(
-        <@ columnChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%expr9 @>,
+        <@ columnChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%stackingExpr @>,
         noReturn=true,
         shouldCompress=true)
 
+[<JSEmitInline("{0}.center = {1}")>]
+let pieCenter (options:HighchartsSeriesOptions) (arr:int []) : unit = failwith "never"
+
+[<JSEmitInline("{0}.size = {1}")>]
+let pieSize (options:HighchartsSeriesOptions) (size:obj) : unit = failwith "never"
+
+[<JSEmitInline("{0}.showInLegend = false")>]
+let disableLegend (options:HighchartsSeriesOptions) : unit = failwith "never"
+
+[<JSEmitInline("{0}.dataLabels = {enabled: false}")>]
+let disableLabels (options:HighchartsSeriesOptions) : unit = failwith "never"
+
 [<ReflectedDefinition>]
-let private combChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) (subtitle:string option) =
+let private combChart (series:Series []) chartTitle (legend:bool) categories xTitle yTitle (pointFormat:string option) (subtitle:string option) (pieOptions:PieOptions option)=
     let options = createEmpty<HighchartsOptions>()
     // x axis options
     setXAxisOptions series.[0].XType options categories xTitle
@@ -352,17 +354,40 @@ let private combChart (series:Series []) chartTitle (legend:bool) categories xTi
 //    plotOptions.pie <- pieChart
 //    options.plotOptions <- plotOptions
 
+    let seriesOptions =
+        [|
+            for x in series do
+                let options = createEmpty<HighchartsSeriesOptions>()
+                options.data <- x.Values
+                options.name <- x.Name
+                match x.Type with
+                | Pie ->
+                    match pieOptions with
+                    | None -> ()
+                    | Some value ->
+                        pieCenter options value.Center
+                        pieSize options value.Size
+                        disableLegend options
+                        disableLabels options
+                | _ -> ()    
+                setSeriesChartType x.Type options
+                yield options
+        |]
+    options.series <- seriesOptions
+
+
     // series options
-    setSeriesOptions series options
+//    setSeriesOptions series options
 
     let chartElement = Utils.jq "#chart"
     chartElement.highcharts(options) |> ignore
 
-let comb series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+let comb series chartTitle legend categories xTitle yTitle pointFormat subtitle pieOptions =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    let pieOptionsExpr = quotePieOptions pieOptions
     Compiler.Compiler.Compile(
-        <@ combChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
+        <@ combChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 %%pieOptionsExpr @>,
         noReturn=true,
         shouldCompress=true)
 
@@ -387,7 +412,7 @@ let private donutChart (series:Series []) chartTitle (legend:bool) categories xT
 
 let donut series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ donutChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -413,7 +438,7 @@ let private funnelChart (series:Series []) chartTitle (legend:bool) categories x
 
 let funnel series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ funnelChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -443,7 +468,7 @@ let private lineChart (series:Series []) chartTitle (legend:bool) categories xTi
 
 let line series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ lineChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -473,7 +498,7 @@ let private pieChart (series:Series []) chartTitle (legend:bool) categories xTit
 
 let pie series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ pieChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -536,7 +561,7 @@ let private radarChart (series:Series []) chartTitle (legend:bool) (categories:s
 
 let radar series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ radarChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -566,7 +591,7 @@ let private scatterChart (series:Series []) chartTitle (legend:bool) categories 
 
 let scatter series chartTitle legend categories xTitle yTitle pointFormat subtitle  =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ scatterChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
@@ -592,7 +617,7 @@ let private splineChart (series:Series []) chartTitle (legend:bool) categories x
 
 let spline series chartTitle legend categories xTitle yTitle pointFormat subtitle =
     let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
-        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+        quoteArgs series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ splineChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
