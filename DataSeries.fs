@@ -51,6 +51,7 @@ type ChartType =
     | Funnel
     | Line
     | Pie
+    | Radar
     | Scatter
     | Spline
 
@@ -557,6 +558,52 @@ type Series =
             Name = name
             Values = upcastKeyValue xTypeCode values               
             Type = Pie
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Radar(values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = ""
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Radar
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Radar(name, values:seq<#value>) =
+        let v = Seq.head values
+        {
+            Name = name
+            Values =
+                Seq.map (fun v -> box v) values
+                |> Seq.toArray
+            Type = Radar
+            XType = TypeCode.Empty
+//            YType = v.GetTypeCode()
+        }
+
+    static member Radar(values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = ""
+            Values = upcastKeyValue xTypeCode values               
+            Type = Radar
+            XType = xTypeCode
+//            YType = v.GetTypeCode()
+        }
+
+    static member Radar(name, values:seq<#key*#value>) =
+        let k, v = Seq.head values
+        let xTypeCode = k.GetTypeCode()
+        {
+            Name = name
+            Values = upcastKeyValue xTypeCode values               
+            Type = Radar
             XType = xTypeCode
 //            YType = v.GetTypeCode()
         }

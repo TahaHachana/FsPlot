@@ -46,6 +46,7 @@ let private compileJs (chartData:ChartData) =
     | Funnel -> HighchartsJs.funnel data title legend categories xTitle yTitle pointFormat subtitle
     | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
     | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle
+    | Radar -> HighchartsJs.radar data title legend categories xTitle yTitle pointFormat subtitle
     | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle
     | Spline -> HighchartsJs.spline data title legend categories xTitle yTitle pointFormat subtitle
 
@@ -230,6 +231,9 @@ type HighchartsLine() =
     inherit GenericChart()
 
 type HighchartsPie() =
+    inherit GenericChart()
+
+type HighchartsRadar() =
     inherit GenericChart()
 
 type HighchartsScatter() =
@@ -1040,6 +1044,98 @@ type Highcharts =
         let series = Series.Pie data
         let chartData = newChartData categories [|series|] legend None None title Pie xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsPie()))
+
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Radar data
+        let chartData = newChartData categories [|series|] legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+
+    /// <summary>Creates a Radar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.Radar data
+        let chartData = newChartData categories [|series|] legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+        
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Radar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Radar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
+
+    /// <summary>Creates a radar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member Radar(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.Radar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsRadar()))
         
     /// <summary>Creates a scatter chart.</summary>
     /// <param name="series">The chart's data.</param>

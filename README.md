@@ -19,6 +19,7 @@ Demos
     * Donut: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicDonut.md)
     * Funnel: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicFunnel.md)
     * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
+    * Radar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicRadar.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
     * Spline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicSpline.md)
 

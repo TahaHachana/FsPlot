@@ -75,7 +75,7 @@ module internal Utils =
             | Column -> "column"
             | Donut | Pie -> "pie"
             | Funnel -> "funnel"
-            | Line -> "line"
+            | Line | Radar -> "line"
             | Scatter -> "scatter"
             | Spline -> "spline"
         options._type <- chartTypeStr
@@ -476,6 +476,69 @@ let pie series chartTitle legend categories xTitle yTitle pointFormat subtitle =
         quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
     Compiler.Compiler.Compile(
         <@ pieChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+[<JSEmitInline("{0}.gridLineInterpolation= 'polygon'")>]
+let polygon(options:HighchartsAxisOptions) : unit = failwith "never"
+
+[<ReflectedDefinition>]
+let private radarChart (series:Series []) chartTitle (legend:bool) (categories:string []) xTitle yTitle (pointFormat:string option) subtitle =
+    let options = createEmpty<HighchartsOptions>()
+    let chartOptions = createEmpty<HighchartsChartOptions>()
+    chartOptions.renderTo <- "chart"
+    chartOptions._type <- "line"
+    chartOptions.polar <- true
+    options.chart <- chartOptions
+//    setChartOptions "chart" "line" options
+//    setXAxisOptions series.[0].XType options categories xTitle
+    let axisOptions = createEmpty<HighchartsAxisOptions>()
+    let xAxisType =
+        match categories.Length with
+        | 0 ->
+            match series.[0].XType with
+            | TypeCode.DateTime -> "datetime"
+            | TypeCode.String -> "category"
+            | _ -> "linear"
+        | _ ->
+            axisOptions.categories <- categories
+            "category"
+    axisOptions._type <- xAxisType
+    let axisTitle = createEmpty<HighchartsAxisTitle>()
+    axisTitle.text <- defaultArg xTitle ""
+    axisOptions.title <- axisTitle
+    axisOptions.lineWidth <- 0.
+    axisOptions.tickmarkPlacement <- "on"
+    options.xAxis <- axisOptions
+
+
+    let yAxisOptions = createEmpty<HighchartsAxisOptions>()
+    let yAxisTitle = createEmpty<HighchartsAxisTitle>()
+    yAxisTitle.text <- defaultArg yTitle ""
+    yAxisOptions.title <- yAxisTitle
+    yAxisOptions.lineWidth <- 0.
+    yAxisOptions.min <- 0.
+    polygon yAxisOptions
+    options.yAxis <- yAxisOptions
+
+//    setYAxisOptions options yTitle
+    let lineChart = createEmpty<HighchartsLineChart>()
+    lineChart.showInLegend <- legend
+    let plotOptions = createEmpty<HighchartsPlotOptions>()
+    plotOptions.line <- lineChart
+    options.plotOptions <- plotOptions
+    setTitleOptions chartTitle options
+    setSubtitle subtitle options
+    setSeriesOptions series options
+    setTooltipOptions pointFormat options
+    let chartElement = Utils.jq "#chart"
+    chartElement.highcharts(options) |> ignore
+
+let radar series chartTitle legend categories xTitle yTitle pointFormat subtitle =
+    let expr1, expr2, expr3, expr4, expr5, expr6, expr7, expr8 =
+        quoteArgs' series chartTitle legend categories xTitle yTitle pointFormat subtitle
+    Compiler.Compiler.Compile(
+        <@ radarChart %%expr1 %%expr2 %%expr3 %%expr4 %%expr5 %%expr6 %%expr7 %%expr8 @>,
         noReturn=true,
         shouldCompress=true)
 

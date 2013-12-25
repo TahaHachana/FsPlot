@@ -322,6 +322,19 @@ module Pie =
     basicPie.ShowLegend()        
     basicPie.SetTitle "Website Visitors By Browser"
 
+module Radar =
+
+    let basicRadar =
+        let allocated = Series.Radar("Allocated Budget", [43000; 19000; 60000; 35000; 17000; 10000])
+        let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
+        Highcharts.Radar [allocated; actual]
+
+    basicRadar.Categories <- ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
+    basicRadar.SetPointFormat """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
+    basicRadar.ShowLegend()
+    basicRadar.SetTitle "Budget VS Spending"
+
+
 module Scatter =
     
     let basicScatter =
