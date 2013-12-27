@@ -1,4 +1,4 @@
-﻿module FsPlot.ChartWindow
+﻿module internal FsPlot.ChartWindow
 
 open System
 open System.Windows

@@ -10,11 +10,36 @@ open FsPlot.Options
 open FsPlot.Charting
 open FsPlot.DataSeries
 
+FunScript.Compiler.compile
+    <@
+        createEmpty<HighchartsChartOptions>() |> ignore
+        Globals.Dollar.now()
+    @>
+|> ignore
+
 module Area =
     
     let area1 =
         Series.Area [1000; 1170; 560; 1030]
         |> Highcharts.Area
+
+    area1.GetCategories()
+    let t = area1.GetTitle()
+    let xt = area1.GetXTitle()
+    let yt = area1.GetYTitle()
+    area1.HideLegend()
+    area1.SetInverted true
+    area1.SetCategories ["2010"; "2011"; "2012"; "2013"]
+    area1.SetData (Series.Area [100; 117; 56; 103])
+    area1.SetData [Series.Area [150; 157; 96; 153]]
+    area1.SetPointFormat "<strong>test</strong>"
+    area1.SetSubtite "subtitle"
+    area1.SetTitle "title"
+    area1.SetXTitle "x-title"
+    area1.SetYTitle "y-title"
+    area1.ShowLegend()
+    area1.SetStacking Stacking.Percent
+    area1.Close()
 
     let area2 =
         [1000; 1170; 560; 1030]
@@ -23,13 +48,12 @@ module Area =
     let area3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Area
-
+    
     let area4 =
         [
             ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Area
 
     let area5 =
@@ -37,7 +61,6 @@ module Area =
             [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
             [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         ]
-        |> Seq.ofList
         |> Highcharts.Area
 
     let area6 =
@@ -45,7 +68,6 @@ module Area =
             Series.Area ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Area
 
     let area7 =
@@ -53,7 +75,6 @@ module Area =
             Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Area
 
 module Areaspline =
@@ -75,7 +96,6 @@ module Areaspline =
             ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Areaspline
 
     let areaspline5 =
@@ -83,7 +103,6 @@ module Areaspline =
             [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
             [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         ]
-        |> Seq.ofList
         |> Highcharts.Areaspline
 
     let areaspline6 =
@@ -91,7 +110,6 @@ module Areaspline =
             Series.Area ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             Series.Area ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Areaspline
 
     let areaspline7 =
@@ -99,7 +117,6 @@ module Areaspline =
             Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
             Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
-        |> Seq.ofList
         |> Highcharts.Areaspline
 
 module Arearange =
@@ -134,7 +151,6 @@ module Arearange =
                 DateTime.Now.AddDays 4., 3., 15.
             ]
         ]
-        |> Seq.ofList
         |> Highcharts.Arearange
 
     let arearange4 =
@@ -150,7 +166,6 @@ module Arearange =
                 DateTime.Now.AddDays 4., 3., 15.
             |]
         ]
-        |> Seq.ofList
         |> Highcharts.Arearange
 
     let arearange5 =
@@ -166,7 +181,6 @@ module Arearange =
                 DateTime.Now.AddDays 4., 3., 15.
             |]
         ]
-        |> Seq.ofList
         |> Highcharts.Arearange
 
     let arearange6 =
@@ -182,7 +196,6 @@ module Arearange =
                 DateTime.Now.AddDays 4., 3., 15.
             |]
         ]
-        |> Seq.ofList
         |> Highcharts.Arearange
 
 module Bar =
@@ -353,7 +366,7 @@ module Combination =
         ]
         |> Highcharts.Combine
 
-    comb2.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+    comb2.SetCategories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
     comb2.SetPieOptions {Center = [|100; 80|]; Size = 100}
 
 module Donut =

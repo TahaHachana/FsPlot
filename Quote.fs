@@ -1,17 +1,27 @@
-﻿module FsPlot.Expr
+﻿module FsPlot.Quote
 
-open System
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Reflection
-open Options
+open System
 open DataSeries
+open Options
+
+[<ReflectedDefinition>]
+type Boxer = static member Box (x:obj) = box x
+
+let boxInfo = typeof<Boxer>.GetMethod("Box")
+
+let strOptionInfos = FSharpType.GetUnionCases(typeof<string option>)
+let chartTypeInfos = FSharpType.GetUnionCases(typeof<ChartType>)
+let stackingInfos = Reflection.FSharpType.GetUnionCases(typeof<Stacking>)
+let pieOptionsInfos = FSharpType.GetUnionCases(typeof<PieOptions option>)
+
+let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 
 let quoteStringArr (arr:string []) =
     Expr.NewArray(
         typeof<string>,
         [for str in arr -> Expr.Value str])
-
-let strOptionInfos = FSharpType.GetUnionCases(typeof<string option>)
 
 let quoteStrOption (strOption:string option) =
     match strOption with
@@ -19,10 +29,6 @@ let quoteStrOption (strOption:string option) =
     | Some value -> Expr.NewUnionCase(strOptionInfos.[1], [Expr.Value value])
 
 let quoteBool (b:bool) = Expr.Value b
-
-let chartTypeInfos = FSharpType.GetUnionCases(typeof<ChartType>)
-
-let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 
 let quoteChartType (chartType:ChartType) =
     match chartType with
@@ -49,10 +55,6 @@ let boxArrExpr (arr:obj []) =
                 typeof<obj>,
                 Array.map (fun x -> Expr.Value x) arr
                 |> Array.toList)
-//                [
-//                    Expr.Value arr.[0]
-//                    Expr.Value arr.[1]
-//                ])
         ])
 
 let objArrExpr (arr:obj []) xType =
@@ -85,8 +87,6 @@ let quoteSeriesArr (series:Series []) =
                 yield areaSeriesExpr x
         ])
 
-let stackingInfos = Reflection.FSharpType.GetUnionCases(typeof<Stacking>)
-
 let quoteStacking (stacking:Stacking) =
     match stacking with
     | Disabled -> Expr.NewUnionCase(stackingInfos.[0], [])
@@ -102,8 +102,6 @@ let pieOptionsExpr (x:PieOptions) =
                 [for i in x.Center -> Expr.Value i])
             Expr.Call(boxInfo, [Expr.Value x.Size])
         ])
-
-let pieOptionsInfos = FSharpType.GetUnionCases(typeof<PieOptions option>)
 
 let quotePieOptions (x:PieOptions option) =
     match x with

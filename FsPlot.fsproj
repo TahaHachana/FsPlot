@@ -44,7 +44,7 @@
     <Compile Include="ChartWindow.fs" />
     <Compile Include="Options.fs" />
     <Compile Include="DataSeries.fs" />
-    <Compile Include="Expr.fs" />
+    <Compile Include="Quote.fs" />
     <Compile Include="HighchartsJs.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Charting.fs" />

@@ -16,185 +16,182 @@ type ChartData =
         YTitle : string option
     }
 
-    static member New categories data legend pointFormat subtitle title chartType xTitle yTitle =
+    static member New a b c d e f g h i=
         {
-            Categories = categories
-            Data = data
-            Legend = legend
-            PointFormat = pointFormat
-            Subtitle = subtitle
-            Title = title
-            Type = chartType
-            XTitle = xTitle
-            YTitle = yTitle
+            Categories = a
+            Data = b
+            Legend = c
+            PointFormat = d
+            Subtitle = e
+            Title = f
+            Type = g
+            XTitle = h
+            YTitle = i
         }
 
-let private compileJs (chartData:ChartData) =
-    let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-        chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-        chartData.Legend , chartData.Categories, chartData.XTitle,
-        chartData.YTitle, chartData.Subtitle
-    match chartType with
-    | Area -> HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
-    | Areaspline -> HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled false
-    | Arearange -> HighchartsJs.arearange data title legend categories xTitle yTitle pointFormat subtitle
-    | Bar -> HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Bubble -> HighchartsJs.bubble data title legend categories xTitle yTitle pointFormat subtitle
-    | Column -> HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle Stacking.Disabled
-    | Combination -> HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle None
-    | Donut -> HighchartsJs.donut data title legend categories xTitle yTitle pointFormat subtitle
-    | Funnel -> HighchartsJs.funnel data title legend categories xTitle yTitle pointFormat subtitle
-    | Line -> HighchartsJs.line data title legend categories xTitle yTitle pointFormat subtitle
-    | Pie -> HighchartsJs.pie data title legend categories xTitle yTitle pointFormat subtitle
-    | Radar -> HighchartsJs.radar data title legend categories xTitle yTitle pointFormat subtitle
-    | Scatter -> HighchartsJs.scatter data title legend categories xTitle yTitle pointFormat subtitle
-    | Spline -> HighchartsJs.spline data title legend categories xTitle yTitle pointFormat subtitle
+    member __.Fields =
+        __.Categories,
+        __.Data,
+        __.Legend,
+        __.PointFormat,
+        __.Subtitle,
+        __.Title,
+        __.Type,
+        __.XTitle,
+        __.YTitle
+
+let private compileJs (x:ChartData) =
+    let a, b, c, d, e, f, g, h, i = x.Fields
+    match g with
+    | Area -> HighchartsJs.area b f c a h i d e Disabled false
+    | Areaspline -> HighchartsJs.areaspline b f c a h i d e Disabled false
+    | Arearange -> HighchartsJs.arearange b f c a h i d e
+    | Bar -> HighchartsJs.bar b f c a h i d e Disabled
+    | Bubble -> HighchartsJs.bubble b f c a h i d e
+    | Column -> HighchartsJs.column b f c a h i d e Disabled
+    | Combination -> HighchartsJs.combine b f c a h i d e None
+    | Donut -> HighchartsJs.donut b f c a h i d e
+    | Funnel -> HighchartsJs.funnel b f c a h i d e
+    | Line -> HighchartsJs.line b f c a h i d e
+    | Pie -> HighchartsJs.pie b f c a h i d e
+    | Radar -> HighchartsJs.radar b f c a h i d e
+    | Scatter -> HighchartsJs.scatter b f c a h i d e
+    | Spline -> HighchartsJs.spline b f c a h i d e
 
 type GenericChart() as chart =
-
-    [<DefaultValue>] val mutable private chartData : ChartData
-    [<DefaultValue>] val mutable private jsField : string
-    [<DefaultValue>] val mutable private htmlField : string
     
+    [<DefaultValue>] val mutable private chartData : ChartData    
     let mutable compileFun = compileJs
-    
+    let mutable htmlFun = Html.highcharts
+
     let wnd, browser = ChartWindow.show()
-    
-    member __.JsFun
-        with set(f) = compileFun <- f
 
-    member __.SetSubtite subtitle =
-        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
+    member __.Close() = wnd.Close()
+
+    static member internal Create(x:ChartData, f:unit -> #GenericChart) =
+        let gc = f()
+        gc.chartData <- x
+        match x.Type with
+        | Arearange | Bubble | Radar -> gc.SetHtmlFun Html.highchartsMore
+        | Combination -> gc.SetHtmlFun Html.highchartsCombine
+        | Funnel -> gc.SetHtmlFun Html.highchartsFunnel
+        | _ -> ()
+        gc.Navigate()
+        gc
+
+    member __.GetCategories() = chart.chartData.Categories |> Array.toSeq
+
+    member __.GetTitle() = chart.chartData.Title
+
+    member __.GetXTitle() = chart.chartData.XTitle
+
+    member __.GetYTitle() = chart.chartData.YTitle
+
+    member __.HideLegend() =
+        chart.chartData <- { chart.chartData with Legend = false }
         __.Navigate()
 
-    member __.Categories
-        with get() = chart.chartData.Categories |> Array.toSeq
-        and set(categories) =
-            chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
-            __.Navigate()
-    
-    member __.SetPointFormat(pointFormat) =
-        chart.chartData <- { chart.chartData with PointFormat = Some pointFormat }
-        __.Navigate()
-
-    member __.Navigate() =
+    member internal __.Navigate() =
         let js = compileFun chart.chartData
-        let html = Html.highcharts js
+        let html = htmlFun js
         browser.NavigateToString html
-        do chart.jsField <- js
-        do chart.htmlField <- html
 
-    member __.SetData (data:seq<#key*#value>) =
-        let series = Series.New(chart.chartData.Type, data)
-        chart.chartData <- { chart.chartData with Data = [|series|] }
-        __.Navigate()
-
-    member __.SetData (data:seq<#value>) =
-        let series = Series.New(chart.chartData.Type, data)
-        chart.chartData <- { chart.chartData with Data = [|series|] }
+    member __.SetCategories(categories) =
+        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
         __.Navigate()
 
     member __.SetData series =
         chart.chartData <- { chart.chartData with Data = [|series|] }
         __.Navigate()
 
-    static member internal Create(chartData:ChartData, f: unit -> #GenericChart ) =
-        let t = f()
-        t.chartData <- chartData
-        t.Navigate()
-        t
+    member __.SetData (data:seq<Series>) =
+        let series = Seq.toArray data
+        chart.chartData <- { chart.chartData with Data = series }
+        __.Navigate()
 
-    member __.Title = chart.chartData.Title
+    member internal __.SetHtmlFun f = htmlFun <- f
+
+    member internal __.SetJsFun(f) = compileFun <- f
+
+    member __.SetPointFormat(pointFormat) =
+        chart.chartData <- { chart.chartData with PointFormat = Some pointFormat }
+        __.Navigate()
+
+    member __.SetSubtite subtitle =
+        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
+        __.Navigate()
 
     member __.SetTitle title =
         chart.chartData <- { chart.chartData with Title = Some title }
         __.Navigate()
 
-    member __.HideLegend() =
-        chart.chartData <- { chart.chartData with Legend = false }
-        __.Navigate()
-
-    member __.ShowLegend() =
-        chart.chartData <- { chart.chartData with Legend = true }
-        __.Navigate()
-        
-    member __.XTitle = chart.chartData.XTitle
-    
     member __.SetXTitle(title) =
         chart.chartData <- { chart.chartData with XTitle = Some title }
         __.Navigate()
-
-    member __.YTitle = chart.chartData.YTitle
 
     member __.SetYTitle(title) =
         chart.chartData <- { chart.chartData with YTitle = Some title }
         __.Navigate()
 
+    member __.ShowLegend() =
+        chart.chartData <- { chart.chartData with Legend = true }
+        __.Navigate()
+
 type HighchartsArea() =
     inherit GenericChart()
-    let mutable stacking = Stacking.Disabled
+
+    let mutable stacking = Disabled
     let mutable inverted = false
 
-    let compileJs (chartData:ChartData) =
-        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-            chartData.Legend , chartData.Categories, chartData.XTitle,
-            chartData.YTitle, chartData.Subtitle
-        HighchartsJs.area data title legend categories xTitle yTitle pointFormat subtitle stacking inverted
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.area b f c a h i d e stacking inverted
 
-    do base.JsFun <- compileJs
+    do base.SetJsFun compileJs
 
-    member __.SetStacking x =
+    member __.SetStacking(x) =
         stacking <- x
         base.Navigate()
 
-    member __.Inverted
-        with get() = inverted
-        and set(x) =
-            inverted <- x
-            base.Navigate()
+    member __.SetInverted(x) =
+        inverted <- x
+        base.Navigate()
 
 type HighchartsAreaspline() =
     inherit GenericChart()
-    let mutable stacking = Stacking.Disabled
+
+    let mutable stacking = Disabled
     let mutable inverted = false
 
-    let compileJs (chartData:ChartData) =
-        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-            chartData.Legend , chartData.Categories, chartData.XTitle,
-            chartData.YTitle, chartData.Subtitle
-        HighchartsJs.areaspline data title legend categories xTitle yTitle pointFormat subtitle stacking inverted
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.areaspline b f c a h i d e stacking inverted
 
-    do base.JsFun <- compileJs
+    do base.SetJsFun compileJs
 
-    member __.SetStacking x =
+    member __.SetStacking(x) =
         stacking <- x
         base.Navigate()
 
-    member __.Inverted
-        with get() = inverted
-        and set(x) =
-            inverted <- x
-            base.Navigate()
+    member __.SetInverted(x) =
+        inverted <- x
+        base.Navigate()
 
 type HighchartsArearange() =
     inherit GenericChart()
 
 type HighchartsBar() =
     inherit GenericChart()
-    let mutable stacking = Stacking.Disabled
 
-    let compileJs (chartData:ChartData) =
-        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-            chartData.Legend , chartData.Categories, chartData.XTitle,
-            chartData.YTitle, chartData.Subtitle
-        HighchartsJs.bar data title legend categories xTitle yTitle pointFormat subtitle stacking
+    let mutable stacking = Disabled
 
-    do base.JsFun <- compileJs
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.bar b f c a h i d e stacking
 
-    member __.SetStacking x =
+    do base.SetJsFun compileJs
+
+    member __.SetStacking(x) =
         stacking <- x
         base.Navigate()
 
@@ -203,18 +200,16 @@ type HighchartsBubble() =
 
 type HighchartsColumn() =
     inherit GenericChart()
-    let mutable stacking = Stacking.Disabled
 
-    let compileJs (chartData:ChartData) =
-        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-            chartData.Legend , chartData.Categories, chartData.XTitle,
-            chartData.YTitle, chartData.Subtitle
-        HighchartsJs.column data title legend categories xTitle yTitle pointFormat subtitle stacking
+    let mutable stacking = Disabled
 
-    do base.JsFun <- compileJs
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.column b f c a h i d e stacking
 
-    member __.SetStacking x =
+    do base.SetJsFun compileJs
+
+    member __.SetStacking(x) =
         stacking <- x
         base.Navigate()
 
@@ -223,14 +218,11 @@ type HighchartsCombination() =
 
     let mutable pieOptions = None
 
-    let compileJs (chartData:ChartData) =
-        let chartType, data, title, pointFormat, legend, categories, xTitle, yTitle, subtitle =
-            chartData.Type, chartData.Data, chartData.Title, chartData.PointFormat,
-            chartData.Legend , chartData.Categories, chartData.XTitle,
-            chartData.YTitle, chartData.Subtitle
-        HighchartsJs.comb data title legend categories xTitle yTitle pointFormat subtitle pieOptions
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.combine b f c a h i d e pieOptions
 
-    do base.JsFun <- compileJs
+    do base.SetJsFun compileJs
 
     member __.SetPieOptions x =
         pieOptions <- Some x
@@ -257,13 +249,13 @@ type HighchartsScatter() =
 type HighchartsSpline() =
     inherit GenericChart()
 
-let newChartData categories data legend pointFormat subtitle title chartType xTitle yTitle =
-    let legend = defaultArg legend false
-    let categories =
-        match categories with 
+let private newChartData a b c d e f g h i =
+    let c' = defaultArg c false
+    let a' =
+        match a with 
         | None -> [||]
         | Some value -> Seq.toArray value
-    ChartData.New categories data legend pointFormat subtitle title chartType xTitle yTitle
+    ChartData.New a' b c' d e f g h i
 
 type Highcharts =
 
