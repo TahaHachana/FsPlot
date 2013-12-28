@@ -115,24 +115,21 @@ module Area =
         |> fun x -> x.SetStacking Normal
 
 
-        let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
-        let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
-        let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
-        let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
-        let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
-        Highcharts.Area [asia; africa; europe; america; oceania]
+    let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
+    let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
+    let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
+    let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
+    let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
 
     let percentArea =
-
-    percentArea.SetCategories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-
-    percentArea.SetStacking Stacking.Percent
-
-    percentArea.ShowLegend()
-
-    percentArea.SetTitle "Historic and Estimated Worldwide Population Growth by Region"
-
-    percentArea.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"
+        [asia; africa; europe; america; oceania]
+        |> Chart.plot
+        |> Chart.categories  ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Chart.showLegend
+        |> Chart.title "Historic and Estimated Worldwide Population Growth"
+        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"""
+        :?> HighchartsArea
+        |> fun x -> x.SetStacking Percent
 
     
 //    let missingPointsArea =
@@ -149,39 +146,42 @@ module Area =
 //            |> Series.SetName "John"
 //        Highcharts.Area [jane; john]
 
-    let invertedAxesArea =
-        let jane =
-            ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
-            |> Series.Area
-            |> Series.SetName "Jane"
-        let john =
-            ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
-            |> Series.Area
-            |> Series.SetName "John"
-        Highcharts.Area(
-            [john; jane],
-            legend = true,
-            title = "Average Fruit Consumption",
-            yTitle = "Number of Units")
+    let jane =
+        ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
+        |> Series.Area
+        |> Series.SetName "Jane"
 
-    invertedAxesArea.SetInverted true
+    let john =
+        ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
+        |> Series.Area
+        |> Series.SetName "John"
+
+    let invertedAxesArea =
+        [john; jane]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Average Fruit Consumption"
+        |> Chart.yTitle "Number of Units"
+        :?> HighchartsArea
+        |> fun x -> x.SetInverted true
 
 module Areaspline =
     
-    let basic =
-        let jane =
-            ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
-            |> Series.Areaspline
-            |> Series.SetName "Jane"
-        let john =
-            ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
-            |> Series.Areaspline
-            |> Series.SetName "John"
-        Highcharts.Areaspline(
-            [john; jane],
-            legend = true,
-            title = "Average Fruit Consumption",
-            yTitle = "Fruit Units")
+    let sales =
+        ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
+        |> Series.Areaspline
+        |> Series.SetName "Sales"
+
+    let expenses =
+        ["2010", 1000; "2011", 1170; "2012", 580; "2013", 1030]
+        |> Series.Areaspline
+        |> Series.SetName "Expenses"
+
+    let basicAreaspline =
+        [sales; expenses]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"
 
 module Arearange =
 
