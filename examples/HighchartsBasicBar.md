@@ -6,18 +6,13 @@ Code
 
 ```fsharp
 let basicBar =
-    let sales =
-        ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
-        |> Series.Bar
-        |> Series.SetName "Sales"
-    let expenses =
-        ["2010", 1000; "2011", 1170; "2012", 580; "2013", 1030]
-        |> Series.Bar
-        |> Series.SetName "Expenses"
-    Highcharts.Bar [sales; expenses]
-
-basicBar.ShowLegend()
-basicBar.SetTitle "Company Performance"
+    [
+        Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+        Series.Bar("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
+    ]
+    |> Chart.plot
+    |> Chart.showLegend
+    |> Chart.title "Company Performance"
 ```
 Chart
 -----

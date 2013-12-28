@@ -185,15 +185,17 @@ module Areaspline =
 
 module Arearange =
 
+    let tempratures =
+        let rnd = Random()
+        [0. .. 6.]
+        |> List.map(fun x ->
+            DateTime.Now.AddDays x, rnd.Next(-5, -1), rnd.Next(4, 8))
+        |> Series.Arearange
+        |> Series.SetName "Tempratures"
+
     let basicArearange =
-        let data =
-            let rnd = Random()
-            [0. .. 6.]
-            |> List.map(fun x ->
-                DateTime.Now.AddDays x, rnd.Next(-5, -1), rnd.Next(4, 8))
-            |> Series.Arearange
-            |> Series.SetName "Tempratures"
-        Highcharts.Arearange(data, title = "Temprature Variation")
+        Chart.plot tempratures
+        |> Chart.title "Temprature Variation"
 
 module Bar =
     
@@ -202,20 +204,21 @@ module Bar =
             Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Bar("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Highcharts.Bar
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"
 
-    basicBar.ShowLegend()
-    basicBar.SetTitle "Company Performance"
+let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
-    let stackedBar =
-        let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-        let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-        let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
-        Highcharts.Bar [joe; jane; john]
-
-    stackedBar.ShowLegend()
-    stackedBar.SetYTitle "Total Fruit Consumption"
-    stackedBar.SetStacking Stacking.Normal
+let stackedBar =
+    [joe; jane; john]
+    |> Chart.plot
+    |> Chart.showLegend
+    |> Chart.yTitle "Total Fruit Consumption"
+    :?> HighchartsBar
+    |> fun x -> x.SetStacking Normal
 
     let percentBar =
         let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])

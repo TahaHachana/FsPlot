@@ -76,10 +76,16 @@ type GenericChart() as chart =
                     match inbox.CurrentQueueLength with
                     | 0 ->
                         let js = compileFun msg
-                        let html = htmlFun js
-                        do! Async.SwitchToContext ctx
-                        browser.NavigateToString html
-                        return! loop()
+                        match inbox.CurrentQueueLength with
+                        | 0 ->
+                            let html = htmlFun js
+                            match inbox.CurrentQueueLength with
+                            | 0 ->
+                                do! Async.SwitchToContext ctx
+                                browser.NavigateToString html
+                                return! loop()
+                            | _ -> return! loop()
+                        | _ -> return! loop()
                     | _ -> return! loop()
                 }
             loop())

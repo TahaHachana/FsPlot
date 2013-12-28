@@ -228,6 +228,9 @@ open Inline
             | Disabled -> ()
             | Normal -> barChart.stacking <- "normal"
             | Percent -> barChart.stacking <- "percent"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.bar <- barChart
+            options.plotOptions <- plotOptions
             setTitle chartTitle options
             setSubtitle subtitle options
             setSeriesOptions series options
