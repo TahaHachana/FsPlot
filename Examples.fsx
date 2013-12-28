@@ -12,98 +12,117 @@ open FsPlot.DataSeries
 
 module Area =
 
+    let sales =
+        ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
+        |> Series.Area
+        |> Series.SetName "Sales"
+
+    let expenses =
+        ["2010", 1000; "2011", 1170; "2012", 580; "2013", 1030]
+        |> Series.Area
+        |> Series.SetName "Expenses"
+
     let basicArea =
-        let usa =
-            [
-                (1945, 6); (1946, 11); (1947, 32); (1948, 110); (1949, 235); (1950, 369);
-                (1951, 640); (1952, 1005); (1953, 1436); (1954, 2063); (1955, 3057);
-                (1956, 4618); (1957, 6444); (1958, 9822); (1959, 15468); (1960, 20434);
-                (1961, 24126); (1962, 27387); (1963, 29459); (1964, 31056); (1965, 31982);
-                (1966, 32040); (1967, 31233); (1968, 29224); (1969, 27342); (1970, 26662);
-                (1971, 26956); (1972, 27912); (1973, 28999); (1974, 28965); (1975, 27826);
-                (1976, 25579); (1977, 25722); (1978, 24826); (1979, 24605); (1980, 24304);
-                (1981, 23464); (1982, 23708); (1983, 24099); (1984, 24357); (1985, 24237);
-                (1986, 24401); (1987, 24344); (1988, 23586); (1989, 22380); (1990, 21004);
-                (1991, 17287); (1992, 14747); (1993, 13076); (1994, 12555); (1995, 12144);
-                (1996, 11009); (1997, 10950); (1998, 10871); (1999, 10824); (2000, 10577);
-                (2001, 10527); (2002, 10475); (2003, 10421); (2004, 10358); (2005, 10295);
-                (2006, 10104)
-            ]
-            |> List.map (fun (x, y) -> DateTime(x, 12, 31), y)
-            |> Series.Area
-            |> Series.SetName "USA"
+        [sales; expenses]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"
 
-        let ussrRussia =
-            [
-                (1950, 5); (1951, 25); (1952, 50); (1953, 120); (1954, 150); (1955, 200);
-                (1956, 426); (1957, 660); (1958, 869); (1959, 1060); (1960, 1605);
-                (1961, 2471); (1962, 3322); (1963, 4238); (1964, 5221); (1965, 6129);
-                (1966, 7089); (1967, 8339); (1968, 9399); (1969, 10538); (1970, 11643);
-                (1971, 13092); (1972, 14478); (1973, 15915); (1974, 17385); (1975, 19055);
-                (1976, 21205); (1977, 23044); (1978, 25393); (1979, 27935); (1980, 30062);
-                (1981, 32049); (1982, 33952); (1983, 35804); (1984, 37431); (1985, 39197);
-                (1986, 45000); (1987, 43000); (1988, 41000); (1989, 39000); (1990, 37000);
-                (1991, 35000); (1992, 33000); (1993, 31000); (1994, 29000); (1995, 27000);
-                (1996, 25000); (1997, 24000); (1998, 23000); (1999, 22000); (2000, 21000);
-                (2001, 20000); (2002, 19000); (2003, 18000); (2004, 18000); (2005, 17000);
-                (2006, 16000)
-            ]
-            |> List.map (fun (x, y) -> DateTime(x, 12, 31), y)
-            |> Series.Area
-            |> Series.SetName "USSR/Russia"
 
-        Highcharts.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
+//    let basicArea =
+//        let usa =
+//            [
+//                (1945, 6); (1946, 11); (1947, 32); (1948, 110); (1949, 235); (1950, 369);
+//                (1951, 640); (1952, 1005); (1953, 1436); (1954, 2063); (1955, 3057);
+//                (1956, 4618); (1957, 6444); (1958, 9822); (1959, 15468); (1960, 20434);
+//                (1961, 24126); (1962, 27387); (1963, 29459); (1964, 31056); (1965, 31982);
+//                (1966, 32040); (1967, 31233); (1968, 29224); (1969, 27342); (1970, 26662);
+//                (1971, 26956); (1972, 27912); (1973, 28999); (1974, 28965); (1975, 27826);
+//                (1976, 25579); (1977, 25722); (1978, 24826); (1979, 24605); (1980, 24304);
+//                (1981, 23464); (1982, 23708); (1983, 24099); (1984, 24357); (1985, 24237);
+//                (1986, 24401); (1987, 24344); (1988, 23586); (1989, 22380); (1990, 21004);
+//                (1991, 17287); (1992, 14747); (1993, 13076); (1994, 12555); (1995, 12144);
+//                (1996, 11009); (1997, 10950); (1998, 10871); (1999, 10824); (2000, 10577);
+//                (2001, 10527); (2002, 10475); (2003, 10421); (2004, 10358); (2005, 10295);
+//                (2006, 10104)
+//            ]
+//            |> List.map (fun (x, y) -> DateTime(x, 12, 31), y)
+//            |> Series.Area
+//            |> Series.SetName "USA"
+//
+//        let ussrRussia =
+//            [
+//                (1950, 5); (1951, 25); (1952, 50); (1953, 120); (1954, 150); (1955, 200);
+//                (1956, 426); (1957, 660); (1958, 869); (1959, 1060); (1960, 1605);
+//                (1961, 2471); (1962, 3322); (1963, 4238); (1964, 5221); (1965, 6129);
+//                (1966, 7089); (1967, 8339); (1968, 9399); (1969, 10538); (1970, 11643);
+//                (1971, 13092); (1972, 14478); (1973, 15915); (1974, 17385); (1975, 19055);
+//                (1976, 21205); (1977, 23044); (1978, 25393); (1979, 27935); (1980, 30062);
+//                (1981, 32049); (1982, 33952); (1983, 35804); (1984, 37431); (1985, 39197);
+//                (1986, 45000); (1987, 43000); (1988, 41000); (1989, 39000); (1990, 37000);
+//                (1991, 35000); (1992, 33000); (1993, 31000); (1994, 29000); (1995, 27000);
+//                (1996, 25000); (1997, 24000); (1998, 23000); (1999, 22000); (2000, 21000);
+//                (2001, 20000); (2002, 19000); (2003, 18000); (2004, 18000); (2005, 17000);
+//                (2006, 16000)
+//            ]
+//            |> List.map (fun (x, y) -> DateTime(x, 12, 31), y)
+//            |> Series.Area
+//            |> Series.SetName "USSR/Russia"
+//
+//        Highcharts.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
+//
+//    // Add a title to the Y-axis.
+//    basicArea.SetYTitle "Nuclear warheads"
+//
+//    // Change the tooltip point format.
+//    basicArea.SetPointFormat "{series.name} produced <b>{point.y:,.0f}</b><br/>warheads."
 
-    // Add a title to the Y-axis.
-    basicArea.SetYTitle "Nuclear warheads"
+    let john =
+        ["Apples", 5; "Oranges", 3; "Pears", 4; "Grapes", 7; "Bananas", 2]
+        |> Series.Area
+        |> Series.SetName "John"
 
-    // Change the tooltip point format.
-    basicArea.SetPointFormat "{series.name} produced <b>{point.y:,.0f}</b><br/>warheads."
+    let jane =
+        ["Apples", 2; "Oranges", -3; "Pears", -2; "Grapes", 2; "Bananas", 1]
+        |> Series.Area
+        |> Series.SetName "Jane"
+
+    let joe =
+        ["Apples", 3; "Oranges", 3; "Pears", 4; "Grapes", -5; "Bananas", -2]
+        |> Series.Area
+        |> Series.SetName "Joe"
 
     let negativeValuesArea =
-        let john =
-            ["Apples", 5; "Oranges", 3; "Pears", 4; "Grapes", 7; "Bananas", 2]
-            |> Series.Area
-            |> Series.SetName "John"
-        let jane =
-            ["Apples", 2; "Oranges", -3; "Pears", -2; "Grapes", 2; "Bananas", 1]
-            |> Series.Area
-            |> Series.SetName "Jane"
-        let joe =
-            ["Apples", 3; "Oranges", 3; "Pears", 4; "Grapes", -5; "Bananas", -2]
-            |> Series.Area
-            |> Series.SetName "Joe"
-        Highcharts.Area [john; jane; joe]
+        [john; jane; joe]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Area Chart with Negative Values"
 
-    negativeValuesArea.ShowLegend() 
-    
-    negativeValuesArea.SetTitle "Area Chart with Negative Values"
+    let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
+    let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
+    let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
+    let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
+    let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
 
     let stackedArea =
+        [asia; africa; europe; america; oceania]
+        |> Chart.plot
+        |> Chart.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Chart.showLegend
+        |> Chart.title "Historic and Estimated Worldwide Population Growth"
+        |> Chart.tooltip "{series.name} <b>{point.y}</b> millions"
+        :?> HighchartsArea
+        |> fun x -> x.SetStacking Normal
+
+
         let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
         let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
         let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
         let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
-        let oceania = Series.Area("Oceani", [2; 2; 2; 6; 13; 30; 46])
+        let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
         Highcharts.Area [asia; africa; europe; america; oceania]
-
-    stackedArea.SetCategories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-
-    stackedArea.SetStacking Stacking.Normal
-
-    stackedArea.ShowLegend()
-
-    stackedArea.SetTitle "Historic and Estimated Worldwide Population Growth by Region"
-
-    stackedArea.SetPointFormat "{series.name} <b>{point.y}</b> millions"
 
     let percentArea =
-        let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
-        let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
-        let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
-        let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
-        let oceania = Series.Area("Oceani", [2; 2; 2; 6; 13; 30; 46])
-        Highcharts.Area [asia; africa; europe; america; oceania]
 
     percentArea.SetCategories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
 

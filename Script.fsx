@@ -77,6 +77,15 @@ module Area =
         ]
         |> Highcharts.Area
 
+    let area8 =
+        Series.Area ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        |> Series.SetName "Sales"
+        |> Chart.plot
+        |> Chart.title "Title"
+        |> Chart.subtitle "Subtitle"
+        |> Chart.showLegend
+        |> Chart.xTitle "Year"
+
 module Areaspline =
     
     let areaspline1 =

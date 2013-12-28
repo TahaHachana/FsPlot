@@ -1350,6 +1350,8 @@ type Chart =
         chart.SetCategories categories
         chart
 
+    static member close (chart:#GenericChart) = chart.Close()
+
     static member hideLegend (chart:#GenericChart) =
         chart.HideLegend()
         chart
