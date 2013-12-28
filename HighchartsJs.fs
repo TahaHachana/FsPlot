@@ -173,6 +173,9 @@ open Inline
             setYAxisOptions options yTitle
             let areaChart = createEmpty<HighchartsAreaChart>()
             areaStacking stacking areaChart
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.area <- areaChart
+            options.plotOptions <- plotOptions
             setTitle chartTitle options
             setSubtitle subtitle options
             setSeriesOptions series options
@@ -343,7 +346,11 @@ open Inline
         let pie (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
             let options = createEmpty<HighchartsOptions>()
             setChartOptions "chart" "pie" options
-            setLegendOptions legend options
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            let pieChart = createEmpty<HighchartsPieChart>()
+            pieChart.showInLegend <- legend
+            plotOptions.pie <- pieChart
+            options.plotOptions <- plotOptions
             setXAxisOptions series.[0].XType options categories xTitle
             setYAxisOptions options yTitle
             setTitle chartTitle options

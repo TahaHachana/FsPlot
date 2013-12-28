@@ -66,6 +66,24 @@ type GenericChart() as chart =
 
     let wnd, browser = ChartWindow.show()
 
+    let ctx = System.Threading.SynchronizationContext.Current
+
+    let agent =
+        MailboxProcessor<ChartData>.Start(fun inbox ->
+            let rec loop() =
+                async {
+                    let! msg = inbox.Receive()
+                    match inbox.CurrentQueueLength with
+                    | 0 ->
+                        let js = compileFun msg
+                        let html = htmlFun js
+                        do! Async.SwitchToContext ctx
+                        browser.NavigateToString html
+                        return! loop()
+                    | _ -> return! loop()
+                }
+            loop())
+
     member __.Close() = wnd.Close()
 
     static member internal Create(x:ChartData, f:unit -> #GenericChart) =
@@ -79,22 +97,19 @@ type GenericChart() as chart =
         gc.Navigate()
         gc
 
-    member __.GetCategories() = chart.chartData.Categories |> Array.toSeq
-
-    member __.GetTitle() = chart.chartData.Title
-
-    member __.GetXTitle() = chart.chartData.XTitle
-
-    member __.GetYTitle() = chart.chartData.YTitle
+//    member __.GetCategories() = chart.chartData.Categories |> Array.toSeq
+//
+//    member __.GetTitle() = chart.chartData.Title
+//
+//    member __.GetXTitle() = chart.chartData.XTitle
+//
+//    member __.GetYTitle() = chart.chartData.YTitle
 
     member __.HideLegend() =
         chart.chartData <- { chart.chartData with Legend = false }
         __.Navigate()
 
-    member internal __.Navigate() =
-        let js = compileFun chart.chartData
-        let html = htmlFun js
-        browser.NavigateToString html
+    member internal __.Navigate() = agent.Post chart.chartData
 
     member __.SetCategories(categories) =
         chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
@@ -113,11 +128,11 @@ type GenericChart() as chart =
 
     member internal __.SetJsFun(f) = compileFun <- f
 
-    member __.SetPointFormat(pointFormat) =
-        chart.chartData <- { chart.chartData with PointFormat = Some pointFormat }
+    member __.SetTooltip(format) =
+        chart.chartData <- { chart.chartData with PointFormat = Some format }
         __.Navigate()
 
-    member __.SetSubtite subtitle =
+    member __.SetSubtitle subtitle =
         chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
         __.Navigate()
 
@@ -1327,3 +1342,74 @@ type Highcharts =
             |> Seq.toArray
         let chartData = newChartData categories data legend None None title Spline xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsSpline()))
+
+
+type Chart =
+
+    static member categories categories (chart:#GenericChart) =
+        chart.SetCategories categories
+        chart
+
+    static member hideLegend (chart:#GenericChart) =
+        chart.HideLegend()
+        chart
+
+    static member plot (series:Series) =
+        match series.Type with
+        | Area -> Highcharts.Area series :> GenericChart
+        | Areaspline -> Highcharts.Areaspline series :> GenericChart
+        | Arearange -> Highcharts.Arearange series :> GenericChart
+        | Bar -> Highcharts.Bar series :> GenericChart
+        | Bubble -> Highcharts.Bubble series :> GenericChart
+        | Column -> Highcharts.Column series :> GenericChart
+        | Donut -> Highcharts.Donut series :> GenericChart
+        | Funnel -> Highcharts.Funnel series :> GenericChart
+        | Line -> Highcharts.Line series :> GenericChart
+        | Pie -> Highcharts.Pie series :> GenericChart
+        | Radar -> Highcharts.Radar series :> GenericChart
+        | Scatter -> Highcharts.Scatter series :> GenericChart
+        | _ -> Highcharts.Spline series :> GenericChart
+
+    static member plot (series:seq<Series>) =
+        let types =
+            series
+            |> Seq.map (fun x -> x.Type)
+            |> Seq.distinct
+        match Seq.length types with
+        | 1 ->
+            match Seq.nth 0 types with
+            | Area -> Highcharts.Area series :> GenericChart
+            | Areaspline -> Highcharts.Areaspline series :> GenericChart
+            | Arearange -> Highcharts.Arearange series :> GenericChart
+            | Bar -> Highcharts.Bar series :> GenericChart
+            | Bubble -> Highcharts.Bubble series :> GenericChart
+            | Column -> Highcharts.Column series :> GenericChart
+            | Line -> Highcharts.Line series :> GenericChart
+            | Radar -> Highcharts.Radar series :> GenericChart
+            | Scatter -> Highcharts.Scatter series :> GenericChart
+            | _ -> Highcharts.Spline series :> GenericChart
+        | _ -> Highcharts.Combine series :> GenericChart
+
+    static member showLegend (chart:#GenericChart) =
+        chart.ShowLegend()
+        chart
+
+    static member subtitle subtitle (chart:#GenericChart) =
+        chart.SetSubtitle subtitle
+        chart
+
+    static member title title (chart:#GenericChart) =
+        chart.SetTitle title
+        chart
+
+    static member tooltip format (chart:#GenericChart) =
+        chart.SetTooltip format
+        chart
+
+    static member xTitle xTitle (chart:#GenericChart) =
+        chart.SetXTitle xTitle
+        chart
+
+    static member yTitle yTitle (chart:#GenericChart) =
+        chart.SetYTitle yTitle
+        chart

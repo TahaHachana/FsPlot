@@ -87,7 +87,7 @@ module Area =
         let oceania = Series.Area("Oceani", [2; 2; 2; 6; 13; 30; 46])
         Highcharts.Area [asia; africa; europe; america; oceania]
 
-    stackedArea.Categories <- ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+    stackedArea.SetCategories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
 
     stackedArea.SetStacking Stacking.Normal
 
@@ -105,7 +105,7 @@ module Area =
         let oceania = Series.Area("Oceani", [2; 2; 2; 6; 13; 30; 46])
         Highcharts.Area [asia; africa; europe; america; oceania]
 
-    percentArea.Categories <- ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+    percentArea.SetCategories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
 
     percentArea.SetStacking Stacking.Percent
 
@@ -115,6 +115,7 @@ module Area =
 
     percentArea.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"
 
+    
 //    let missingPointsArea =
 //        let jane =
 //            [("Apples", box 2); ("Pears", box 3); ("Oranges", box 2); ("Bananas", box null); ("Grapes", box 7);
@@ -144,7 +145,7 @@ module Area =
             title = "Average Fruit Consumption",
             yTitle = "Number of Units")
 
-    invertedAxesArea.Inverted <- true
+    invertedAxesArea.SetInverted true
 
 module Areaspline =
     
@@ -258,7 +259,9 @@ module Combination =
             Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Highcharts.Combine
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"
 
     basicComb.HideLegend()
     basicComb.SetTitle "Company Performance"
@@ -330,11 +333,19 @@ module Line =
 module Pie =
     
     let basicPie =
-        Series.Pie("Browser Share", ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
-        |> Highcharts.Pie
+        Series.Pie ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
+        |> Series.SetName "Browser Share"
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Website Visitors By Browser"
+        |> Chart.tooltip """<span style="color:{series.color}">{series.name}: <b>{point.percentage:.1f}%</b><br/>"""
 
-    basicPie.ShowLegend()        
-    basicPie.SetTitle "Website Visitors By Browser"
+
+//        Series.Pie("Browser Share", ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
+//        |> Highcharts.Pie
+//
+//    basicPie.ShowLegend()        
+//    basicPie.SetTitle "Website Visitors By Browser"
 
 module Radar =
 

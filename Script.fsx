@@ -23,17 +23,17 @@ module Area =
         Series.Area [1000; 1170; 560; 1030]
         |> Highcharts.Area
 
-    area1.GetCategories()
-    let t = area1.GetTitle()
-    let xt = area1.GetXTitle()
-    let yt = area1.GetYTitle()
+//    area1.GetCategories()
+//    let t = area1.GetTitle()
+//    let xt = area1.GetXTitle()
+//    let yt = area1.GetYTitle()
     area1.HideLegend()
     area1.SetInverted true
     area1.SetCategories ["2010"; "2011"; "2012"; "2013"]
     area1.SetData (Series.Area [100; 117; 56; 103])
     area1.SetData [Series.Area [150; 157; 96; 153]]
-    area1.SetPointFormat "<strong>test</strong>"
-    area1.SetSubtite "subtitle"
+    area1.SetTooltip "<strong>test</strong>"
+    area1.SetSubtitle "subtitle"
     area1.SetTitle "title"
     area1.SetXTitle "x-title"
     area1.SetYTitle "y-title"
