@@ -335,9 +335,8 @@ module Funnel =
         ]
         |> Series.Funnel
         |> Series.SetName "Unique users"
-        |> Highcharts.Funnel
-
-    basicFunnel.SetTitle "Sales Funnel"
+        |> Chart.plot
+        |> Chart.title "Sales Funnel"
 
 module Line =
 
@@ -346,10 +345,9 @@ module Line =
             Series.Line("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Highcharts.Line
-
-    basicLine.ShowLegend()
-    basicLine.SetTitle "Company Performance"
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"
 
 module Pie =
     
@@ -370,28 +368,27 @@ module Pie =
 
 module Radar =
 
-    let basicRadar =
-        let allocated = Series.Radar("Allocated Budget", [43000; 19000; 60000; 35000; 17000; 10000])
-        let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
-        Highcharts.Radar [allocated; actual]
+    let allocated = Series.Radar("Allocated Budget", [43000; 19000; 60000; 35000; 17000; 10000])
+    let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
 
-    basicRadar.Categories <- ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
-    basicRadar.SetPointFormat """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
-    basicRadar.ShowLegend()
-    basicRadar.SetTitle "Budget VS Spending"
+    let basicRadar =
+        Chart.plot [allocated; actual]
+        |> Chart.categories ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
+        |> Chart.tooltip """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
+        |> Chart.showLegend
+        |> Chart.title "Budget VS Spending"
 
 
 module Scatter =
     
     let basicScatter =
-        [
-            Series.Scatter("Female", [(161.2, 51.6); (167.5, 59.0); (159.5, 49.2); (157.0, 63.0)])
-            Series.Scatter("Male", [(155.8, 53.6); (170.0, 59.0); (159.1, 47.6); (166.0, 69.8)])
-        ]
-        |> Highcharts.Scatter
-
-    basicScatter.SetXTitle "Height (cm)"
-    basicScatter.SetYTitle "Weight (kg)"          
+        [8., 12.; 4., 5.5; 11., 14.; 4., 5.; 3., 3.5; 6.5, 7.]
+        |> Series.Scatter
+        |> Series.SetName "AgeVsWeight"
+        |> Chart.plot
+        |> Chart.title "Age vs. Weight comparison"
+        |> Chart.xTitle "Age"
+        |> Chart.yTitle "Weight"
 
 module Spline =
 
@@ -400,7 +397,6 @@ module Spline =
             Series.Spline("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Spline("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Highcharts.Spline
-
-    basicSpline.ShowLegend()
-    basicSpline.SetTitle "Company Performance"
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.title "Company Performance"

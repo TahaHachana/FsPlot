@@ -159,6 +159,9 @@ module Inline =
     [<JSEmitInline("{0}.neckHeight = '0%'")>]
     let funnelNeck options : unit = failwith "never"
 
+    [<JSEmitInline("{0}.pointPlacement = 'on'")>]
+    let pointPlacement options : unit = failwith "never"
+
 open Utils
 open Inline
 
@@ -405,7 +408,17 @@ open Inline
             options.yAxis <- yAxisOptions
             setTitle chartTitle options
             setSubtitle subtitle options
-            setSeriesOptions series options
+            let seriesOptions =
+                [|
+                    for x in series do
+                        let options = createEmpty<HighchartsSeriesOptions>()
+                        options.data <- x.Values
+                        options.name <- x.Name
+                        pointPlacement options
+                        setSeriesChartType x.Type options
+                        yield options
+                |]
+            options.series <- seriesOptions
             setTooltipOptions pointFormat options
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore

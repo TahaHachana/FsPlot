@@ -10,15 +10,15 @@ Code
 open FsPlot.Charting
 open FsPlot.DataSeries
 
-let basicRadar =
-    let allocated = Series.Radar("Allocated Budget", [43000; 19000; 60000; 35000; 17000; 10000])
-    let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
-    Highcharts.Radar [allocated; actual]
+let allocated = Series.Radar("Allocated Budget", [43000; 19000; 60000; 35000; 17000; 10000])
+let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
 
-basicRadar.Categories <- ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
-basicRadar.SetPointFormat """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
-basicRadar.ShowLegend()
-basicRadar.SetTitle "Budget VS Spending"
+let basicRadar =
+    Chart.plot [allocated; actual]
+    |> Chart.categories ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
+    |> Chart.tooltip """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
+    |> Chart.showLegend
+    |> Chart.title "Budget VS Spending"
 ```
 Chart
 -----
