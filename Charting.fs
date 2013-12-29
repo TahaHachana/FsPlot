@@ -61,6 +61,7 @@ let private compileJs (x:ChartData) =
 type GenericChart() as chart =
     
     [<DefaultValue>] val mutable private chartData : ChartData    
+
     let mutable compileFun = compileJs
     let mutable htmlFun = Html.highcharts
 

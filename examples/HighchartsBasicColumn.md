@@ -15,10 +15,9 @@ let basicColumn =
         Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
         Series.Column("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
     ]
-    |> Highcharts.Column
-
-basicColumn.ShowLegend()
-basicColumn.SetTitle "Company Performance"
+    |> Chart.plot
+    |> Chart.title "Company Performance"
+    |> Chart.showLegend
 ```
 Chart
 -----

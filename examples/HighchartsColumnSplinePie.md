@@ -1,6 +1,9 @@
 Highcharts Column Spline Pie Combination
 ========================================
 
+Code
+----
+
 ```fsharp
 #load "FsPlot.fsx"
 
@@ -16,10 +19,12 @@ let columnSplinePie =
         Series.Spline("Average", [3.; 2.67; 3.; 6.33; 3.33])
         Series.Pie("Total Consumption", ["Jane", 13; "John", 23; "Joe", 19])
     ]
-    |> Highcharts.Combine
-
-columnSplinePie.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
-// Resize the pie and move it to the left.
-columnSplinePie.SetPieOptions {Center = [|100; 80|]; Size = 100}
+    |> Chart.plot
+    |> Chart.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+    :?> HighchartsCombination
+    |> fun x -> x.SetPieOptions {Center = [|100; 80|]; Size = 100}
 ```
+Chart
+-----
+
 ![Highcharts Column Spline Pie Combination](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsColumnSplinePie.PNG)

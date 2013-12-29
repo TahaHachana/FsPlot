@@ -208,28 +208,30 @@ module Bar =
         |> Chart.showLegend
         |> Chart.title "Company Performance"
 
-let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
+    let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+    let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+    let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
-let stackedBar =
-    [joe; jane; john]
-    |> Chart.plot
-    |> Chart.showLegend
-    |> Chart.yTitle "Total Fruit Consumption"
-    :?> HighchartsBar
-    |> fun x -> x.SetStacking Normal
+    let stackedBar =
+        [joe; jane; john]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.yTitle "Total Fruit Consumption"
+        :?> HighchartsBar
+        |> fun x -> x.SetStacking Normal
+
+    let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+    let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+    let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentBar =
-        let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-        let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-        let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
-        Highcharts.Bar [joe; jane; john]
-
-    percentBar.ShowLegend()
-    percentBar.SetYTitle "% of Fruit Consumption"
-    percentBar.SetStacking Stacking.Percent
-    percentBar.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%<br/>"
+        [joe; jane; john]
+        |> Chart.plot
+        |> Chart.showLegend
+        |> Chart.yTitle "% of Fruit Consumption"
+        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+        :?> HighchartsBar
+        |> fun x -> x.SetStacking Stacking.Percent
 
 module Bubble =
     
@@ -247,32 +249,33 @@ module Column =
             Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Column("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Highcharts.Column
+        |> Chart.plot
+        |> Chart.title "Company Performance"
+        |> Chart.showLegend
 
-    basicColumn.SetTitle "Company Performance"
-
-    basicColumn.HideLegend()
+    let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+    let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+    let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let stackedColumn =
-        let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-        let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-        let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
-        Highcharts.Column [joe; jane; john]
+        Chart.plot [joe; jane; john]
+        |> Chart.showLegend
+        |> Chart.yTitle "Total Fruit Consumption"
+        :?> HighchartsColumn
+        |> fun x -> x.SetStacking Normal
 
-    stackedColumn.ShowLegend()
-    stackedColumn.SetYTitle "Total Fruit Consumption"
-    stackedColumn.SetStacking Stacking.Normal
+    let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+    let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+    let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentColumn =
-        let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-        let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-        let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
-        Highcharts.Column [joe; jane; john]
-
-    percentColumn.ShowLegend()
-    percentColumn.SetYTitle "% of Fruit Consumption"
-    percentColumn.SetStacking Stacking.Percent
-    percentColumn.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%<br/>"
+        Chart.plot [joe; jane; john]
+        |> Chart.showLegend
+        |> Chart.yTitle "% of Fruit Consumption"
+        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+        :?> HighchartsColumn
+        |> fun x -> x.SetStacking Stacking.Percent
+    
 
 module Combination =
 
@@ -285,8 +288,6 @@ module Combination =
         |> Chart.showLegend
         |> Chart.title "Company Performance"
 
-    basicComb.HideLegend()
-    basicComb.SetTitle "Company Performance"
 
     let columnSplinePie =
         [
@@ -296,11 +297,10 @@ module Combination =
             Series.Spline("Average", [3.; 2.67; 3.; 6.33; 3.33])
             Series.Pie("Total Consumption", ["Jane", 13; "John", 23; "Joe", 19])
         ]
-        |> Highcharts.Combine
-
-    columnSplinePie.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
-    // Resize the pie and move it to the left.
-    columnSplinePie.SetPieOptions {Center = [|100; 80|]; Size = 100}
+        |> Chart.plot
+        |> Chart.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+        :?> HighchartsCombination
+        |> fun x -> x.SetPieOptions {Center = [|100; 80|]; Size = 100}
 
 //    let colLinePieComb =
 //        let jane = Series.Column("Jane", [3; 2; 1; 3; 4])
@@ -318,11 +318,10 @@ module Donut =
         ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
         |> Series.Donut
         |> Series.SetName "Browser Share"
-        |> Highcharts.Donut
-
-    basicDonut.SetTitle "Website Visitors By Browser"
-    basicDonut.SetPointFormat "<span style='color:{series.color}'>{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"
-    basicDonut.ShowLegend()
+        |> Chart.plot
+        |> Chart.title "Website Visitors By Browser"
+        |> Chart.tooltip """<span style="color:{series.color}>{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"""
+        |> Chart.showLegend
 
 module Funnel =
 

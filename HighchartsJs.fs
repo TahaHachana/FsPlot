@@ -262,6 +262,9 @@ open Inline
             | Disabled -> ()
             | Normal -> barChart.stacking <- "normal"
             | Percent -> barChart.stacking <- "percent"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.column <- barChart
+            options.plotOptions <- plotOptions
             setTitle chartTitle options
             setSubtitle subtitle options
             setSeriesOptions series options
@@ -303,11 +306,14 @@ open Inline
         let donut (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
             let options = createEmpty<HighchartsOptions>()
             setChartOptions "chart" "pie" options
-            setLegendOptions legend options
             setXAxisOptions series.[0].XType options categories xTitle
             setYAxisOptions options yTitle
             let pieChart = createEmpty<HighchartsPieChart>()
+            pieChart.showInLegend <- legend
             pieChart.innerSize <- "50%"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.pie <- pieChart
+            options.plotOptions <- plotOptions
             setTitle chartTitle options
             setSubtitle subtitle options
             setSeriesOptions series options
