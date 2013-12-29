@@ -20,9 +20,8 @@ let basicFunnel =
     ]
     |> Series.Funnel
     |> Series.SetName "Unique users"
-    |> Highcharts.Funnel
-
-basicFunnel.SetTitle "Sales Funnel"
+    |> Chart.plot
+    |> Chart.title "Sales Funnel"
 ```
 Chart
 -----
