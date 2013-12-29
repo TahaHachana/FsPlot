@@ -18,6 +18,7 @@ Demos
     * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md), [Column + Spline + Pie](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsColumnSplinePie.md)
     * Donut: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicDonut.md)
     * Funnel: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicFunnel.md)
+    * Line: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicLine.md)
     * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
     * Radar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicRadar.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
@@ -39,28 +40,26 @@ Usage
 open FsPlot.Charting
 open FsPlot.DataSeries
 
-let data = ["Chrome", 40.4; "Firefox", 36.5; "IE", 23.1]
-    
-// Create a pie chart
-let chart = Highcharts.Pie data
+// Use a functional style.
+let pie = 
+    ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
+    |> Series.Pie
+    |> Series.SetName "Browser Share"
+    |> Chart.plot
+    |> Chart.title "Website Visitors By Browser"
+    |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+    |> Chart.showLegend
 
-// Display a legend
-chart.ShowLegend()
+// Use an object-oriented style.
+let data =
+    Series.Pie(
+        "Browser Share",
+        ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
 
-// Update the chart's data
-chart.SetData ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 24.2]
+let pie' = Highcharts.Pie(data, legend = true, title = "Website Visitors By Browser")
 
-// Update the chart's data in a more structured way
-["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
-|> Series.Pie
-|> Series.SetName "Browser Share"
-|> chart.SetData
-
-// Add a title
-chart.SetTitle "Website Visitors By Browser"
+pie'.SetTooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
 ```
-![Pie Chart](https://lh4.googleusercontent.com/-mKGde0NEjNg/UqhOZKp4uTI/AAAAAAAAANk/p2A_oW--4Gk/w698-h498-no/pie.PNG)
-
 Contact
 -------
 
