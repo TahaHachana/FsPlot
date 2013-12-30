@@ -44,11 +44,16 @@ type ChartType =
     | Donut
     | Funnel
     | Line
+    | PercentArea
+    | PercentBar
+    | PercentColumn
     | Pie
     | Radar
     | Scatter
     | Spline
     | StackedArea
+    | StackedBar
+    | StackedColumn
 
 type Series =
     {
@@ -258,6 +263,42 @@ type Series =
     static member Line(name, values:seq<#key*#value>) =
         Series.New(name, Line, values)
 
+    static member PercentArea(values:seq<#value>) =
+        Series.New(PercentArea, values)
+
+    static member PercentArea(name, values:seq<#value>) =
+        Series.New(name, PercentArea, values)
+
+    static member PercentArea(values:seq<#key*#value>) =
+        Series.New(PercentArea, values)
+
+    static member PercentArea(name, values:seq<#key*#value>) =
+        Series.New(name, PercentArea, values)
+
+    static member PercentBar(values:seq<#value>) =
+        Series.New(PercentBar, values)
+
+    static member PercentBar(name, values:seq<#value>) =
+        Series.New(name, PercentBar, values)
+
+    static member PercentBar(values:seq<#key*#value>) =
+        Series.New(PercentBar, values)
+
+    static member PercentBar(name, values:seq<#key*#value>) =
+        Series.New(name, PercentBar, values)
+
+    static member PercentColumn(values:seq<#value>) =
+        Series.New(PercentColumn, values)
+
+    static member PercentColumn(name, values:seq<#value>) =
+        Series.New(name, PercentColumn, values)
+
+    static member PercentColumn(values:seq<#key*#value>) =
+        Series.New(PercentColumn, values)
+
+    static member PercentColumn(name, values:seq<#key*#value>) =
+        Series.New(name, PercentColumn, values)
+
     static member Pie(values:seq<#value>) =
         Series.New(Pie, values)
 
@@ -317,3 +358,27 @@ type Series =
 
     static member StackedArea(name, values:seq<#key*#value>) =
         Series.New(name, StackedArea, values)
+
+    static member StackedBar(values:seq<#value>) =
+        Series.New(StackedBar, values)
+
+    static member StackedBar(name, values:seq<#value>) =
+        Series.New(name, StackedBar, values)
+
+    static member StackedBar(values:seq<#key*#value>) =
+        Series.New(StackedBar, values)
+
+    static member StackedBar(name, values:seq<#key*#value>) =
+        Series.New(name, StackedBar, values)
+
+    static member StackedColumn(values:seq<#value>) =
+        Series.New(StackedColumn, values)
+
+    static member StackedColumn(name, values:seq<#value>) =
+        Series.New(name, StackedColumn, values)
+
+    static member StackedColumn(values:seq<#key*#value>) =
+        Series.New(StackedColumn, values)
+
+    static member StackedColumn(name, values:seq<#key*#value>) =
+        Series.New(name, StackedColumn, values)

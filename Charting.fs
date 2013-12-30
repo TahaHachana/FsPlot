@@ -53,11 +53,16 @@ let private compileJs (x:ChartData) =
     | Donut -> HighchartsJs.donut b f c a h i d e
     | Funnel -> HighchartsJs.funnel b f c a h i d e
     | Line -> HighchartsJs.line b f c a h i d e
+    | PercentArea -> HighchartsJs.percentArea b f c a h i d e false
+    | PercentBar -> HighchartsJs.percentBar b f c a h i d e
+    | PercentColumn -> HighchartsJs.percentColumn b f c a h i d e
     | Pie -> HighchartsJs.pie b f c a h i d e
     | Radar -> HighchartsJs.radar b f c a h i d e
     | Scatter -> HighchartsJs.scatter b f c a h i d e
     | Spline -> HighchartsJs.spline b f c a h i d e
     | StackedArea -> HighchartsJs.stackedArea b f c a h i d e false
+    | StackedBar -> HighchartsJs.stackedBar b f c a h i d e
+    | StackedColumn -> HighchartsJs.stackedColumn b f c a h i d e
 
 type GenericChart() as chart =
     
@@ -254,6 +259,27 @@ type HighchartsFunnel() =
 type HighchartsLine() =
     inherit GenericChart()
 
+type HighchartsPercentArea() =
+    inherit GenericChart()
+
+    let mutable inverted = false
+
+    let compileJs (x:ChartData) =
+        let a, b, c, d, e, f, _, h, i = x.Fields
+        HighchartsJs.percentArea b f c a h i d e inverted
+
+    do base.SetJsFun compileJs
+
+    member __.SetInverted(x) =
+        inverted <- x
+        base.Navigate()
+
+type HighchartsPercentBar() =
+    inherit GenericChart()
+
+type HighchartsPercentColumn() =
+    inherit GenericChart()
+
 type HighchartsPie() =
     inherit GenericChart()
 
@@ -280,6 +306,12 @@ type HighchartsStackedArea() =
     member __.SetInverted(x) =
         inverted <- x
         base.Navigate()
+
+type HighchartsStackedBar() =
+    inherit GenericChart()
+
+type HighchartsStackedColumn() =
+    inherit GenericChart()
 
 let private newChartData a b c d e f g h i =
     let c' = defaultArg c false
@@ -1071,6 +1103,282 @@ type Highcharts =
         let chartData = newChartData categories data legend None None title Line xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsLine()))
 
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentArea data
+        let chartData = newChartData categories [|series|] legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentArea data
+        let chartData = newChartData categories [|series|] legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+        
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentArea
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentArea
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentArea(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentArea
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentArea()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentBar data
+        let chartData = newChartData categories [|series|] legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentBar data
+        let chartData = newChartData categories [|series|] legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+        
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentBar(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentBar()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentColumn data
+        let chartData = newChartData categories [|series|] legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.PercentColumn data
+        let chartData = newChartData categories [|series|] legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+        
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
+    /// <summary>Creates a percent column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member PercentColumn(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.PercentColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsPercentColumn()))
+
     /// <summary>Creates a pie chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
@@ -1485,6 +1793,190 @@ type Highcharts =
         let chartData = newChartData categories data legend None None title StackedArea xTitle yTitle
         GenericChart.Create(chartData, (fun () -> HighchartsStackedArea()))
 
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.StackedBar data
+        let chartData = newChartData categories [|series|] legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.StackedBar data
+        let chartData = newChartData categories [|series|] legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+        
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedBar(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedBar
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedBar()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let chartData = newChartData categories [|data|] legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.StackedColumn data
+        let chartData = newChartData categories [|series|] legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let series = Series.StackedColumn data
+        let chartData = newChartData categories [|series|] legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+        
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<(#key*#value) list>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<(#key*#value) []>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data = Seq.toArray data
+        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    static member StackedColumn(data:seq<seq<#key*#value>>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
+        let data =
+            data
+            |> Seq.map Series.StackedColumn
+            |> Seq.toArray
+        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        GenericChart.Create(chartData, (fun () -> HighchartsStackedColumn()))
+
 type Chart =
 
     static member categories categories (chart:#GenericChart) =
@@ -1510,11 +2002,16 @@ type Chart =
         | Donut -> Highcharts.Donut series :> GenericChart
         | Funnel -> Highcharts.Funnel series :> GenericChart
         | Line -> Highcharts.Line series :> GenericChart
+        | PercentArea -> Highcharts.PercentArea series :> GenericChart
+        | PercentBar -> Highcharts.PercentBar series :> GenericChart
+        | PercentColumn -> Highcharts.PercentColumn series :> GenericChart
         | Pie -> Highcharts.Pie series :> GenericChart
         | Radar -> Highcharts.Radar series :> GenericChart
         | Scatter -> Highcharts.Scatter series :> GenericChart
         | Spline -> Highcharts.Spline series :> GenericChart
-        | _ -> Highcharts.StackedArea series :> GenericChart
+        | StackedArea -> Highcharts.StackedArea series :> GenericChart
+        | StackedBar -> Highcharts.StackedBar series :> GenericChart
+        | _ -> Highcharts.StackedColumn series :> GenericChart
 
     static member plot (series:seq<Series>) =
         let types =
@@ -1533,11 +2030,16 @@ type Chart =
             | Donut -> Highcharts.Donut series :> GenericChart
             | Funnel -> Highcharts.Funnel series :> GenericChart
             | Line -> Highcharts.Line series :> GenericChart
+            | PercentArea -> Highcharts.PercentArea series :> GenericChart
+            | PercentBar -> Highcharts.PercentBar series :> GenericChart
+            | PercentColumn -> Highcharts.PercentColumn series :> GenericChart
             | Pie -> Highcharts.Pie series :> GenericChart
             | Radar -> Highcharts.Radar series :> GenericChart
             | Scatter -> Highcharts.Scatter series :> GenericChart
             | Spline -> Highcharts.Spline series :> GenericChart
-            | _ -> Highcharts.StackedArea series :> GenericChart
+            | StackedArea -> Highcharts.StackedArea series :> GenericChart
+            | StackedBar -> Highcharts.StackedBar series :> GenericChart
+            | _ -> Highcharts.StackedColumn series :> GenericChart
         | _ -> Highcharts.Combine series :> GenericChart
 
     static member showLegend (chart:#GenericChart) =

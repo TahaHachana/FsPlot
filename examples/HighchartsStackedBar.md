@@ -9,19 +9,15 @@ Code
 
 open FsPlot.Charting
 open FsPlot.DataSeries
-open FsPlot.Options
 
-let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
+let joe = Series.StackedBar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+let jane = Series.StackedBar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+let john = Series.StackedBar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
 let stackedBar =
-    [joe; jane; john]
-    |> Chart.plot
+    Chart.plot [joe; jane; john]
     |> Chart.showLegend
     |> Chart.yTitle "Total Fruit Consumption"
-    :?> HighchartsBar
-    |> fun x -> x.SetStacking Normal
 ```
 Chart
 -----

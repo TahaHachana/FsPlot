@@ -448,6 +448,132 @@ module Line =
         ]
         |> Highcharts.Line
 
+module PercentArea =
+    
+    let area1 =
+        Series.PercentArea [1000; 1170; 560; 1030]
+        |> Highcharts.PercentArea
+
+    let area2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.PercentArea
+
+    let area3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.PercentArea
+    
+    let area4 =
+        [
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.PercentArea
+
+    let area5 =
+        [
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        ]
+        |> Highcharts.PercentArea
+
+    let area6 =
+        [
+            Series.PercentArea ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Series.PercentArea ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.PercentArea
+
+    let area7 =
+        [
+            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.PercentArea
+
+module PercentBar =
+    
+    let bar1 =
+        Series.PercentBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.PercentBar
+
+    let bar2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.PercentBar
+
+    let bar3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.PercentBar
+
+    let bar4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.PercentBar
+
+    let bar5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.PercentBar
+
+    let bar6 =
+        [
+            Series.PercentBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.PercentBar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.PercentBar
+
+    let bar7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.PercentBar
+
+module PercentColumn =
+
+    let column1 =
+        Series.PercentColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.PercentColumn
+
+    let column2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.PercentColumn
+
+    let column3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.PercentColumn
+
+    let column4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.PercentColumn
+
+    let column5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.PercentColumn
+
+    let column6 =
+        [
+            Series.PercentColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.PercentColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.PercentColumn
+
+    let column7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.PercentColumn
+
 module Pie =
 
     let pie1 =
@@ -639,3 +765,86 @@ module StackedArea =
         |> Chart.showLegend
         |> Chart.xTitle "Year"
 
+module StackedBar =
+    
+    let bar1 =
+        Series.StackedBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.StackedBar
+
+    let bar2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.StackedBar
+
+    let bar3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.StackedBar
+
+    let bar4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.StackedBar
+
+    let bar5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.StackedBar
+
+    let bar6 =
+        [
+            Series.StackedBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.StackedBar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.StackedBar
+
+    let bar7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.StackedBar
+
+module StackedColumn =
+
+    let column1 =
+        Series.StackedColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.StackedColumn
+
+    let column2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.StackedColumn
+
+    let column3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.StackedColumn
+
+    let column4 =
+        [
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.StackedColumn
+
+    let column5 =
+        [
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.StackedColumn
+
+    let column6 =
+        [
+            Series.StackedColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+            Series.StackedColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        ]
+        |> Highcharts.StackedColumn
+
+    let column7 =
+        [
+            Seq.ofArray [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+            Seq.ofArray [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        ]
+        |> Highcharts.StackedColumn

@@ -42,11 +42,16 @@ let quoteChartType (chartType:ChartType) =
     | Donut -> chartTypeExpr 7
     | Funnel -> chartTypeExpr 8
     | Line -> chartTypeExpr 9
-    | Pie -> chartTypeExpr 10
-    | Radar -> chartTypeExpr 11
-    | Scatter -> chartTypeExpr 12
-    | Spline -> chartTypeExpr 13
-    | StackedArea -> chartTypeExpr 14
+    | PercentArea -> chartTypeExpr 10
+    | PercentBar -> chartTypeExpr 11
+    | PercentColumn -> chartTypeExpr 12
+    | Pie -> chartTypeExpr 13
+    | Radar -> chartTypeExpr 14
+    | Scatter -> chartTypeExpr 15
+    | Spline -> chartTypeExpr 16
+    | StackedArea -> chartTypeExpr 17
+    | StackedBar -> chartTypeExpr 18
+    | StackedColumn -> chartTypeExpr 19
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(

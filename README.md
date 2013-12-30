@@ -9,21 +9,26 @@ FsPlot is an interactive data visualization library for F# using HTML5/JavaScrip
 Demos
 -----
 * Highcharts
-    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
+    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaspline.md)
     * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArearange.md)
-    * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentBar.md)
+    * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md)
     * Bubble: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBubble.md)
-    * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedColumn.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentColumn.md)
+    * Column: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicColumn.md)
     * Combination: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicComb.md), [Column + Spline + Pie](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsColumnSplinePie.md)
     * Donut: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicDonut.md)
     * Funnel: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicFunnel.md)
     * Line: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicLine.md)
+    * PercentArea: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md)
+    * PercentBar: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentBar.md)
+    * PercentColumn: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentColumn.md)
     * Pie: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicPie.md)
     * Radar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicRadar.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
     * Spline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicSpline.md)
     * StackedArea: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedArea.md)
+    * StackedBar: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md)
+    * StackedColumn: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedColumn.md)
 
 * Kendo UI DataViz
 

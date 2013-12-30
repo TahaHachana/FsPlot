@@ -65,12 +65,12 @@ module Utils =
     let setSeriesChartType chartType (options:HighchartsSeriesOptions) =
         let chartTypeStr = 
             match chartType with
-            | Area | StackedArea -> "area"
+            | Area | StackedArea | PercentArea -> "area"
             | Areaspline -> "areaspline"
             | Arearange -> "arearange"
-            | Bar -> "bar"
+            | Bar | StackedBar | PercentBar -> "bar"
             | Bubble -> "bubble"
-            | Column -> "column"
+            | Column | StackedColumn | PercentColumn -> "column"
             | Combination -> ""
             | Donut | Pie -> "pie"
             | Funnel -> "funnel"
@@ -355,6 +355,60 @@ open Inline
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
+        let percentArea (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle inverted =
+            let options = createEmpty<HighchartsOptions>()
+            areaChartOptions "chart" "area" inverted options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let areaChart = createEmpty<HighchartsAreaChart>()
+            areaChart.stacking <- "percent"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.area <- areaChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let percentBar (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
+            let options = createEmpty<HighchartsOptions>()
+            setChartOptions "chart" "bar" options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let barChart = createEmpty<HighchartsBarChart>()
+            barChart.stacking <- "percent"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.bar <- barChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let percentColumn (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
+            let options = createEmpty<HighchartsOptions>()
+            setChartOptions "chart" "column" options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let barChart = createEmpty<HighchartsBarChart>()
+            barChart.stacking <- "percent"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.column <- barChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
         let pie (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
             let options = createEmpty<HighchartsOptions>()
             setChartOptions "chart" "pie" options
@@ -467,6 +521,42 @@ open Inline
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
+        let stackedBar (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
+            let options = createEmpty<HighchartsOptions>()
+            setChartOptions "chart" "bar" options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let barChart = createEmpty<HighchartsBarChart>()
+            barChart.stacking <- "normal"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.bar <- barChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
+        let stackedColumn (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
+            let options = createEmpty<HighchartsOptions>()
+            setChartOptions "chart" "column" options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let barChart = createEmpty<HighchartsBarChart>()
+            barChart.stacking <- "normal"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.column <- barChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
 let area a b c d e f g h i j =
     let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
     let e9 = quoteStacking i
@@ -544,6 +634,28 @@ let line a b c d e f g h =
         noReturn=true,
         shouldCompress=true)
 
+let percentArea a b c d e f g h i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    let e9 = quoteBool i
+    Compiler.Compiler.Compile(
+        <@ Chart.percentArea %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+let percentBar a b c d e f g h =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    Compiler.Compiler.Compile(
+        <@ Chart.percentBar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+let percentColumn a b c d e f g h =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    Compiler.Compiler.Compile(
+        <@ Chart.percentColumn %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
 let pie a b c d e f g h =
     let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
     Compiler.Compiler.Compile(
@@ -577,5 +689,19 @@ let stackedArea a b c d e f g h i =
     let e9 = quoteBool i
     Compiler.Compiler.Compile(
         <@ Chart.stackedArea %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+let stackedBar a b c d e f g h =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    Compiler.Compiler.Compile(
+        <@ Chart.stackedBar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+let stackedColumn a b c d e f g h =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    Compiler.Compiler.Compile(
+        <@ Chart.stackedColumn %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
