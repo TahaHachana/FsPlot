@@ -588,4 +588,54 @@ module Spline =
         ]
         |> Highcharts.Spline
 
+module StackedArea =
+    
+    let area1 =
+        Series.StackedArea [1000; 1170; 560; 1030]
+        |> Highcharts.StackedArea
+
+    let area2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.StackedArea
+
+    let area3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.StackedArea
+    
+    let area4 =
+        [
+            ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.StackedArea
+
+    let area5 =
+        [
+            [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+            [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        ]
+        |> Highcharts.StackedArea
+
+    let area6 =
+        [
+            Series.StackedArea ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Series.StackedArea ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.StackedArea
+
+    let area7 =
+        [
+            Seq.ofList ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+            Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        ]
+        |> Highcharts.StackedArea
+
+    let area8 =
+        let sales = Series.StackedArea ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.StackedArea ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Chart.plot [sales; expenses]
+        |> Chart.title "Title"
+        |> Chart.subtitle "Subtitle"
+        |> Chart.showLegend
+        |> Chart.xTitle "Year"
 

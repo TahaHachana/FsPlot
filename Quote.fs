@@ -46,6 +46,7 @@ let quoteChartType (chartType:ChartType) =
     | Radar -> chartTypeExpr 11
     | Scatter -> chartTypeExpr 12
     | Spline -> chartTypeExpr 13
+    | StackedArea -> chartTypeExpr 14
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(

@@ -65,7 +65,7 @@ module Utils =
     let setSeriesChartType chartType (options:HighchartsSeriesOptions) =
         let chartTypeStr = 
             match chartType with
-            | Area -> "area"
+            | Area | StackedArea -> "area"
             | Areaspline -> "areaspline"
             | Arearange -> "arearange"
             | Bar -> "bar"
@@ -449,6 +449,24 @@ open Inline
             let chartElement = Utils.jq "#chart"
             chartElement.highcharts(options) |> ignore
 
+        let stackedArea (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle inverted =
+            let options = createEmpty<HighchartsOptions>()
+            areaChartOptions "chart" "area" inverted options
+            setLegendOptions legend options
+            setXAxisOptions series.[0].XType options categories xTitle
+            setYAxisOptions options yTitle
+            let areaChart = createEmpty<HighchartsAreaChart>()
+            areaChart.stacking <- "normal"
+            let plotOptions = createEmpty<HighchartsPlotOptions>()
+            plotOptions.area <- areaChart
+            options.plotOptions <- plotOptions
+            setTitle chartTitle options
+            setSubtitle subtitle options
+            setSeriesOptions series options
+            setTooltipOptions pointFormat options
+            let chartElement = Utils.jq "#chart"
+            chartElement.highcharts(options) |> ignore
+
 let area a b c d e f g h i j =
     let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
     let e9 = quoteStacking i
@@ -551,5 +569,13 @@ let spline a b c d e f g h =
     let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
     Compiler.Compiler.Compile(
         <@ Chart.spline %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
+        noReturn=true,
+        shouldCompress=true)
+
+let stackedArea a b c d e f g h i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+    let e9 = quoteBool i
+    Compiler.Compiler.Compile(
+        <@ Chart.stackedArea %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)

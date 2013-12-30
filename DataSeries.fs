@@ -48,6 +48,7 @@ type ChartType =
     | Radar
     | Scatter
     | Spline
+    | StackedArea
 
 type Series =
     {
@@ -304,3 +305,15 @@ type Series =
 
     static member Spline(name, values:seq<#key*#value>) =
         Series.New(name, Spline, values)
+
+    static member StackedArea(values:seq<#value>) =
+        Series.New(StackedArea, values)
+
+    static member StackedArea(name, values:seq<#value>) =
+        Series.New(name, StackedArea, values)
+
+    static member StackedArea(values:seq<#key*#value>) =
+        Series.New(StackedArea, values)
+
+    static member StackedArea(name, values:seq<#key*#value>) =
+        Series.New(name, StackedArea, values)

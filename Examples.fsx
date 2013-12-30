@@ -115,11 +115,11 @@ module Area =
         |> fun x -> x.SetStacking Normal
 
 
-    let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
-    let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
-    let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
-    let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
-    let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
+//    let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
+//    let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
+//    let europe = Series.Area("Europe", [163; 203; 276; 408; 547; 729; 628])
+//    let america = Series.Area("America", [18; 31; 54; 156; 339; 818; 1201])
+//    let oceania = Series.Area("Oceania", [2; 2; 2; 6; 13; 30; 46])
 
     let percentArea =
         [asia; africa; europe; america; oceania]
@@ -146,16 +146,16 @@ module Area =
 //            |> Series.SetName "John"
 //        Highcharts.Area [jane; john]
 
-    let jane =
-        ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
-        |> Series.Area
-        |> Series.SetName "Jane"
-
-    let john =
-        ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
-        |> Series.Area
-        |> Series.SetName "John"
-
+//    let jane =
+//        ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
+//        |> Series.Area
+//        |> Series.SetName "Jane"
+//
+//    let john =
+//        ["Monday", 3; "Tuesday", 4; "Wednesday", 3; "Thursday", 5; "Friday", 7; "Saturday", 10; "Sunday", 12]
+//        |> Series.Area
+//        |> Series.SetName "John"
+//
     let invertedAxesArea =
         [john; jane]
         |> Chart.plot
@@ -220,9 +220,9 @@ module Bar =
         :?> HighchartsBar
         |> fun x -> x.SetStacking Normal
 
-    let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-    let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-    let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
+//    let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+//    let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+//    let john = Series.Bar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentBar =
         [joe; jane; john]
@@ -263,10 +263,10 @@ module Column =
         |> Chart.yTitle "Total Fruit Consumption"
         :?> HighchartsColumn
         |> fun x -> x.SetStacking Normal
-
-    let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
-    let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
-    let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
+//
+//    let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
+//    let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
+//    let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentColumn =
         Chart.plot [joe; jane; john]
@@ -400,3 +400,19 @@ module Spline =
         |> Chart.plot
         |> Chart.showLegend
         |> Chart.title "Company Performance"
+
+module StackedArea =
+
+    let asia = Series.StackedArea("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
+    let africa = Series.StackedArea("Africa", [106; 107; 111; 133; 221; 767; 1766])
+    let europe = Series.StackedArea("Europe", [163; 203; 276; 408; 547; 729; 628])
+    let america = Series.StackedArea("America", [18; 31; 54; 156; 339; 818; 1201])
+    let oceania = Series.StackedArea("Oceania", [2; 2; 2; 6; 13; 30; 46])
+
+    let stackedArea =
+        [asia; africa; europe; america; oceania]
+        |> Chart.plot
+        |> Chart.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Chart.showLegend
+        |> Chart.title "Historic and Estimated Worldwide Population Growth"
+        |> Chart.tooltip "{series.name} <b>{point.y}</b> millions"

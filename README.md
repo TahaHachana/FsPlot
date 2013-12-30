@@ -9,7 +9,7 @@ FsPlot is an interactive data visualization library for F# using HTML5/JavaScrip
 Demos
 -----
 * Highcharts
-    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
+    * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
     * Areaspline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaspline.md)
     * Arearange: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArearange.md)
     * Bar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicBar.md), [Stacked](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md), [Percent](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsPercentBar.md)
@@ -23,6 +23,7 @@ Demos
     * Radar: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicRadar.md)
     * Scatter: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicScatter.md)
     * Spline: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicSpline.md)
+    * StackedArea: [Basic] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedArea.md)
 
 * Kendo UI DataViz
 
@@ -40,17 +41,16 @@ Usage
 open FsPlot.Charting
 open FsPlot.DataSeries
 
-// Use a functional style.
+// Functional style.
 let pie = 
-    ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
-    |> Series.Pie
+    Series.Pie ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
     |> Series.SetName "Browser Share"
     |> Chart.plot
     |> Chart.title "Website Visitors By Browser"
     |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
     |> Chart.showLegend
 
-// Use an object-oriented style.
+// Object-oriented style.
 let data =
     Series.Pie(
         "Browser Share",
