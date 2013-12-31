@@ -69,7 +69,7 @@ module Area =
 //            |> Series.Area
 //            |> Series.SetName "USSR/Russia"
 //
-//        Highcharts.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
+//        Chart.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
 //
 //    // Add a title to the Y-axis.
 //    basicArea.SetYTitle "Nuclear warheads"
@@ -144,7 +144,7 @@ module Area =
 //            ("Plums", box 3); ("Strawberries", box 3); ("Raspberries", box 5)]
 //            |> Series.Area
 //            |> Series.SetName "John"
-//        Highcharts.Area [jane; john]
+//        Chart.Area [jane; john]
 
 //    let jane =
 //        ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
@@ -288,7 +288,6 @@ module Combination =
         |> Chart.showLegend
         |> Chart.title "Company Performance"
 
-
     let columnSplinePie =
         [
             Series.Column("Jane", [3; 2; 1; 3; 4])
@@ -308,7 +307,7 @@ module Combination =
 //        let joe = Series.Column("Joe", [4; 3; 3; 9; 0])
 //        let avg = Series.Line("Average", [3.; 2.67; 3.; 6.33; 3.33])
 //        let total = Series.Pie("Total", ["Jane", 13; "John", 23; "Joe", 19])
-//        Highcharts.Combine [jane; john; joe; avg; total]
+//        Chart.Combine [jane; john; joe; avg; total]
 //
 //    colLinePieComb.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
 
@@ -401,7 +400,7 @@ module Pie =
 
 
 //        Series.Pie("Browser Share", ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
-//        |> Highcharts.Pie
+//        |> Chart.Pie
 //
 //    basicPie.ShowLegend()        
 //    basicPie.SetTitle "Website Visitors By Browser"

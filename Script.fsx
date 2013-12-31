@@ -77,15 +77,6 @@ module Area =
         ]
         |> Highcharts.Area
 
-    let area8 =
-        Series.Area ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        |> Series.SetName "Sales"
-        |> Chart.plot
-        |> Chart.title "Title"
-        |> Chart.subtitle "Subtitle"
-        |> Chart.showLegend
-        |> Chart.xTitle "Year"
-
 module Areaspline =
     
     let areaspline1 =
@@ -755,15 +746,6 @@ module StackedArea =
             Seq.ofList ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         ]
         |> Highcharts.StackedArea
-
-    let area8 =
-        let sales = Series.StackedArea ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.StackedArea ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        Chart.plot [sales; expenses]
-        |> Chart.title "Title"
-        |> Chart.subtitle "Subtitle"
-        |> Chart.showLegend
-        |> Chart.xTitle "Year"
 
 module StackedBar =
     

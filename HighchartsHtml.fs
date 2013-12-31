@@ -1,7 +1,7 @@
-﻿module internal FsPlot.Html
+﻿module internal FsPlot.HighchartsHtml
 
 /// Generates the HTML document for common chart types.
-let highcharts js =
+let common js =
     String.concat
         ""
         [
@@ -19,7 +19,7 @@ let highcharts js =
         ]
 
 /// Generates the HTML document for the combination chart type.
-let highchartsCombine js =
+let combine js =
     String.concat
         ""
         [
@@ -39,7 +39,7 @@ let highchartsCombine js =
         ]
 
 /// Generates the HTML document for the funnel chart type.
-let highchartsFunnel js =
+let funnel js =
     String.concat
         ""
         [
@@ -58,7 +58,7 @@ let highchartsFunnel js =
         ]
 
 /// Generates the HTML document for the arearange, bubble and radar chart types.
-let highchartsMore js =
+let more js =
     String.concat
         ""
         [

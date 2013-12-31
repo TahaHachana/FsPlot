@@ -46,6 +46,7 @@
     <Compile Include="DataSeries.fs" />
     <Compile Include="Quote.fs" />
     <Compile Include="HighchartsJs.fs" />
+    <Compile Include="KendoJs.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Charting.fs" />
     <None Include="Script.fsx" />
