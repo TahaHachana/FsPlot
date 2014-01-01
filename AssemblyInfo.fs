@@ -1,12 +1,13 @@
 ﻿namespace System
+
 open System.Reflection
 
-[<assembly: AssemblyTitle("FsPlot")>]
-[<assembly: AssemblyProduct("FsPlot")>]
-[<assembly: AssemblyDescription("A Data Visualization Library for F# Using HTML5/JavaScript.")>]
-[<assembly: AssemblyVersionAttribute("0.2.29")>]
-[<assembly: AssemblyFileVersionAttribute("0.2.29")>]
-()
+[<
+    AssemblyDescription("A Data Visualization Library for F# Using HTML5/JavaScript.");
+    AssemblyFileVersion("0.3.0");
+    AssemblyProduct("FsPlot");
+    AssemblyTitle("FsPlot");
+    AssemblyVersion("0.3.0")
+>]
 
-module internal AssemblyVersionInformation =
-    let [<Literal>] Version = "0.2.29"
+do ()

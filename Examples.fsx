@@ -6,9 +6,9 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
-open FsPlot.Options
-open FsPlot.Charting
 open FsPlot.DataSeries
+open FsPlot.Highcharts
+open FsPlot.HighchartsOptions
 
 module Area =
 

@@ -1,170 +1,8 @@
-﻿module FsPlot.Charting
+﻿module FsPlot.Highcharts
 
-open Options
 open DataSeries
-
-type ChartData =
-    {
-        Categories : string []
-        Data : Series []
-        Legend : bool
-        PointFormat : string option
-        Subtitle : string option
-        Title : string option
-        Type : ChartType
-        XTitle : string option
-        YTitle : string option
-    }
-
-    static member New a b c d e f g h i=
-        {
-            Categories = a
-            Data = b
-            Legend = c
-            PointFormat = d
-            Subtitle = e
-            Title = f
-            Type = g
-            XTitle = h
-            YTitle = i
-        }
-
-    member __.Fields =
-        __.Categories,
-        __.Data,
-        __.Legend,
-        __.PointFormat,
-        __.Subtitle,
-        __.Title,
-        __.Type,
-        __.XTitle,
-        __.YTitle
-
-module private Js =
-
-    let highcharts (x:ChartData) =
-        let a, b, c, d, e, f, g, h, i = x.Fields
-        match g with
-        | Area -> HighchartsJs.area b f c a h i d e Disabled false
-        | Areaspline -> HighchartsJs.areaspline b f c a h i d e Disabled false
-        | Arearange -> HighchartsJs.arearange b f c a h i d e
-        | Bar -> HighchartsJs.bar b f c a h i d e Disabled
-        | Bubble -> HighchartsJs.bubble b f c a h i d e
-        | Column -> HighchartsJs.column b f c a h i d e Disabled
-        | Combination -> HighchartsJs.combine b f c a h i d e None
-        | Donut -> HighchartsJs.donut b f c a h i d e
-        | Funnel -> HighchartsJs.funnel b f c a h i d e
-        | Line -> HighchartsJs.line b f c a h i d e
-        | PercentArea -> HighchartsJs.percentArea b f c a h i d e false
-        | PercentBar -> HighchartsJs.percentBar b f c a h i d e
-        | PercentColumn -> HighchartsJs.percentColumn b f c a h i d e
-        | Pie -> HighchartsJs.pie b f c a h i d e
-        | Radar -> HighchartsJs.radar b f c a h i d e
-        | Scatter -> HighchartsJs.scatter b f c a h i d e
-        | Spline -> HighchartsJs.spline b f c a h i d e
-        | StackedArea -> HighchartsJs.stackedArea b f c a h i d e false
-        | StackedBar -> HighchartsJs.stackedBar b f c a h i d e
-        | StackedColumn -> HighchartsJs.stackedColumn b f c a h i d e
-
-module private Html =
-    
-    let highcharts chartType =
-        match chartType with
-        | Arearange | Bubble | Radar -> HighchartsHtml.more
-        | Combination -> HighchartsHtml.combine
-        | Funnel -> HighchartsHtml.funnel
-        | _ -> HighchartsHtml.common
-
-
-type GenericChart() as chart =
-    
-    [<DefaultValue>] val mutable private chartData : ChartData    
-//    [<DefaultValue>] val mutable private jsFun : ChartData -> string
-//    [<DefaultValue>] val mutable private htmlFun : string -> string    
-
-    let mutable jsFun = Js.highcharts    
-    let mutable htmlFun = Html.highcharts
-
-    let wnd, browser = ChartWindow.show()
-
-    let ctx = System.Threading.SynchronizationContext.Current
-
-    let agent =
-        MailboxProcessor<ChartData>.Start(fun inbox ->
-            let rec loop() =
-                async {
-                    let! msg = inbox.Receive()
-                    match inbox.CurrentQueueLength with
-                    | 0 ->
-                        let js = jsFun msg
-                        match inbox.CurrentQueueLength with
-                        | 0 ->
-                            let html = htmlFun msg.Type js
-                            match inbox.CurrentQueueLength with
-                            | 0 ->
-                                do! Async.SwitchToContext ctx
-                                browser.NavigateToString html
-                                return! loop()
-                            | _ -> return! loop()
-                        | _ -> return! loop()
-                    | _ -> return! loop()
-                }
-            loop())
-
-    member __.Close() = wnd.Close()
-
-    static member internal Create x (f:unit -> #GenericChart) =
-        let gc = f()
-        gc.chartData <- x
-        gc.Navigate()
-        gc
-
-    member __.HideLegend() =
-        chart.chartData <- { chart.chartData with Legend = false }
-        __.Navigate()
-
-    member internal __.Navigate() = agent.Post chart.chartData
-
-    member __.SetCategories(categories) =
-        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
-        __.Navigate()
-
-    member __.SetData series =
-        chart.chartData <- { chart.chartData with Data = [|series|] }
-        __.Navigate()
-
-    member __.SetData (data:seq<Series>) =
-        let series = Seq.toArray data
-        chart.chartData <- { chart.chartData with Data = series }
-        __.Navigate()
-
-    member internal __.SetHtmlFun f = htmlFun <- f
-
-    member internal __.SetJsFun(f) = jsFun <- f
-
-    member __.SetTooltip(format) =
-        chart.chartData <- { chart.chartData with PointFormat = Some format }
-        __.Navigate()
-
-    member __.SetSubtitle subtitle =
-        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
-        __.Navigate()
-
-    member __.SetTitle title =
-        chart.chartData <- { chart.chartData with Title = Some title }
-        __.Navigate()
-
-    member __.SetXTitle(title) =
-        chart.chartData <- { chart.chartData with XTitle = Some title }
-        __.Navigate()
-
-    member __.SetYTitle(title) =
-        chart.chartData <- { chart.chartData with YTitle = Some title }
-        __.Navigate()
-
-    member __.ShowLegend() =
-        chart.chartData <- { chart.chartData with Legend = true }
-        __.Navigate()
+open GenericChart
+open HighchartsOptions
 
 type HighchartsArea() =
     inherit GenericChart()
@@ -174,7 +12,7 @@ type HighchartsArea() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.area b f c a h i d e stacking inverted
+        HighchartsJs.area b e c a h i f d stacking inverted
 
     do base.SetJsFun compileJs
 
@@ -194,7 +32,7 @@ type HighchartsAreaspline() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.areaspline b f c a h i d e stacking inverted
+        HighchartsJs.areaspline b e c a h i f d stacking inverted
 
     do base.SetJsFun compileJs
 
@@ -216,7 +54,7 @@ type HighchartsBar() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.bar b f c a h i d e stacking
+        HighchartsJs.bar b e c a h i f d stacking
 
     do base.SetJsFun compileJs
 
@@ -234,7 +72,7 @@ type HighchartsColumn() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.column b f c a h i d e stacking
+        HighchartsJs.column b e c a h i f d stacking
 
     do base.SetJsFun compileJs
 
@@ -249,7 +87,7 @@ type HighchartsCombination() =
 
     let js (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.combine b f c a h i d e pieOptions
+        HighchartsJs.combine b e c a h i f d pieOptions
 
     do base.SetJsFun js
 
@@ -273,7 +111,7 @@ type HighchartsPercentArea() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.percentArea b f c a h i d e inverted
+        HighchartsJs.percentArea b e c a h i f d inverted
 
     do base.SetJsFun compileJs
 
@@ -306,7 +144,7 @@ type HighchartsStackedArea() =
 
     let compileJs (x:ChartData) =
         let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.stackedArea b f c a h i d e inverted
+        HighchartsJs.stackedArea b e c a h i f d inverted
 
     do base.SetJsFun compileJs
 
@@ -733,7 +571,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
         
     /// <summary>Creates a bubble chart.</summary>
@@ -748,7 +586,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -1984,16 +1822,18 @@ type Highcharts =
         let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
-type Chart =
-
+    /// <summary>Sets the categories of a chart's X-axis.</summary>
     static member categories categories (chart:#GenericChart) =
         chart.SetCategories categories
         chart
 
+    /// <summary>Closes the chart's window.</summary>
     static member close (chart:#GenericChart) = chart.Close()
 
+    /// <summary>Sets the data series used by a chart.</summary>
     static member data (series:seq<Series>) (chart:#GenericChart) = chart.SetData series
 
+    /// <summary>Hides the legend of a chart.</summary>
     static member hideLegend (chart:#GenericChart) =
         chart.HideLegend()
         chart
@@ -2049,26 +1889,32 @@ type Chart =
             | _ -> Highcharts.StackedColumn series :> GenericChart
         | _ -> Highcharts.Combine series :> GenericChart
 
+    /// <summary>Displays the chart's legend.</summary>
     static member showLegend (chart:#GenericChart) =
         chart.ShowLegend()
         chart
 
+    /// <summary>Sets the chart's subtitle.</summary>
     static member subtitle subtitle (chart:#GenericChart) =
         chart.SetSubtitle subtitle
         chart
 
+    /// <summary>Sets the chart's title.</summary>
     static member title title (chart:#GenericChart) =
         chart.SetTitle title
         chart
 
+    /// <summary>Modifies the data points' tooltip format.</summary>
     static member tooltip format (chart:#GenericChart) =
         chart.SetTooltip format
         chart
 
+    /// <summary>Sets the chart's X-axis title.</summary>
     static member xTitle xTitle (chart:#GenericChart) =
         chart.SetXTitle xTitle
         chart
 
+    /// <summary>Sets the chart's Y-axis title.</summary>
     static member yTitle yTitle (chart:#GenericChart) =
         chart.SetYTitle yTitle
         chart

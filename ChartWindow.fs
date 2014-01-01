@@ -5,11 +5,13 @@ open System.Windows
 open System.Windows.Controls
 open System.Windows.Media.Imaging
 
+/// Creates the bitmap frame used to set the chart's window icon.
 let private bitmapFrame =
     let uriString = @"pack://application:,,,/FsPlot;component/ChartIcon.ico"
     let iconUri = Uri(uriString, UriKind.RelativeOrAbsolute)
     BitmapFrame.Create(iconUri)
 
+/// Displays a window containing a browser control.
 let show html =
     let wnd = Window()
     wnd.Icon <- bitmapFrame

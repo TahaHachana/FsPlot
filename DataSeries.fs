@@ -5,6 +5,29 @@ open System
 type key = IConvertible
 type value = IConvertible
 
+[<ReflectedDefinition>]
+type ChartType =
+    | Area
+    | Areaspline
+    | Arearange
+    | Bar
+    | Bubble
+    | Column
+    | Combination
+    | Donut
+    | Funnel
+    | Line
+    | PercentArea
+    | PercentBar
+    | PercentColumn
+    | Pie
+    | Radar
+    | Scatter
+    | Spline
+    | StackedArea
+    | StackedBar
+    | StackedColumn
+
 module private Utils =
 
     let utc (x:#key) =
@@ -32,29 +55,7 @@ module private Utils =
             box [|k'; v :> value; v' :> value|])
         |> Seq.toArray
 
-[<ReflectedDefinition>]
-type ChartType =
-    | Area
-    | Areaspline
-    | Arearange
-    | Bar
-    | Bubble
-    | Column
-    | Combination
-    | Donut
-    | Funnel
-    | Line
-    | PercentArea
-    | PercentBar
-    | PercentColumn
-    | Pie
-    | Radar
-    | Scatter
-    | Spline
-    | StackedArea
-    | StackedBar
-    | StackedColumn
-
+[<ReflectedDefinitionAttribute>]
 type Series =
     {
         Name : string

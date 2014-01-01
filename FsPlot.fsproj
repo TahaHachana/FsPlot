@@ -42,13 +42,14 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChartWindow.fs" />
-    <Compile Include="Options.fs" />
+    <Compile Include="HighchartsOptions.fs" />
     <Compile Include="DataSeries.fs" />
     <Compile Include="Quote.fs" />
     <Compile Include="HighchartsJs.fs" />
     <Compile Include="KendoJs.fs" />
-    <Compile Include="Html.fs" />
-    <Compile Include="Charting.fs" />
+    <Compile Include="HighchartsHtml.fs" />
+    <Compile Include="GenericChart.fs" />
+    <Compile Include="Highcharts.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />
     <Resource Include="ChartIcon.ico">

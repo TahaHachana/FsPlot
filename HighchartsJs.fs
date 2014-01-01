@@ -11,8 +11,9 @@
 open System
 open FunScript
 open DataSeries
-open Options
+//open Options
 open Quote
+open HighchartsOptions
 
 [<ReflectedDefinition>]
 module Utils =
@@ -142,31 +143,32 @@ module Utils =
 module Inline =
 
     [<JSEmitInline("{0}.center = {1}")>]
-    let pieCenter options arr : unit = failwith "never"
+    let pieCenter options arr : unit = failwith ""
 
     [<JSEmitInline("{0}.size = {1}")>]
-    let pieSize options size : unit = failwith "never"
+    let pieSize options size : unit = failwith ""
 
     [<JSEmitInline("{0}.showInLegend = false")>]
-    let disableLegend options : unit = failwith "never"
+    let disableLegend options : unit = failwith ""
 
     [<JSEmitInline("{0}.dataLabels = {enabled: false}")>]
-    let disableLabels options : unit = failwith "never"
+    let disableLabels options : unit = failwith ""
 
     [<JSEmitInline("{0}.gridLineInterpolation = 'polygon'")>]
-    let polygon options : unit = failwith "never"
+    let polygon options : unit = failwith ""
 
     [<JSEmitInline("{0}.neckHeight = '0%'")>]
-    let funnelNeck options : unit = failwith "never"
+    let funnelNeck options : unit = failwith ""
 
     [<JSEmitInline("{0}.pointPlacement = 'on'")>]
-    let pointPlacement options : unit = failwith "never"
+    let pointPlacement options : unit = failwith ""
 
 open Utils
 open Inline
 
 [<ReflectedDefinition>]
 module Chart =
+    
 
     let area (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
         let options = createEmpty<HighchartsOptions>()
@@ -186,6 +188,7 @@ module Chart =
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
 
+    // Area with smooth lines.
     let areaspline (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
         let options = createEmpty<HighchartsOptions>()
         areaChartOptions "chart" "areaspline" inverted options
@@ -490,6 +493,7 @@ module Chart =
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
 
+    // Line chart with smooth lines.
     let spline (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle =
         let options = createEmpty<HighchartsOptions>()
         setChartOptions "chart" "spline" options

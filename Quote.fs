@@ -3,18 +3,22 @@
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Reflection
 open System
+open HighchartsOptions
 open DataSeries
-open Options
+//open Options
 
 [<ReflectedDefinition>]
 type Boxer = static member Box (x:obj) = box x
 
 let boxInfo = typeof<Boxer>.GetMethod("Box")
 
-let strOptionInfos = FSharpType.GetUnionCases(typeof<string option>)
-let chartTypeInfos = FSharpType.GetUnionCases(typeof<ChartType>)
-let stackingInfos = Reflection.FSharpType.GetUnionCases(typeof<Stacking>)
-let pieOptionsInfos = FSharpType.GetUnionCases(typeof<PieOptions option>)
+let strOptionInfos = FSharpType.GetUnionCases typeof<string option>
+
+let chartTypeInfos = FSharpType.GetUnionCases typeof<ChartType>
+
+let stackingInfos = FSharpType.GetUnionCases typeof<Stacking>
+
+let pieOptionsInfos = FSharpType.GetUnionCases typeof<PieOptions option>
 
 let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 

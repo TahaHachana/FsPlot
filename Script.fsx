@@ -6,9 +6,9 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
-open FsPlot.Options
-open FsPlot.Charting
 open FsPlot.DataSeries
+open FsPlot.Highcharts
+open FsPlot.HighchartsOptions
 
 FunScript.Compiler.compile
     <@
@@ -28,7 +28,7 @@ module Area =
 //    let xt = area1.GetXTitle()
 //    let yt = area1.GetYTitle()
     area1.HideLegend()
-    area1.SetInverted true
+    area1.SetInverted false
     area1.SetCategories ["2010"; "2011"; "2012"; "2013"]
     area1.SetData (Series.Area [100; 117; 56; 103])
     area1.SetData [Series.Area [150; 157; 96; 153]]
@@ -38,7 +38,7 @@ module Area =
     area1.SetXTitle "x-title"
     area1.SetYTitle "y-title"
     area1.ShowLegend()
-    area1.SetStacking Stacking.Percent
+    area1.SetStacking Normal
     area1.Close()
 
     let area2 =
