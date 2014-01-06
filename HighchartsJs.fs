@@ -11,7 +11,6 @@
 open System
 open FunScript
 open DataSeries
-//open Options
 open Quote
 open HighchartsOptions
 
@@ -130,15 +129,15 @@ module Utils =
         legendOptions.enabled <- legend
         options.legend <- legendOptions
 
-    let quoteArgs a b c d e f g h =
-        quoteSeriesArr a,
-        quoteStrOption b,
-        quoteBool c,
-        quoteStringArr d,
-        quoteStrOption e,
-        quoteStrOption f,
-        quoteStrOption g,
-        quoteStrOption h
+    let quoteArgs series title legend categories xTitle yTitle tooltip subtitle =
+        quoteSeriesArr series,
+        quoteStrOption title,
+        quoteBool legend,
+        quoteStringArr categories,
+        quoteStrOption xTitle,
+        quoteStrOption yTitle,
+        quoteStrOption tooltip,
+        quoteStrOption subtitle
 
 module Inline =
 
@@ -169,7 +168,6 @@ open Inline
 [<ReflectedDefinition>]
 module Chart =
     
-
     let area (series:Series []) chartTitle legend categories xTitle yTitle pointFormat subtitle stacking inverted =
         let options = createEmpty<HighchartsOptions>()
         areaChartOptions "chart" "area" inverted options
@@ -561,8 +559,8 @@ module Chart =
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
 
-let area a b c d e f g h i j =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let area series title legend categories xTitle yTitle tooltip subtitle i j =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteStacking i
     let e10 = quoteBool j
     Compiler.Compiler.Compile(
@@ -570,8 +568,8 @@ let area a b c d e f g h i j =
         noReturn=true,
         shouldCompress=true)
 
-let areaspline a b c d e f g h i j =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let areaspline series title legend categories xTitle yTitle tooltip subtitle i j =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteStacking i
     let e10 = quoteBool j
     Compiler.Compiler.Compile(
@@ -579,132 +577,132 @@ let areaspline a b c d e f g h i j =
         noReturn=true,
         shouldCompress=true)
 
-let arearange a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let arearange series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.arearange %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let bar a b c d e f g h i =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let bar series title legend categories xTitle yTitle tooltip subtitle i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteStacking i
     Compiler.Compiler.Compile(
         <@ Chart.bar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)
 
-let bubble a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let bubble series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.bubble %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let column a b c d e f g h i =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let column series title legend categories xTitle yTitle tooltip subtitle i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteStacking i
     Compiler.Compiler.Compile(
         <@ Chart.column %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)
 
-let combine a b c d e f g h i =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let combine series title legend categories xTitle yTitle tooltip subtitle i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quotePieOptions i
     Compiler.Compiler.Compile(
         <@ Chart.combine %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)
 
-let donut a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let donut series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.donut %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let funnel a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let funnel series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.funnel %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let line a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let line series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.line %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let percentArea a b c d e f g h i =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let percentArea series title legend categories xTitle yTitle tooltip subtitle i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteBool i
     Compiler.Compiler.Compile(
         <@ Chart.percentArea %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)
 
-let percentBar a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let percentBar series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.percentBar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let percentColumn a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let percentColumn series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.percentColumn %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let pie a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let pie series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.pie %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let radar a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let radar series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.radar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let scatter a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let scatter series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.scatter %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let spline a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let spline series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.spline %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let stackedArea a b c d e f g h i =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let stackedArea series title legend categories xTitle yTitle tooltip subtitle i =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     let e9 = quoteBool i
     Compiler.Compiler.Compile(
         <@ Chart.stackedArea %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 %%e9 @>,
         noReturn=true,
         shouldCompress=true)
 
-let stackedBar a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let stackedBar series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.stackedBar %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,
         shouldCompress=true)
 
-let stackedColumn a b c d e f g h =
-    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs a b c d e f g h
+let stackedColumn series title legend categories xTitle yTitle tooltip subtitle =
+    let e1, e2, e3, e4, e5, e6, e7, e8 = quoteArgs series title legend categories xTitle yTitle tooltip subtitle
     Compiler.Compiler.Compile(
         <@ Chart.stackedColumn %%e1 %%e2 %%e3 %%e4 %%e5 %%e6 %%e7 %%e8 @>,
         noReturn=true,

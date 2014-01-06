@@ -11,8 +11,8 @@ type HighchartsArea() =
     let mutable inverted = false
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.area b e c a h i f d stacking inverted
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.area series title legend categories xTitle yTitle tooltip subtitle stacking inverted
 
     do base.SetJsFun compileJs
 
@@ -31,8 +31,8 @@ type HighchartsAreaspline() =
     let mutable inverted = false
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.areaspline b e c a h i f d stacking inverted
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.areaspline series title legend categories xTitle yTitle tooltip subtitle stacking inverted
 
     do base.SetJsFun compileJs
 
@@ -53,8 +53,8 @@ type HighchartsBar() =
     let mutable stacking = Disabled
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.bar b e c a h i f d stacking
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.bar series title legend categories xTitle yTitle tooltip subtitle stacking
 
     do base.SetJsFun compileJs
 
@@ -71,8 +71,8 @@ type HighchartsColumn() =
     let mutable stacking = Disabled
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.column b e c a h i f d stacking
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.column series title legend categories xTitle yTitle tooltip subtitle stacking
 
     do base.SetJsFun compileJs
 
@@ -86,8 +86,8 @@ type HighchartsCombination() =
     let mutable pieOptions = None
 
     let js (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.combine b e c a h i f d pieOptions
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.combine series title legend categories xTitle yTitle tooltip subtitle pieOptions
 
     do base.SetJsFun js
 
@@ -110,8 +110,8 @@ type HighchartsPercentArea() =
     let mutable inverted = false
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.percentArea b e c a h i f d inverted
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.percentArea series title legend categories xTitle yTitle tooltip subtitle inverted
 
     do base.SetJsFun compileJs
 
@@ -143,8 +143,8 @@ type HighchartsStackedArea() =
     let mutable inverted = false
 
     let compileJs (x:ChartData) =
-        let a, b, c, d, e, f, _, h, i = x.Fields
-        HighchartsJs.stackedArea b e c a h i f d inverted
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        HighchartsJs.stackedArea series title legend categories xTitle yTitle tooltip subtitle inverted
 
     do base.SetJsFun compileJs
 
@@ -158,13 +158,13 @@ type HighchartsStackedBar() =
 type HighchartsStackedColumn() =
     inherit GenericChart()
 
-let private newChartData a b c d e f g h i =
-    let c' = defaultArg c false
-    let a' =
-        match a with 
+let private newChartData categories data legend subtitle title tooltip chartType xTitle yTitle =
+    let legend' = defaultArg legend false
+    let categories' =
+        match categories with 
         | None -> [||]
         | Some value -> Seq.toArray value
-    ChartData.New a' b c' d e f g h i
+    ChartData.New categories' data legend' subtitle title tooltip chartType xTitle yTitle
 
 type Highcharts =
 
@@ -176,7 +176,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Area xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -188,7 +188,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None None title Area xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -200,7 +200,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None None title Area xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
         
     /// <summary>Creates an area chart.</summary>
@@ -215,7 +215,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -230,7 +230,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -242,7 +242,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Area(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -257,7 +257,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Area xTitle yTitle
+        let chartData = newChartData categories data legend None title None Area xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArea()) 
 
     /// <summary>Creates an areaspline chart.</summary>
@@ -268,7 +268,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Areaspline(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an area chart.</summary>
@@ -280,7 +280,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Areaspline(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Areaspline data
-        let chartData = newChartData categories [|series|] legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an areaspline chart.</summary>
@@ -292,7 +292,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Areaspline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Areaspline data
-        let chartData = newChartData categories [|series|] legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
         
     /// <summary>Creates an areaspline chart.</summary>
@@ -307,7 +307,7 @@ type Highcharts =
             data
             |> Seq.map Series.Areaspline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an areaspline chart.</summary>
@@ -322,7 +322,7 @@ type Highcharts =
             data
             |> Seq.map Series.Areaspline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an areaspline chart.</summary>
@@ -334,7 +334,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Areaspline(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an areaspline chart.</summary>
@@ -349,7 +349,7 @@ type Highcharts =
             data
             |> Seq.map Series.Areaspline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Areaspline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
     /// <summary>Creates an arearange chart.</summary>
@@ -360,7 +360,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Arearange(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
 
     /// <summary>Creates an arearange chart.</summary>
@@ -372,7 +372,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Arearange(data:seq<#key*#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Arearange data
-        let chartData = newChartData categories [|series|] legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
         
     /// <summary>Creates an arearange chart.</summary>
@@ -387,7 +387,7 @@ type Highcharts =
             data
             |> Seq.map Series.Arearange
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories data legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
 
     /// <summary>Creates an arearange chart.</summary>
@@ -402,7 +402,7 @@ type Highcharts =
             data
             |> Seq.map Series.Arearange
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories data legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
 
     /// <summary>Creates an arearange chart.</summary>
@@ -414,7 +414,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Arearange(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories data legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
 
     /// <summary>Creates an arearange chart.</summary>
@@ -429,7 +429,7 @@ type Highcharts =
             data
             |> Seq.map Series.Arearange
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Arearange xTitle yTitle
+        let chartData = newChartData categories data legend None title None Arearange xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsArearange())
 
     /// <summary>Creates a bar chart.</summary>
@@ -440,7 +440,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bar chart.</summary>
@@ -452,7 +452,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Bar data
-        let chartData = newChartData categories [|series|] legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bar chart.</summary>
@@ -464,7 +464,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Bar data
-        let chartData = newChartData categories [|series|] legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
         
     /// <summary>Creates a bar chart.</summary>
@@ -479,7 +479,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bar chart.</summary>
@@ -494,7 +494,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bar chart.</summary>
@@ -506,7 +506,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bar chart.</summary>
@@ -521,7 +521,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBar()) 
 
     /// <summary>Creates a bubble chart.</summary>
@@ -532,7 +532,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bubble(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -544,7 +544,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bubble(data:seq<#key*#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Bubble data
-        let chartData = newChartData categories [|series|] legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -556,7 +556,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bubble(data:seq<#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Bubble data
-        let chartData = newChartData categories [|series|] legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -571,7 +571,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
         
     /// <summary>Creates a bubble chart.</summary>
@@ -586,7 +586,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -601,7 +601,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -616,7 +616,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -628,7 +628,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Bubble(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -643,7 +643,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a bubble chart.</summary>
@@ -658,7 +658,7 @@ type Highcharts =
             data
             |> Seq.map Series.Bubble
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Bubble xTitle yTitle
+        let chartData = newChartData categories data legend None title None Bubble xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsBubble())
 
     /// <summary>Creates a column chart.</summary>
@@ -669,7 +669,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Column(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Column xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a column chart.</summary>
@@ -681,7 +681,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Column(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Column data
-        let chartData = newChartData categories [|series|] legend None None title Column xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a column chart.</summary>
@@ -693,7 +693,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Column(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Column data
-        let chartData = newChartData categories [|series|] legend None None title Column xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
         
     /// <summary>Creates a column chart.</summary>
@@ -708,7 +708,7 @@ type Highcharts =
             data
             |> Seq.map Series.Column
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Column xTitle yTitle
+        let chartData = newChartData categories data legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a column chart.</summary>
@@ -723,7 +723,7 @@ type Highcharts =
             data
             |> Seq.map Series.Column
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Column xTitle yTitle
+        let chartData = newChartData categories data legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a column chart.</summary>
@@ -735,7 +735,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Column(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Column xTitle yTitle
+        let chartData = newChartData categories data legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a column chart.</summary>
@@ -750,7 +750,7 @@ type Highcharts =
             data
             |> Seq.map Series.Column
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Column xTitle yTitle
+        let chartData = newChartData categories data legend None title None Column xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsColumn()) 
 
     /// <summary>Creates a combination chart.</summary>
@@ -761,7 +761,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Combine(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories (Seq.toArray data) legend None None title Combination xTitle yTitle
+        let chartData = newChartData categories (Seq.toArray data) legend None title None Combination xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsCombination())
 
     /// <summary>Creates a donut chart.</summary>
@@ -772,7 +772,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Donut(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Donut xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Donut xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsDonut()) 
 
     /// <summary>Creates a donut chart.</summary>
@@ -783,7 +783,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Donut(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories (Seq.toArray data) legend None None title Donut xTitle yTitle
+        let chartData = newChartData categories (Seq.toArray data) legend None title None Donut xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsDonut()) 
 
     /// <summary>Creates a donut chart.</summary>
@@ -795,7 +795,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Donut(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Donut data
-        let chartData = newChartData categories [|series|] legend None None title Donut xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Donut xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsDonut()) 
 
     /// <summary>Creates a donut chart.</summary>
@@ -807,7 +807,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Donut(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Donut data
-        let chartData = newChartData categories [|series|] legend None None title Donut xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Donut xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsDonut()) 
 
     /// <summary>Creates a funnel chart.</summary>
@@ -818,7 +818,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Funnel(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Funnel xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Funnel xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsFunnel())
 
     /// <summary>Creates a funnel chart.</summary>
@@ -829,7 +829,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Funnel(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories (Seq.toArray data) legend None None title Funnel xTitle yTitle
+        let chartData = newChartData categories (Seq.toArray data) legend None title None Funnel xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsFunnel())
 
     /// <summary>Creates a funnel chart.</summary>
@@ -841,7 +841,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Funnel(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Funnel data
-        let chartData = newChartData categories [|series|] legend None None title Funnel xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Funnel xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsFunnel())
 
     /// <summary>Creates a funnel chart.</summary>
@@ -853,7 +853,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Funnel(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Funnel data
-        let chartData = newChartData categories [|series|] legend None None title Funnel xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Funnel xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsFunnel())
 
     /// <summary>Creates a line chart.</summary>
@@ -864,7 +864,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Line(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Line xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a line chart.</summary>
@@ -876,7 +876,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Line(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Line data
-        let chartData = newChartData categories [|series|] legend None None title Line xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a line chart.</summary>
@@ -888,7 +888,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Line(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Line data
-        let chartData = newChartData categories [|series|] legend None None title Line xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
         
     /// <summary>Creates a line chart.</summary>
@@ -903,7 +903,7 @@ type Highcharts =
             data
             |> Seq.map Series.Line
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Line xTitle yTitle
+        let chartData = newChartData categories data legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a line chart.</summary>
@@ -918,7 +918,7 @@ type Highcharts =
             data
             |> Seq.map Series.Line
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Line xTitle yTitle
+        let chartData = newChartData categories data legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a line chart.</summary>
@@ -930,7 +930,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Line(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Line xTitle yTitle
+        let chartData = newChartData categories data legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a line chart.</summary>
@@ -945,7 +945,7 @@ type Highcharts =
             data
             |> Seq.map Series.Line
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Line xTitle yTitle
+        let chartData = newChartData categories data legend None title None Line xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsLine()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -956,7 +956,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentArea(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -968,7 +968,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentArea(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentArea data
-        let chartData = newChartData categories [|series|] legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -980,7 +980,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentArea(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentArea data
-        let chartData = newChartData categories [|series|] legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
         
     /// <summary>Creates a percent area chart.</summary>
@@ -995,7 +995,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentArea
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -1010,7 +1010,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentArea
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -1022,7 +1022,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentArea(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent area chart.</summary>
@@ -1037,7 +1037,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentArea
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentArea()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1048,7 +1048,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentBar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1060,7 +1060,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentBar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentBar data
-        let chartData = newChartData categories [|series|] legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1072,7 +1072,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentBar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentBar data
-        let chartData = newChartData categories [|series|] legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
         
     /// <summary>Creates a percent bar chart.</summary>
@@ -1087,7 +1087,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1102,7 +1102,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1114,7 +1114,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentBar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent bar chart.</summary>
@@ -1129,7 +1129,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentBar()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1140,7 +1140,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentColumn(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1152,7 +1152,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentColumn(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentColumn data
-        let chartData = newChartData categories [|series|] legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1164,7 +1164,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentColumn(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.PercentColumn data
-        let chartData = newChartData categories [|series|] legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
         
     /// <summary>Creates a percent column chart.</summary>
@@ -1179,7 +1179,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1194,7 +1194,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1206,7 +1206,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member PercentColumn(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a percent column chart.</summary>
@@ -1221,7 +1221,7 @@ type Highcharts =
             data
             |> Seq.map Series.PercentColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title PercentColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None PercentColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPercentColumn()) 
 
     /// <summary>Creates a pie chart.</summary>
@@ -1232,7 +1232,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Pie(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Pie xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Pie xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPie()) 
 
     /// <summary>Creates a pie chart.</summary>
@@ -1243,7 +1243,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Pie(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories (Seq.toArray data) legend None None title Pie xTitle yTitle
+        let chartData = newChartData categories (Seq.toArray data) legend None title None Pie xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPie()) 
 
     /// <summary>Creates a pie chart.</summary>
@@ -1255,7 +1255,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Pie(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Pie data
-        let chartData = newChartData categories [|series|] legend None None title Pie xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Pie xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPie()) 
 
     /// <summary>Creates a pie chart.</summary>
@@ -1267,7 +1267,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Pie(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Pie data
-        let chartData = newChartData categories [|series|] legend None None title Pie xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Pie xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsPie()) 
 
     /// <summary>Creates a radar chart.</summary>
@@ -1278,7 +1278,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Radar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
     /// <summary>Creates a radar chart.</summary>
@@ -1290,7 +1290,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Radar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Radar data
-        let chartData = newChartData categories [|series|] legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
     /// <summary>Creates a Radar chart.</summary>
@@ -1302,7 +1302,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Radar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Radar data
-        let chartData = newChartData categories [|series|] legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
         
     /// <summary>Creates a radar chart.</summary>
@@ -1317,7 +1317,7 @@ type Highcharts =
             data
             |> Seq.map Series.Radar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
     /// <summary>Creates a radar chart.</summary>
@@ -1332,7 +1332,7 @@ type Highcharts =
             data
             |> Seq.map Series.Radar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
     /// <summary>Creates a radar chart.</summary>
@@ -1344,7 +1344,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Radar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
     /// <summary>Creates a radar chart.</summary>
@@ -1359,7 +1359,7 @@ type Highcharts =
             data
             |> Seq.map Series.Radar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Radar xTitle yTitle
+        let chartData = newChartData categories data legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
         
     /// <summary>Creates a scatter chart.</summary>
@@ -1370,7 +1370,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Scatter(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a scatter chart.</summary>
@@ -1382,7 +1382,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Scatter(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Scatter data
-        let chartData = newChartData categories [|series|] legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a scatter chart.</summary>
@@ -1394,7 +1394,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Scatter(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Scatter data
-        let chartData = newChartData categories [|series|] legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
         
     /// <summary>Creates a scatter chart.</summary>
@@ -1409,7 +1409,7 @@ type Highcharts =
             data
             |> Seq.map Series.Scatter
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories data legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a scatter chart.</summary>
@@ -1424,7 +1424,7 @@ type Highcharts =
             data
             |> Seq.map Series.Scatter
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories data legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a scatter chart.</summary>
@@ -1436,7 +1436,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Scatter(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories data legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a scatter chart.</summary>
@@ -1451,7 +1451,7 @@ type Highcharts =
             data
             |> Seq.map Series.Scatter
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Scatter xTitle yTitle
+        let chartData = newChartData categories data legend None title None Scatter xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsScatter()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1462,7 +1462,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member Spline(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1474,7 +1474,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Spline(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Spline data
-        let chartData = newChartData categories [|series|] legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1486,7 +1486,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Spline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Spline data
-        let chartData = newChartData categories [|series|] legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
         
     /// <summary>Creates a spline chart.</summary>
@@ -1501,7 +1501,7 @@ type Highcharts =
             data
             |> Seq.map Series.Spline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1516,7 +1516,7 @@ type Highcharts =
             data
             |> Seq.map Series.Spline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1528,7 +1528,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member Spline(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a spline chart.</summary>
@@ -1543,7 +1543,7 @@ type Highcharts =
             data
             |> Seq.map Series.Spline
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title Spline xTitle yTitle
+        let chartData = newChartData categories data legend None title None Spline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsSpline()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1554,7 +1554,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedArea(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1566,7 +1566,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedArea(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1578,7 +1578,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedArea(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Area data
-        let chartData = newChartData categories [|series|] legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
         
     /// <summary>Creates a stacked area chart.</summary>
@@ -1593,7 +1593,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1608,7 +1608,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1620,7 +1620,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedArea(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked area chart.</summary>
@@ -1635,7 +1635,7 @@ type Highcharts =
             data
             |> Seq.map Series.Area
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedArea xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedArea xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedArea()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1646,7 +1646,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedBar(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1658,7 +1658,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedBar(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.StackedBar data
-        let chartData = newChartData categories [|series|] legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1670,7 +1670,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedBar(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.StackedBar data
-        let chartData = newChartData categories [|series|] legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
         
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1685,7 +1685,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1700,7 +1700,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1712,7 +1712,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedBar(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -1727,7 +1727,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedBar
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedBar xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedBar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedBar()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1738,7 +1738,7 @@ type Highcharts =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedColumn(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = newChartData categories [|data|] legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories [|data|] legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1750,7 +1750,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedColumn(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.StackedColumn data
-        let chartData = newChartData categories [|series|] legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1762,7 +1762,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedColumn(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.StackedColumn data
-        let chartData = newChartData categories [|series|] legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories [|series|] legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
         
     /// <summary>Creates a stacked column chart.</summary>
@@ -1777,7 +1777,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1792,7 +1792,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1804,7 +1804,7 @@ type Highcharts =
     /// <param name="yTitle">The Y-axis title.</param>
     static member StackedColumn(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let data = Seq.toArray data
-        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -1819,7 +1819,7 @@ type Highcharts =
             data
             |> Seq.map Series.StackedColumn
             |> Seq.toArray
-        let chartData = newChartData categories data legend None None title StackedColumn xTitle yTitle
+        let chartData = newChartData categories data legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>

@@ -7,10 +7,6 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
-open FsPlot.Options
-open FsPlot.Charting
-open FsPlot.DataSeries
-
 let columnSplinePie =
     [
         Series.Column("Jane", [3; 2; 1; 3; 4])
@@ -19,8 +15,8 @@ let columnSplinePie =
         Series.Spline("Average", [3.; 2.67; 3.; 6.33; 3.33])
         Series.Pie("Total Consumption", ["Jane", 13; "John", 23; "Joe", 19])
     ]
-    |> Chart.plot
-    |> Chart.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+    |> Highcharts.plot
+    |> Highcharts.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
     :?> HighchartsCombination
     |> fun x -> x.SetPieOptions {Center = [|100; 80|]; Size = 100}
 ```

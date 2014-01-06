@@ -8,8 +8,6 @@ Code
 #load "FsPlot.fsx"
 
 open System
-open FsPlot.Charting
-open FsPlot.DataSeries
 
 let tempratures =
     let rnd = Random()
@@ -20,8 +18,8 @@ let tempratures =
     |> Series.SetName "Tempratures"
 
 let basicArearange =
-    Chart.plot tempratures
-    |> Chart.title "Temprature Variation"
+    Highcharts.plot tempratures
+    |> Highcharts.title "Temprature Variation"
 ```
 Chart
 -----

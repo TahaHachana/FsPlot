@@ -7,17 +7,14 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
-open FsPlot.Charting
-open FsPlot.DataSeries
-
 let joe = Series.StackedColumn("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
 let jane = Series.StackedColumn("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
 let john = Series.StackedColumn("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
 let stackedColumn =
-    Chart.plot [joe; jane; john]
-    |> Chart.showLegend
-    |> Chart.yTitle "Total Fruit Consumption"
+    Highcharts.plot [joe; jane; john]
+    |> Highcharts.showLegend
+    |> Highcharts.yTitle "Total Fruit Consumption"
 ```
 Chart
 -----

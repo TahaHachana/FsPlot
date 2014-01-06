@@ -16,17 +16,17 @@ type ChartData =
         YTitle : string option
     }
 
-    static member New a b c d e f g h i=
+    static member New categories data legend subtitle title tooltip chartType xTitle yTitle =
         {
-            Categories = a
-            Data = b
-            Legend = c
-            Subtitle = d
-            Title = e
-            Tooltip = f
-            Type = g
-            XTitle = h
-            YTitle = i
+            Categories = categories
+            Data = data
+            Legend = legend
+            Subtitle = subtitle
+            Title = title
+            Tooltip = tooltip
+            Type = chartType
+            XTitle = xTitle
+            YTitle = yTitle
         }
 
     member __.Fields =
@@ -43,28 +43,28 @@ type ChartData =
 module private Js =
 
     let highcharts (x:ChartData) =
-        let a, b, c, d, e, f, g, h, i = x.Fields
-        match g with
-        | Area -> HighchartsJs.area b e c a h i f d Disabled false
-        | Areaspline -> HighchartsJs.areaspline b e c a h i f d Disabled false
-        | Arearange -> HighchartsJs.arearange b e c a h i f d
-        | Bar -> HighchartsJs.bar b e c a h i f d Disabled
-        | Bubble -> HighchartsJs.bubble b e c a h i f d
-        | Column -> HighchartsJs.column b e c a h i f d Disabled
-        | Combination -> HighchartsJs.combine b e c a h i f d None
-        | Donut -> HighchartsJs.donut b e c a h i f d
-        | Funnel -> HighchartsJs.funnel b e c a h i f d
-        | Line -> HighchartsJs.line b e c a h i f d
-        | PercentArea -> HighchartsJs.percentArea b e c a h i f d false
-        | PercentBar -> HighchartsJs.percentBar b e c a h i f d
-        | PercentColumn -> HighchartsJs.percentColumn b e c a h i f d
-        | Pie -> HighchartsJs.pie b e c a h i f d
-        | Radar -> HighchartsJs.radar b e c a h i f d
-        | Scatter -> HighchartsJs.scatter b e c a h i f d
-        | Spline -> HighchartsJs.spline b e c a h i f d
-        | StackedArea -> HighchartsJs.stackedArea b e c a h i f d false
-        | StackedBar -> HighchartsJs.stackedBar b e c a h i f d
-        | StackedColumn -> HighchartsJs.stackedColumn b e c a h i f d
+        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
+        match chartType with
+        | Area -> HighchartsJs.area series title legend categories xTitle yTitle tooltip subtitle Disabled false
+        | Areaspline -> HighchartsJs.areaspline series title legend categories xTitle yTitle tooltip subtitle Disabled false
+        | Arearange -> HighchartsJs.arearange series title legend categories xTitle yTitle tooltip subtitle
+        | Bar -> HighchartsJs.bar series title legend categories xTitle yTitle tooltip subtitle Disabled
+        | Bubble -> HighchartsJs.bubble series title legend categories xTitle yTitle tooltip subtitle
+        | Column -> HighchartsJs.column series title legend categories xTitle yTitle tooltip subtitle Disabled
+        | Combination -> HighchartsJs.combine series title legend categories xTitle yTitle tooltip subtitle None
+        | Donut -> HighchartsJs.donut series title legend categories xTitle yTitle tooltip subtitle
+        | Funnel -> HighchartsJs.funnel series title legend categories xTitle yTitle tooltip subtitle
+        | Line -> HighchartsJs.line series title legend categories xTitle yTitle tooltip subtitle
+        | PercentArea -> HighchartsJs.percentArea series title legend categories xTitle yTitle tooltip subtitle false
+        | PercentBar -> HighchartsJs.percentBar series title legend categories xTitle yTitle tooltip subtitle
+        | PercentColumn -> HighchartsJs.percentColumn series title legend categories xTitle yTitle tooltip subtitle
+        | Pie -> HighchartsJs.pie series title legend categories xTitle yTitle tooltip subtitle
+        | Radar -> HighchartsJs.radar series title legend categories xTitle yTitle tooltip subtitle
+        | Scatter -> HighchartsJs.scatter series title legend categories xTitle yTitle tooltip subtitle
+        | Spline -> HighchartsJs.spline series title legend categories xTitle yTitle tooltip subtitle
+        | StackedArea -> HighchartsJs.stackedArea series title legend categories xTitle yTitle tooltip subtitle false
+        | StackedBar -> HighchartsJs.stackedBar series title legend categories xTitle yTitle tooltip subtitle
+        | StackedColumn -> HighchartsJs.stackedColumn series title legend categories xTitle yTitle tooltip subtitle
 
 module private Html =
     

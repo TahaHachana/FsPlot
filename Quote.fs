@@ -5,7 +5,6 @@ open Microsoft.FSharp.Reflection
 open System
 open HighchartsOptions
 open DataSeries
-//open Options
 
 [<ReflectedDefinition>]
 type Boxer = static member Box (x:obj) = box x

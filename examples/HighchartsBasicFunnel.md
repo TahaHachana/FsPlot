@@ -7,9 +7,6 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
-open FsPlot.Charting
-open FsPlot.DataSeries
-
 let basicFunnel =
     [
         "Website visits", 15654
@@ -20,8 +17,8 @@ let basicFunnel =
     ]
     |> Series.Funnel
     |> Series.SetName "Unique users"
-    |> Chart.plot
-    |> Chart.title "Sales Funnel"
+    |> Highcharts.plot
+    |> Highcharts.title "Sales Funnel"
 ```
 Chart
 -----

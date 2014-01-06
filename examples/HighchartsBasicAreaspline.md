@@ -7,9 +7,6 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
-open FsPlot.Charting
-open FsPlot.DataSeries
-
 let sales =
     ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
     |> Series.Areaspline
@@ -22,9 +19,9 @@ let expenses =
 
 let basicAreaspline =
     [sales; expenses]
-    |> Chart.plot
-    |> Chart.showLegend
-    |> Chart.title "Company Performance"
+    |> Highcharts.plot
+    |> Highcharts.showLegend
+    |> Highcharts.title "Company Performance"
 ```
 Chart
 -----
