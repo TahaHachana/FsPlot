@@ -7,6 +7,9 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+
 let john =
     ["Apples", 5; "Oranges", 3; "Pears", 4; "Grapes", 7; "Bananas", 2]
     |> Series.Area

@@ -7,6 +7,10 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+open FsPlot.HighchartsOptions
+
 let columnSplinePie =
     [
         Series.Column("Jane", [3; 2; 1; 3; 4])

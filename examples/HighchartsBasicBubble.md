@@ -7,6 +7,9 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+
 let basicBubble =
     [
         [(97, 36, 79); (94, 74, 60); (68, 76, 58); (64, 87, 56); (68, 27, 73);

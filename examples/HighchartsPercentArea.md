@@ -7,6 +7,9 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+
 let asia = Series.PercentArea("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
 let africa = Series.PercentArea("Africa", [106; 107; 111; 133; 221; 767; 1766])
 let europe = Series.PercentArea("Europe", [163; 203; 276; 408; 547; 729; 628])

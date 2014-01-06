@@ -7,6 +7,9 @@ Code
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+
 let basicFunnel =
     [
         "Website visits", 15654

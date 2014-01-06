@@ -4,6 +4,10 @@ Highcharts Inverted Axes Area
 ```fsharp
 #load "FsPlot.fsx"
 
+open FsPlot.DataSeries
+open FsPlot.Highcharts
+open FsPlot.HighchartsOptions
+
 let jane =
     ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
     |> Series.Area

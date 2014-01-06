@@ -8,6 +8,8 @@ Code
 #load "FsPlot.fsx"
 
 open System
+open FsPlot.DataSeries
+open FsPlot.Highcharts
 
 let tempratures =
     let rnd = Random()
