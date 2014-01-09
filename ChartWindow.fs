@@ -13,13 +13,11 @@ let private bitmapFrame =
 
 /// Displays a window containing a browser control.
 let show html =
-    let wnd = Window()
+    let wnd = Window(Height = 500., Topmost = true, Width = 700.)
     wnd.Icon <- bitmapFrame
-    wnd.Width <- 700.
-    wnd.Height <- 500.
     wnd.WindowStartupLocation <- WindowStartupLocation.CenterScreen 
-    wnd.Topmost <- true
     let browser = new WebBrowser()
     wnd.Content <- browser
     wnd.Show()
+    wnd.Topmost <- false
     wnd, browser

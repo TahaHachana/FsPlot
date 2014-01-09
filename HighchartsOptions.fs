@@ -1,4 +1,4 @@
-﻿module FsPlot.HighchartsOptions
+﻿module FsPlot.Highcharts.Options
 
 /// Stacking settings for area, bar and column charts.
 [<ReflectedDefinition>]
@@ -7,7 +7,7 @@ type Stacking =
     | Normal
     | Percent
 
-/// Center and size settings for pie chart in a combination chart.
+/// Center and size settings for pie charts.
 [<ReflectedDefinition>]
 type PieOptions =
     {

@@ -6,9 +6,9 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
-open FsPlot.DataSeries
-open FsPlot.Highcharts
-open FsPlot.HighchartsOptions
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
+open FsPlot.Highcharts.Options
 
 module Area =
 
@@ -24,9 +24,9 @@ module Area =
 
     let basicArea =
         [sales; expenses]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
 
 //    let basicArea =
@@ -69,7 +69,7 @@ module Area =
 //            |> Series.Area
 //            |> Series.SetName "USSR/Russia"
 //
-//        Chart.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
+//        Highcharts.Area([usa; ussrRussia], legend=true, title="US and USSR nuclear stockpiles")
 //
 //    // Add a title to the Y-axis.
 //    basicArea.SetYTitle "Nuclear warheads"
@@ -94,9 +94,9 @@ module Area =
 
     let negativeValuesArea =
         [john; jane; joe]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Area Chart with Negative Values"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Area Chart with Negative Values"
 
     let asia = Series.Area("Asia", [502; 635; 809; 947; 1402; 3634; 5268])
     let africa = Series.Area("Africa", [106; 107; 111; 133; 221; 767; 1766])
@@ -106,11 +106,11 @@ module Area =
 
     let stackedArea =
         [asia; africa; europe; america; oceania]
-        |> Chart.plot
-        |> Chart.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-        |> Chart.showLegend
-        |> Chart.title "Historic and Estimated Worldwide Population Growth"
-        |> Chart.tooltip "{series.name} <b>{point.y}</b> millions"
+        |> Highcharts.plot
+        |> Highcharts.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Highcharts.showLegend
+        |> Highcharts.title "Historic and Estimated Worldwide Population Growth"
+        |> Highcharts.tooltip "{series.name} <b>{point.y}</b> millions"
         :?> HighchartsArea
         |> fun x -> x.SetStacking Normal
 
@@ -123,11 +123,11 @@ module Area =
 
     let percentArea =
         [asia; africa; europe; america; oceania]
-        |> Chart.plot
-        |> Chart.categories  ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-        |> Chart.showLegend
-        |> Chart.title "Historic and Estimated Worldwide Population Growth"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"""
+        |> Highcharts.plot
+        |> Highcharts.categories  ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Highcharts.showLegend
+        |> Highcharts.title "Historic and Estimated Worldwide Population Growth"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"""
         :?> HighchartsArea
         |> fun x -> x.SetStacking Percent
 
@@ -144,7 +144,7 @@ module Area =
 //            ("Plums", box 3); ("Strawberries", box 3); ("Raspberries", box 5)]
 //            |> Series.Area
 //            |> Series.SetName "John"
-//        Chart.Area [jane; john]
+//        Highcharts.Area [jane; john]
 
 //    let jane =
 //        ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
@@ -158,10 +158,10 @@ module Area =
 //
     let invertedAxesArea =
         [john; jane]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Average Fruit Consumption"
-        |> Chart.yTitle "Number of Units"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Average Fruit Consumption"
+        |> Highcharts.yTitle "Number of Units"
         :?> HighchartsArea
         |> fun x -> x.SetInverted true
 
@@ -179,9 +179,9 @@ module Areaspline =
 
     let basicAreaspline =
         [sales; expenses]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
 module Arearange =
 
@@ -194,8 +194,8 @@ module Arearange =
         |> Series.SetName "Tempratures"
 
     let basicArearange =
-        Chart.plot tempratures
-        |> Chart.title "Temprature Variation"
+        Highcharts.plot tempratures
+        |> Highcharts.title "Temprature Variation"
 
 module Bar =
     
@@ -204,9 +204,9 @@ module Bar =
             Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Bar("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
     let joe = Series.Bar("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
     let jane = Series.Bar("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
@@ -214,9 +214,9 @@ module Bar =
 
     let stackedBar =
         [joe; jane; john]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.yTitle "Total Fruit Consumption"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "Total Fruit Consumption"
         :?> HighchartsBar
         |> fun x -> x.SetStacking Normal
 
@@ -226,10 +226,10 @@ module Bar =
 
     let percentBar =
         [joe; jane; john]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.yTitle "% of Fruit Consumption"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "% of Fruit Consumption"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
         :?> HighchartsBar
         |> fun x -> x.SetStacking Stacking.Percent
 
@@ -249,18 +249,18 @@ module Column =
             Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Column("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Chart.plot
-        |> Chart.title "Company Performance"
-        |> Chart.showLegend
+        |> Highcharts.plot
+        |> Highcharts.title "Company Performance"
+        |> Highcharts.showLegend
 
     let joe = Series.Column("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
     let jane = Series.Column("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
     let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let stackedColumn =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "Total Fruit Consumption"
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "Total Fruit Consumption"
         :?> HighchartsColumn
         |> fun x -> x.SetStacking Normal
 //
@@ -269,10 +269,10 @@ module Column =
 //    let john = Series.Column("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentColumn =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "% of Fruit Consumption"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "% of Fruit Consumption"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
         :?> HighchartsColumn
         |> fun x -> x.SetStacking Stacking.Percent
     
@@ -284,9 +284,9 @@ module Combination =
             Series.Column("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
     let columnSplinePie =
         [
@@ -296,8 +296,8 @@ module Combination =
             Series.Spline("Average", [3.; 2.67; 3.; 6.33; 3.33])
             Series.Pie("Total Consumption", ["Jane", 13; "John", 23; "Joe", 19])
         ]
-        |> Chart.plot
-        |> Chart.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+        |> Highcharts.plot
+        |> Highcharts.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
         :?> HighchartsCombination
         |> fun x -> x.SetPieOptions {Center = [|100; 80|]; Size = 100}
 
@@ -307,7 +307,7 @@ module Combination =
 //        let joe = Series.Column("Joe", [4; 3; 3; 9; 0])
 //        let avg = Series.Line("Average", [3.; 2.67; 3.; 6.33; 3.33])
 //        let total = Series.Pie("Total", ["Jane", 13; "John", 23; "Joe", 19])
-//        Chart.Combine [jane; john; joe; avg; total]
+//        Highcharts.Combine [jane; john; joe; avg; total]
 //
 //    colLinePieComb.Categories <- ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
 
@@ -317,10 +317,10 @@ module Donut =
         ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
         |> Series.Donut
         |> Series.SetName "Browser Share"
-        |> Chart.plot
-        |> Chart.title "Website Visitors By Browser"
-        |> Chart.tooltip """<span style="color:{series.color}>{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"""
-        |> Chart.showLegend
+        |> Highcharts.plot
+        |> Highcharts.title "Website Visitors By Browser"
+        |> Highcharts.tooltip """<span style="color:{series.color}>{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"""
+        |> Highcharts.showLegend
 
 module Funnel =
 
@@ -334,8 +334,8 @@ module Funnel =
         ]
         |> Series.Funnel
         |> Series.SetName "Unique users"
-        |> Chart.plot
-        |> Chart.title "Sales Funnel"
+        |> Highcharts.plot
+        |> Highcharts.title "Sales Funnel"
 
 module Line =
 
@@ -344,9 +344,9 @@ module Line =
             Series.Line("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Line("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
 module PercentArea =
 
@@ -358,11 +358,11 @@ module PercentArea =
 
     let percentArea =
         [asia; africa; europe; america; oceania]
-        |> Chart.plot
-        |> Chart.categories  ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-        |> Chart.showLegend
-        |> Chart.title "Historic and Estimated Worldwide Population Growth"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"""
+        |> Highcharts.plot
+        |> Highcharts.categories  ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Highcharts.showLegend
+        |> Highcharts.title "Historic and Estimated Worldwide Population Growth"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>"""
 
 module PercentBar =
 
@@ -371,10 +371,10 @@ module PercentBar =
     let john = Series.PercentBar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentdBar =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "Total Fruit Consumption"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"""
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "Total Fruit Consumption"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>"""
 
 module PercentColumn =
 
@@ -383,24 +383,24 @@ module PercentColumn =
     let john = Series.PercentColumn("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let percentColumn =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "% of Fruit Consumption"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "% of Fruit Consumption"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
 
 module Pie =
     
     let basicPie =
         Series.Pie ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
         |> Series.SetName "Browser Share"
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Website Visitors By Browser"
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}: <b>{point.percentage:.1f}%</b><br/>"""
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Website Visitors By Browser"
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}: <b>{point.percentage:.1f}%</b><br/>"""
 
 
 //        Series.Pie("Browser Share", ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.])
-//        |> Chart.Pie
+//        |> Highcharts.Pie
 //
 //    basicPie.ShowLegend()        
 //    basicPie.SetTitle "Website Visitors By Browser"
@@ -411,11 +411,11 @@ module Radar =
     let actual = Series.Radar("Actual Spending", [50000; 39000; 42000; 31000; 26000; 14000])
 
     let basicRadar =
-        Chart.plot [allocated; actual]
-        |> Chart.categories ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
-        |> Chart.tooltip """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
-        |> Chart.showLegend
-        |> Chart.title "Budget VS Spending"
+        Highcharts.plot [allocated; actual]
+        |> Highcharts.categories ["Sales"; "Marketing"; "Development"; "Customer Support"; "Information Technology"; "Administration"]
+        |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>"""
+        |> Highcharts.showLegend
+        |> Highcharts.title "Budget VS Spending"
 
 
 module Scatter =
@@ -424,10 +424,10 @@ module Scatter =
         [8., 12.; 4., 5.5; 11., 14.; 4., 5.; 3., 3.5; 6.5, 7.]
         |> Series.Scatter
         |> Series.SetName "AgeVsWeight"
-        |> Chart.plot
-        |> Chart.title "Age vs. Weight comparison"
-        |> Chart.xTitle "Age"
-        |> Chart.yTitle "Weight"
+        |> Highcharts.plot
+        |> Highcharts.title "Age vs. Weight comparison"
+        |> Highcharts.xTitle "Age"
+        |> Highcharts.yTitle "Weight"
 
 module Spline =
 
@@ -436,9 +436,9 @@ module Spline =
             Series.Spline("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
             Series.Spline("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
         ]
-        |> Chart.plot
-        |> Chart.showLegend
-        |> Chart.title "Company Performance"
+        |> Highcharts.plot
+        |> Highcharts.showLegend
+        |> Highcharts.title "Company Performance"
 
 module StackedArea =
 
@@ -450,11 +450,11 @@ module StackedArea =
 
     let stackedArea =
         [asia; africa; europe; america; oceania]
-        |> Chart.plot
-        |> Chart.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
-        |> Chart.showLegend
-        |> Chart.title "Historic and Estimated Worldwide Population Growth"
-        |> Chart.tooltip "{series.name} <b>{point.y}</b> millions"
+        |> Highcharts.plot
+        |> Highcharts.categories ["1750"; "1800"; "1850"; "1900"; "1950"; "1999"; "2050"]
+        |> Highcharts.showLegend
+        |> Highcharts.title "Historic and Estimated Worldwide Population Growth"
+        |> Highcharts.tooltip "{series.name} <b>{point.y}</b> millions"
 
 module StackedBar =
 
@@ -463,9 +463,9 @@ module StackedBar =
     let john = Series.StackedBar("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let stackedBar =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "Total Fruit Consumption"
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "Total Fruit Consumption"
 
 module StackedColumn =
 
@@ -474,9 +474,9 @@ module StackedColumn =
     let john = Series.StackedColumn("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
     let stackedColumn =
-        Chart.plot [joe; jane; john]
-        |> Chart.showLegend
-        |> Chart.yTitle "Total Fruit Consumption"
+        Highcharts.plot [joe; jane; john]
+        |> Highcharts.showLegend
+        |> Highcharts.yTitle "Total Fruit Consumption"
 
 
 

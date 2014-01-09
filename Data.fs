@@ -1,4 +1,4 @@
-﻿module FsPlot.DataSeries
+﻿module FsPlot.Data
 
 open System
 
@@ -30,11 +30,10 @@ type ChartType =
 
 module private Utils =
 
-    let utc (x:#key) =
+    let inline utc (x:#key) =
         Convert.ToDateTime x
-        |> fun x -> x.Subtract(DateTime(1970, 1, 1))
-        |> fun x -> int64 x.TotalMilliseconds
-        :> key
+        |> fun x -> x.Subtract(DateTime(1970, 1, 1)).TotalMilliseconds
+        |> int64 :> key
 
     let utcIfDatetime typecode (x:#key) =
         match typecode with
@@ -55,7 +54,7 @@ module private Utils =
             box [|k'; v :> value; v' :> value|])
         |> Seq.toArray
 
-[<ReflectedDefinitionAttribute>]
+[<ReflectedDefinition>]
 type Series =
     {
         Name : string

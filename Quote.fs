@@ -1,24 +1,21 @@
 ﻿module FsPlot.Quote
 
+open FsPlot.Config
+open FsPlot.Data
+open FsPlot.Highcharts.Options
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Reflection
 open System
-open HighchartsOptions
-open DataSeries
 
 [<ReflectedDefinition>]
 type Boxer = static member Box (x:obj) = box x
 
 let boxInfo = typeof<Boxer>.GetMethod("Box")
-
 let strOptionInfos = FSharpType.GetUnionCases typeof<string option>
-
 let chartTypeInfos = FSharpType.GetUnionCases typeof<ChartType>
-
 let stackingInfos = FSharpType.GetUnionCases typeof<Stacking>
-
+let axisTypeInfos = FSharpType.GetUnionCases typeof<AxisType>
 let pieOptionsInfos = FSharpType.GetUnionCases typeof<PieOptions option>
-
 let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 
 let quoteStringArr (arr:string []) =
@@ -91,16 +88,19 @@ let areaSeriesExpr (x:Series) =
 let quoteSeriesArr (series:Series []) =
     Expr.NewArray(
         typeof<Series>,
-        [
-            for x in series do
-                yield areaSeriesExpr x
-        ])
+        [for x in series -> areaSeriesExpr x])
 
 let quoteStacking (stacking:Stacking) =
     match stacking with
     | Disabled -> Expr.NewUnionCase(stackingInfos.[0], [])
     | Normal -> Expr.NewUnionCase(stackingInfos.[1], [])
     | Percent -> Expr.NewUnionCase(stackingInfos.[2], [])
+
+let quoteAxisType (axisType:AxisType) =
+    match axisType with
+    | Category -> Expr.NewUnionCase(axisTypeInfos.[0], [])
+    | DateTime -> Expr.NewUnionCase(axisTypeInfos.[1], [])
+    | Linear -> Expr.NewUnionCase(axisTypeInfos.[2], [])
 
 let pieOptionsExpr (x:PieOptions) =
     Expr.NewRecord(
@@ -116,3 +116,19 @@ let quotePieOptions (x:PieOptions option) =
     match x with
     | None -> Expr.NewUnionCase(pieOptionsInfos.[0], [])
     | Some value -> Expr.NewUnionCase(pieOptionsInfos.[1], [pieOptionsExpr value])
+
+let quoteChartConfig (x:ChartConfig) =
+    Expr.NewRecord(
+        typeof<ChartConfig>,
+        [
+            quoteStringArr x.Categories
+            quoteSeriesArr x.Data
+            quoteBool x.Legend
+            quoteStrOption x.Subtitle
+            quoteStrOption x.Title
+            quoteStrOption x.Tooltip
+            quoteChartType x.Type
+            quoteAxisType x.XAxis
+            quoteStrOption x.XTitle
+            quoteStrOption x.YTitle
+        ])

@@ -6,9 +6,9 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
-open FsPlot.DataSeries
-open FsPlot.Highcharts
-open FsPlot.HighchartsOptions
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
+open FsPlot.Highcharts.Options
 
 FunScript.Compiler.compile
     <@

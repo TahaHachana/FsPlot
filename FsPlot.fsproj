@@ -43,7 +43,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChartWindow.fs" />
     <Compile Include="HighchartsOptions.fs" />
-    <Compile Include="DataSeries.fs" />
+    <Compile Include="Data.fs" />
+    <Compile Include="Config.fs" />
     <Compile Include="Quote.fs" />
     <Compile Include="HighchartsJs.fs" />
     <Compile Include="HighchartsHtml.fs" />

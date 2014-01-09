@@ -1,83 +1,47 @@
 ﻿module FsPlot.GenericChart
 
-open DataSeries
-open HighchartsOptions
-
-type ChartData =
-    {
-        Categories : string []
-        Data : Series []
-        Legend : bool
-        Subtitle : string option
-        Title : string option
-        Tooltip : string option
-        Type : ChartType
-        XTitle : string option
-        YTitle : string option
-    }
-
-    static member New categories data legend subtitle title tooltip chartType xTitle yTitle =
-        {
-            Categories = categories
-            Data = data
-            Legend = legend
-            Subtitle = subtitle
-            Title = title
-            Tooltip = tooltip
-            Type = chartType
-            XTitle = xTitle
-            YTitle = yTitle
-        }
-
-    member __.Fields =
-        __.Categories,
-        __.Data,
-        __.Legend,
-        __.Subtitle,
-        __.Title,
-        __.Tooltip,
-        __.Type,
-        __.XTitle,
-        __.YTitle
+open FsPlot.Config
+open FsPlot.Data
+open FsPlot.Highcharts.Options
+open FsPlot.Highcharts
 
 module private Js =
 
-    let highcharts (x:ChartData) =
-        let categories, series, legend, subtitle, title, tooltip, chartType, xTitle, yTitle = x.Fields
-        match chartType with
-        | Area -> HighchartsJs.area series title legend categories xTitle yTitle tooltip subtitle Disabled false
-        | Areaspline -> HighchartsJs.areaspline series title legend categories xTitle yTitle tooltip subtitle Disabled false
-        | Arearange -> HighchartsJs.arearange series title legend categories xTitle yTitle tooltip subtitle
-        | Bar -> HighchartsJs.bar series title legend categories xTitle yTitle tooltip subtitle Disabled
-        | Bubble -> HighchartsJs.bubble series title legend categories xTitle yTitle tooltip subtitle
-        | Column -> HighchartsJs.column series title legend categories xTitle yTitle tooltip subtitle Disabled
-        | Combination -> HighchartsJs.combine series title legend categories xTitle yTitle tooltip subtitle None
-        | Donut -> HighchartsJs.donut series title legend categories xTitle yTitle tooltip subtitle
-        | Funnel -> HighchartsJs.funnel series title legend categories xTitle yTitle tooltip subtitle
-        | Line -> HighchartsJs.line series title legend categories xTitle yTitle tooltip subtitle
-        | PercentArea -> HighchartsJs.percentArea series title legend categories xTitle yTitle tooltip subtitle false
-        | PercentBar -> HighchartsJs.percentBar series title legend categories xTitle yTitle tooltip subtitle
-        | PercentColumn -> HighchartsJs.percentColumn series title legend categories xTitle yTitle tooltip subtitle
-        | Pie -> HighchartsJs.pie series title legend categories xTitle yTitle tooltip subtitle
-        | Radar -> HighchartsJs.radar series title legend categories xTitle yTitle tooltip subtitle
-        | Scatter -> HighchartsJs.scatter series title legend categories xTitle yTitle tooltip subtitle
-        | Spline -> HighchartsJs.spline series title legend categories xTitle yTitle tooltip subtitle
-        | StackedArea -> HighchartsJs.stackedArea series title legend categories xTitle yTitle tooltip subtitle false
-        | StackedBar -> HighchartsJs.stackedBar series title legend categories xTitle yTitle tooltip subtitle
-        | StackedColumn -> HighchartsJs.stackedColumn series title legend categories xTitle yTitle tooltip subtitle
+    let highcharts (config:ChartConfig) =
+        match config.Type with
+        | Area -> Js.area config Disabled false
+        | Areaspline -> Js.areaspline config Disabled false
+        | Arearange -> Js.arearange config
+        | Bar -> Js.bar config Disabled
+        | Bubble -> Js.bubble config
+        | Column -> Js.column config Disabled
+        | Combination -> Js.combine config None
+        | Donut -> Js.donut config
+        | Funnel -> Js.funnel config
+        | Line -> Js.line config
+        | PercentArea -> Js.percentArea config false
+        | PercentBar -> Js.percentBar config
+        | PercentColumn -> Js.percentColumn config
+        | Pie -> Js.pie config
+        | Radar -> Js.radar config
+        | Scatter -> Js.scatter config
+        | Spline -> Js.spline config
+        | StackedArea -> Js.stackedArea config false
+        | StackedBar -> Js.stackedBar config
+        | StackedColumn -> Js.stackedColumn config
 
 module private Html =
     
     let highcharts chartType =
         match chartType with
-        | Arearange | Bubble | Radar -> HighchartsHtml.more
-        | Combination -> HighchartsHtml.combine
-        | Funnel -> HighchartsHtml.funnel
-        | _ -> HighchartsHtml.common
+        | Arearange | Bubble | Radar -> Html.more
+        | Combination -> Html.combine
+        | Funnel -> Html.funnel
+        | _ -> Html.common
 
 type GenericChart() as chart =
     
-    [<DefaultValue>] val mutable private chartData : ChartData    
+    [<DefaultValue>] val mutable private chartData : ChartConfig    
 
     let mutable jsFun = Js.highcharts    
     let htmlFun = Html.highcharts
@@ -87,7 +51,7 @@ type GenericChart() as chart =
     let ctx = System.Threading.SynchronizationContext.Current
 
     let agent =
-        MailboxProcessor<ChartData>.Start(fun inbox ->
+        MailboxProcessor<ChartConfig>.Start(fun inbox ->
             let rec loop() =
                 async {
                     let! msg = inbox.Receive()
@@ -113,7 +77,7 @@ type GenericChart() as chart =
 
     static member internal Create x (f:unit -> #GenericChart) =
         let gc = f()
-        gc.SetChartData  x
+        gc.SetChartConfig  x
         gc
 
     /// <summary>Hides the legend of a chart.</summary>
@@ -128,7 +92,7 @@ type GenericChart() as chart =
         chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
         agent.Post chart.chartData
 
-    member internal __.SetChartData chartData = 
+    member internal __.SetChartConfig chartData = 
         chart.chartData <- chartData
         agent.Post chart.chartData
 
