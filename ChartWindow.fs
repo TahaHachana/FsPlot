@@ -1,4 +1,11 @@
 ﻿module internal FsPlot.ChartWindow
+//module ChartWindow =
+
+#if INTERACTIVE
+#r "PresentationCore.dll"
+#r "PresentationFramework.dll"
+#r "WindowsBase.dll"
+#endif
 
 open System
 open System.Windows

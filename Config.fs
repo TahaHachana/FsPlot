@@ -9,6 +9,16 @@ type AxisType =
     | DateTime
     | Linear
 
+let inline private axisType (categories:string []) (data:Series []) =
+    match categories.Length with
+    | 0 ->
+        let fstSeries = Array.get data 0
+        match fstSeries.XType with
+        | TypeCode.DateTime -> DateTime
+        | TypeCode.String -> Category
+        | _ -> Linear
+    | _ -> Category
+
 [<ReflectedDefinition>]
 type ChartConfig =
     {
@@ -24,16 +34,8 @@ type ChartConfig =
         YTitle : string option
     }
 
-    static member New (categories:string []) (data:Series []) legend subtitle title tooltip chartType xTitle yTitle =
-        let xAxisType =
-            match categories.Length with
-            | 0 ->
-                let fstSeries = Array.get data 0
-                match fstSeries.XType with
-                | TypeCode.DateTime -> DateTime
-                | TypeCode.String -> Category
-                | _ -> Linear
-            | _ -> Category
+    static member New categories data legend subtitle title tooltip chartType xTitle yTitle =
+        let xAxis = axisType categories data
         {
             Categories = categories
             Data = data
@@ -42,18 +44,7 @@ type ChartConfig =
             Title = title
             Tooltip = tooltip
             Type = chartType
-            XAxis = xAxisType
+            XAxis = xAxis
             XTitle = xTitle
             YTitle = yTitle
         }
-
-//    member __.Fields =
-//        __.Categories,
-//        __.Data,
-//        __.Legend,
-//        __.Subtitle,
-//        __.Title,
-//        __.Tooltip,
-//        __.Type,
-//        __.XTitle,
-//        __.YTitle

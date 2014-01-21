@@ -35,7 +35,7 @@ module private Utils =
         |> fun x -> x.Subtract(DateTime(1970, 1, 1)).TotalMilliseconds
         |> int64 :> key
 
-    let utcIfDatetime typecode (x:#key) =
+    let inline utcIfDatetime typecode (x:#key) =
         match typecode with
         | TypeCode.DateTime -> utc x
         | _ -> x :> key
