@@ -28,7 +28,7 @@ type ChartType =
     | StackedBar
     | StackedColumn
 
-module private Utils =
+module Utils =
 
     let inline utc (x:#key) =
         Convert.ToDateTime x

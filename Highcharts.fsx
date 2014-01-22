@@ -3,41 +3,12 @@
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
-#r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
-#r """.\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll"""
-#r """.\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll"""
-#r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
-#r """.\packages\Microsoft.AspNet.SignalR.Core.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll"""
-#r """.\packages\Microsoft.Owin.Cors.2.0.2\lib\net45\Microsoft.Owin.Cors.dll"""
-#r """.\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll"""
-#r """.\packages\Microsoft.Owin.Security.2.0.2\lib\net45\Microsoft.Owin.Security.dll"""
-#r """.\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll"""
 #r """.\bin\release\FsPlot.dll"""
 
 open System
 open FsPlot.Data
 open FsPlot.Highcharts.Charting
 open FsPlot.Highcharts.Options
-open FsPlot.GenericDynamicChart
-
-let series = Series.Area [1. .. 5.]
-let area = DynamicHighcharts.Area series
-area.SetTitle "Title"
-
-#r "System.ComponentModel.Composition.dll"
-#r @".\packages\Rx-Interfaces.2.2.2\lib\net45\System.Reactive.Interfaces.dll"
-#r @".\packages\Rx-Core.2.2.2\lib\net45\System.Reactive.Core.dll"
-#r @".\packages\Rx-Linq.2.2.2\lib\net45\System.Reactive.Linq.dll"
-
-open System.Runtime
-open System.Reactive.Concurrency
-open System.Reactive.Linq
-
-let rnd = Random()
-let updates = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
-updates.Subscribe(fun _ ->
-    let dp = rnd.Next(1, 5)
-    area.Push dp) |> ignore
 
 // Warm up FunScript's compiler.
 FunScript.Compiler.compile

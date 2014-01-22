@@ -41,6 +41,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Browser.fs" />
     <Compile Include="ChartWindow.fs" />
     <Compile Include="Highcharts.Options.fs" />
     <Compile Include="Data.fs" />
@@ -48,10 +49,11 @@
     <Compile Include="Quote.fs" />
     <Compile Include="Highcharts.Js.fs" />
     <Compile Include="Highcharts.Html.fs" />
+    <Compile Include="Dynamic.fs" />
     <Compile Include="GenericDynamicChart.fs" />
     <Compile Include="GenericChart.fs" />
     <Compile Include="Highcharts.Charting.fs" />
-    <None Include="Script.fsx" />
+    <None Include="Highcharts.fsx" />
     <None Include="packages.config" />
     <Resource Include="ChartIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -62,6 +64,7 @@
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
+    <None Include="DynamicHighcharts.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">
@@ -165,6 +168,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive.Core">
       <HintPath>packages\Rx-Core.2.2.2\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -187,6 +191,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
+    <Reference Include="WebDriver">
+      <HintPath>packages\Selenium.WebDriver.2.39.0\lib\net40\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,3 +48,11 @@ type ChartConfig =
             XTitle = xTitle
             YTitle = yTitle
         }
+
+    static member New' categories data legend subtitle title tooltip chartType xTitle yTitle =
+        let legend' = defaultArg legend false
+        let categories' =
+            match categories with 
+            | None -> [||]
+            | Some value -> Seq.toArray value
+        ChartConfig.New categories' data legend' subtitle title tooltip chartType xTitle yTitle

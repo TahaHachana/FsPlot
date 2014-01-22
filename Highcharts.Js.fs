@@ -651,24 +651,28 @@ let stackedColumn config =
 //[<JSEmitInline("{0}.series[0]")>]
 //let getSeries jq : unit = failwith ""
 
-[<JSEmitInline "$('#chart').highcharts().series[0].addPoint({0}, true, true)">]
-let addPoint point : unit = failwith ""
+[<JSEmitInline "$('#chart').highcharts().series[0]">]
+let getSeries() : HighchartsSeriesObject = failwith ""
+
+[<JSEmitInline "{0}.addPoint({1}, true, {2})">]
+let addPoint series point shift : unit = failwith ""
 
 [<ReflectedDefinition>]
 module DynamicChart =
     
-    let area address guid config =
+    let area address guid shift config =
         let hub = Globals.Dollar.hubConnection(address)
         let proxy = hub.createHubProxy("dataHub")
         hub.start()._done(fun () ->
             let proxyGuid = proxy.connection.id
-            proxy.invoke("storeGuids", guid, proxyGuid)._done(fun () -> Globals.console.log "success")
+            proxy.invoke("storeGuids", guid, proxyGuid)//._done(fun () -> Globals.console.log "success")
             ) |> ignore
         let options = createEmpty<HighchartsOptions>()
         let chartOptions = createEmpty<HighchartsChartOptions>()
         let events = createEmpty<HighchartsChartEvents>()
         events.load <- (fun _ ->
-            proxy.on("push", (fun arr -> addPoint arr)) |> ignore)
+            let series = getSeries()
+            proxy.on("push", (fun arr -> addPoint series arr shift)) |> ignore)
         chartOptions.renderTo <- "chart"
         chartOptions._type <- "area"
         chartOptions.events <- events
@@ -687,6 +691,6 @@ module DynamicChart =
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options)
         
-let dynamicArea address guid config =
+let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
-    compile <@ DynamicChart.area address guid %%configExpr @>
+    compile <@ DynamicChart.area address guid shift %%configExpr @>

@@ -1810,6 +1810,8 @@ type Highcharts =
         let chartData = newChartConfig categories data legend None title None StackedColumn xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsStackedColumn()) 
 
+type Chart =
+
     /// <summary>Sets the categories of a chart's X-axis.</summary>
     static member categories categories (chart:#GenericChart) =
         chart.SetCategories categories
@@ -1904,5 +1906,108 @@ type Highcharts =
 
     /// <summary>Sets the chart's Y-axis title.</summary>
     static member yTitle yTitle (chart:#GenericChart) =
+        chart.SetYTitle yTitle
+        chart
+
+open FsPlot.GenericDynamicChart
+
+type DynamicHighcharts =
+
+    /// <summary>Creates a dynamic area chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Area(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Area xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Area(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Area data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Area xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic area chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Area(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Area data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Area xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+type DynamicChart =
+
+    /// <summary>Sets the categories of a chart's X-axis.</summary>
+    static member categories categories (chart:GenericDynamicChart) =
+        chart.SetCategories categories
+        chart
+
+    /// <summary>Closes the chart's window.</summary>
+    static member close (chart:GenericDynamicChart) = chart.Close()
+
+    /// <summary>Sets the data series used by a chart.</summary>
+    static member data (series:Series) (chart:GenericDynamicChart) = chart.SetData series
+
+    /// <summary>Hides the legend of a chart.</summary>
+    static member hideLegend (chart:GenericDynamicChart) =
+        chart.HideLegend()
+        chart
+
+    static member plot (series:Series) = DynamicHighcharts.Area series
+//        match series.Type with
+//        | Area -> DynamicHighcharts.Area series
+//        | _ -> 
+
+    /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
+    static member shift shift (chart:GenericDynamicChart) =
+        chart.SetShift shift
+        chart
+
+    /// <summary>Displays the chart's legend.</summary>
+    static member showLegend (chart:GenericDynamicChart) =
+        chart.ShowLegend()
+        chart
+
+    /// <summary>Sets the chart's subtitle.</summary>
+    static member subtitle subtitle (chart:GenericDynamicChart) =
+        chart.SetSubtitle subtitle
+        chart
+
+    /// <summary>Sets the chart's title.</summary>
+    static member title title (chart:GenericDynamicChart) =
+        chart.SetTitle title
+        chart
+
+    /// <summary>Modifies the data points' tooltip format.</summary>
+    static member tooltip format (chart:GenericDynamicChart) =
+        chart.SetTooltip format
+        chart
+
+    /// <summary>Sets the chart's X-axis title.</summary>
+    static member xTitle xTitle (chart:GenericDynamicChart) =
+        chart.SetXTitle xTitle
+        chart
+
+    /// <summary>Sets the chart's Y-axis title.</summary>
+    static member yTitle yTitle (chart:GenericDynamicChart) =
         chart.SetYTitle yTitle
         chart
