@@ -53,6 +53,7 @@ module Area =
 
     let updates1 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
     updates1.Subscribe(fun _ -> area1.Push <| next()) |> ignore
+
     area1.Close()
     
     let area2 =
@@ -65,12 +66,48 @@ module Area =
 
     let area3 =
         [
-            DateTime.Now, 5.
-            DateTime.Now.AddSeconds 2., 3.
-            DateTime.Now.AddSeconds 4., 10.
+            5.
+            3.
+            10.
         ]
         |> DynamicHighcharts.Area
 
+    area3.SetShift false
+
     let updates3 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
-    updates3.Subscribe(fun _ -> area3.Push (DateTime.Now, float <| next())) |> ignore
+    updates3.Subscribe(fun _ -> area3.Push (float <| next())) |> ignore
+    area3.Close()
+
+module Areaspline =
+
+    let area1 =
+        Series.Areaspline [next(); next(); next(); next()]
+        |> DynamicHighcharts.Areaspline
+
+    let updates1 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
+    updates1.Subscribe(fun _ -> area1.Push <| next()) |> ignore
+
+    area1.Close()
+
+    let area2 =
+        [next(); next(); next(); next()]
+        |> DynamicHighcharts.Areaspline
+
+    let updates2 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
+    updates2.Subscribe(fun _ -> area2.Push <| next()) |> ignore
+
+    area2.Close()
+
+    let area3 =
+        [
+            5.
+            3.
+            10.
+        ]
+        |> DynamicHighcharts.Area
+
+    area3.SetShift false
+
+    let updates3 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
+    updates3.Subscribe(fun _ -> area3.Push (float <| next())) |> ignore
     area3.Close()

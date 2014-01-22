@@ -17,6 +17,37 @@ open FunScript
 open FunScript.Compiler
 open System
 
+module Inline =
+
+    [<JSEmitInline("{0}.center = {1}")>]
+    let pieCenter options arr : unit = failwith ""
+
+    [<JSEmitInline("{0}.size = {1}")>]
+    let pieSize options size : unit = failwith ""
+
+    [<JSEmitInline("{0}.showInLegend = false")>]
+    let disableLegend options : unit = failwith ""
+
+    [<JSEmitInline("{0}.dataLabels = {enabled: false}")>]
+    let disableLabels options : unit = failwith ""
+
+    [<JSEmitInline("{0}.gridLineInterpolation = 'polygon'")>]
+    let polygon options : unit = failwith ""
+
+    [<JSEmitInline("{0}.neckHeight = '0%'")>]
+    let funnelNeck options : unit = failwith ""
+
+    [<JSEmitInline("{0}.pointPlacement = 'on'")>]
+    let pointPlacement options : unit = failwith ""
+
+    [<JSEmitInline "$('#chart').highcharts().series[0]">]
+    let getSeries() : HighchartsSeriesObject = failwith ""
+
+    [<JSEmitInline "{0}.addPoint({1}, true, {2})">]
+    let addPoint series point shift : unit = failwith ""
+
+open Inline
+
 [<ReflectedDefinition>]
 module Utils =
 
@@ -132,31 +163,27 @@ module Utils =
         legendOptions.enabled <- legend
         options.legend <- legendOptions
 
-module Inline =
+    let initSignalr address guid =
+        let hub = Globals.Dollar.hubConnection(address)
+        let proxy = hub.createHubProxy("dataHub")
+        hub.start()._done(fun () ->
+            let proxyGuid = proxy.connection.id
+            proxy.invoke("storeGuids", guid, proxyGuid)
+            ) |> ignore
+        proxy
 
-    [<JSEmitInline("{0}.center = {1}")>]
-    let pieCenter options arr : unit = failwith ""
-
-    [<JSEmitInline("{0}.size = {1}")>]
-    let pieSize options size : unit = failwith ""
-
-    [<JSEmitInline("{0}.showInLegend = false")>]
-    let disableLegend options : unit = failwith ""
-
-    [<JSEmitInline("{0}.dataLabels = {enabled: false}")>]
-    let disableLabels options : unit = failwith ""
-
-    [<JSEmitInline("{0}.gridLineInterpolation = 'polygon'")>]
-    let polygon options : unit = failwith ""
-
-    [<JSEmitInline("{0}.neckHeight = '0%'")>]
-    let funnelNeck options : unit = failwith ""
-
-    [<JSEmitInline("{0}.pointPlacement = 'on'")>]
-    let pointPlacement options : unit = failwith ""
+    let setDynamicChartOptions (proxy:HubProxy) shift renderTo chartType (options:HighchartsOptions) =
+        let chartOptions = createEmpty<HighchartsChartOptions>()
+        let events = createEmpty<HighchartsChartEvents>()
+        events.load <- (fun _ ->
+            let series = getSeries()
+            proxy.on("push", (fun arr -> addPoint series arr shift)) |> ignore)
+        chartOptions.renderTo <- renderTo
+        chartOptions._type <- chartType
+        chartOptions.events <- events
+        options.chart <- chartOptions
 
 open Utils
-open Inline
 
 [<ReflectedDefinition>]
 module Chart =
@@ -179,7 +206,6 @@ module Chart =
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
 
-    // Area with smooth lines.
     let areaspline config stacking inverted =
         let options = createEmpty<HighchartsOptions>()
         areaChartOptions "chart" "areaspline" inverted options
@@ -648,35 +674,13 @@ let stackedColumn config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.stackedColumn %%configExpr @>
 
-//[<JSEmitInline("{0}.series[0]")>]
-//let getSeries jq : unit = failwith ""
-
-[<JSEmitInline "$('#chart').highcharts().series[0]">]
-let getSeries() : HighchartsSeriesObject = failwith ""
-
-[<JSEmitInline "{0}.addPoint({1}, true, {2})">]
-let addPoint series point shift : unit = failwith ""
-
 [<ReflectedDefinition>]
 module DynamicChart =
     
     let area address guid shift config =
-        let hub = Globals.Dollar.hubConnection(address)
-        let proxy = hub.createHubProxy("dataHub")
-        hub.start()._done(fun () ->
-            let proxyGuid = proxy.connection.id
-            proxy.invoke("storeGuids", guid, proxyGuid)//._done(fun () -> Globals.console.log "success")
-            ) |> ignore
+        let proxy = initSignalr address guid
         let options = createEmpty<HighchartsOptions>()
-        let chartOptions = createEmpty<HighchartsChartOptions>()
-        let events = createEmpty<HighchartsChartEvents>()
-        events.load <- (fun _ ->
-            let series = getSeries()
-            proxy.on("push", (fun arr -> addPoint series arr shift)) |> ignore)
-        chartOptions.renderTo <- "chart"
-        chartOptions._type <- "area"
-        chartOptions.events <- events
-        options.chart <- chartOptions
+        setDynamicChartOptions proxy shift "chart" "area" options
         setLegendOptions config.Legend options
         setXAxisOptions config.XAxis options config.Categories config.XTitle
         setYAxisOptions options config.YTitle
@@ -690,7 +694,27 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options)
+
+    let areaspline address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "areaspline" options
+        setLegendOptions config.Legend options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        let areaChart = createEmpty<HighchartsAreaChart>()
+        setAreaMarker areaChart
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        setTooltipOptions config.Tooltip options
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.area address guid shift %%configExpr @>
+
+let dynamicAreaspline address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.areaspline address guid shift %%configExpr @>

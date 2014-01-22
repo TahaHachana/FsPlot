@@ -8,6 +8,7 @@ open Microsoft.Owin.Hosting
 open FsPlot.Dynamic
 open FsPlot.Config
 open FsPlot.Data
+open FsPlot.Highcharts
   
 let freePort() =
     let properties = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
@@ -68,13 +69,17 @@ module Html =
 
 module Js =
 
-    let highcharts address guid shift (config:ChartConfig) = FsPlot.Highcharts.Js.dynamicArea address guid shift config
+    let highcharts address guid shift (config:ChartConfig) =
+        match config.Type with
+        | Area -> Js.dynamicArea address guid shift config
+        | _ -> Js.dynamicAreaspline address guid shift config
+
+//    let highcharts address guid shift (config:ChartConfig) = FsPlot.Highcharts.Js.dynamicArea address guid shift config
 
 type GenericDynamicChart() as chart =
 
     [<DefaultValue>] val mutable private chartData : ChartConfig    
     let mutable shiftField = true
-
     let address = "http://localhost:" + freePort()
     let guid = Guid.NewGuid().ToString()
     let app = WebApp.Start<Startup> address
@@ -106,7 +111,7 @@ type GenericDynamicChart() as chart =
     /// <summary>Closes the browser window.</summary>
     member __.Close() =
         try
-            app.Dispose()
+//            app.Dispose()
             browser.Quit()
             remove guid
         with _ -> ()
@@ -127,6 +132,7 @@ type GenericDynamicChart() as chart =
     member __.Push(value:#value) =
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
+//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
             hub.Clients.Client(id)?push value |> ignore
         with _ -> ()
 
@@ -137,6 +143,7 @@ type GenericDynamicChart() as chart =
         let value' = value :> value
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
+//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
             hub.Clients.Client(id)?push [|key'; value'|] |> ignore
         with _ -> ()
 
@@ -148,6 +155,7 @@ type GenericDynamicChart() as chart =
         let value2' = value' :> value
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
+//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
             hub.Clients.Client(id)?push [|key'; value1'; value2'|] |> ignore
         with _ -> ()
 
