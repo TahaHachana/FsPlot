@@ -65,7 +65,8 @@ module Js =
         | Areaspline -> Js.dynamicAreaspline address guid shift config
         | Arearange-> Js.dynamicArearange address guid shift config
         | Bar -> Js.dynamicBar address guid shift config
-        | _ -> Js.dynamicBubble address guid shift config
+        | Bubble -> Js.dynamicBubble address guid shift config
+        | _ -> Js.dynamicColumn address guid shift config
 
 type GenericDynamicChart() as chart =
 

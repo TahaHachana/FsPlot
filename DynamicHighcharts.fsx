@@ -165,8 +165,23 @@ module Bubble =
         |> DynamicHighcharts.Bubble
 
     let bubble3 =
-        [
-            [36,79; 74,60; 76,58]
-        ]
+        [36,79; 74,60; 76,58]
         |> DynamicHighcharts.Bubble
 
+
+module Column =
+
+    let column1 =
+        Series.Column ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Column
+
+    column1.Push("2014", 1400)
+    column1.Close()
+
+    let column2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Column
+
+    let column3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Column
