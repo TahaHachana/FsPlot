@@ -850,6 +850,64 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
+
+    let radar address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        let chartOptions = createEmpty<HighchartsChartOptions>()
+        let events = createEmpty<HighchartsChartEvents>()
+        events.load <- (fun _ ->
+            let series = getSeries()
+            proxy.on("push", (fun arr -> addPoint series arr shift)) |> ignore)
+        chartOptions.renderTo <- "chart"
+        chartOptions._type <- "line"
+        chartOptions.polar <- true
+        chartOptions.events <- events
+        options.chart <- chartOptions
+        setLegendOptions config.Legend options
+        let axisOptions = createEmpty<HighchartsAxisOptions>()
+        let xAxisType =
+            let categories = config.Categories
+            match categories.Length with
+            | 0 ->
+                match config.XAxis with
+                | Category -> "category"
+                | DateTime -> "datetime"
+                | Linear -> "linear"
+            | _ ->
+                axisOptions.categories <- categories
+                "category"
+        axisOptions._type <- xAxisType
+        let axisTitle = createEmpty<HighchartsAxisTitle>()
+        axisTitle.text <- defaultArg config.XTitle ""
+        axisOptions.title <- axisTitle
+        axisOptions.lineWidth <- 0.
+        axisOptions.tickmarkPlacement <- "on"
+        options.xAxis <- axisOptions
+        let yAxisOptions = createEmpty<HighchartsAxisOptions>()
+        let yAxisTitle = createEmpty<HighchartsAxisTitle>()
+        yAxisTitle.text <- defaultArg config.YTitle ""
+        yAxisOptions.title <- yAxisTitle
+        yAxisOptions.lineWidth <- 0.
+        yAxisOptions.min <- 0.
+        polygon yAxisOptions
+        options.yAxis <- yAxisOptions
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        let seriesOptions =
+            [|
+                for x in config.Data do
+                    let options = createEmpty<HighchartsSeriesOptions>()
+                    options.data <- x.Values
+                    options.name <- x.Name
+                    pointPlacement options
+                    setSeriesChartType x.Type options
+                    yield options
+            |]
+        options.series <- seriesOptions
+        setTooltipOptions config.Tooltip options
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
@@ -890,3 +948,7 @@ let dynamicLine address guid shift config =
 let dynamicPie address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.pie address guid shift %%configExpr @>
+
+let dynamicRadar address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.radar address guid shift %%configExpr @>

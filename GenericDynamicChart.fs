@@ -66,7 +66,11 @@ module Js =
         | Bar -> Js.dynamicBar address guid shift config
         | Bubble -> Js.dynamicBubble address guid shift config
         | Column -> Js.dynamicColumn address guid shift config
-        | _ -> Js.dynamicDonut address guid shift config
+        | Donut -> Js.dynamicDonut address guid shift config
+        | Funnel -> Js.dynamicFunnel address guid shift config
+        | Line -> Js.dynamicLine address guid shift config
+        | Pie -> Js.dynamicPie address guid shift config
+        | _ -> Js.dynamicRadar address guid shift config
 
 type GenericDynamicChart() as chart =
 

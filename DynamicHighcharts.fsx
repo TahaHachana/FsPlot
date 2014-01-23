@@ -253,3 +253,20 @@ module Pie =
     let pie3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Highcharts.Pie
+
+module Radar =
+
+    let radar1 =
+        Series.Radar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Radar
+    
+    radar1.Push ("2014", 1400)
+    radar1.Close()
+
+    let radar2 =
+        [1000; 1170; 560; 1030; 1250]
+        |> DynamicHighcharts.Radar
+
+    let radar3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Radar
