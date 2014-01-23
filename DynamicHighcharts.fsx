@@ -111,3 +111,26 @@ module Areaspline =
     let updates3 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
     updates3.Subscribe(fun _ -> area3.Push (float <| next())) |> ignore
     area3.Close()
+
+module Arearange =
+
+    let arearange1 =
+        [
+            DateTime.Now, -2.5, 5.
+            DateTime.Now.AddDays 1., -3., 2.
+            DateTime.Now.AddDays 2., 3., 15.
+        ]
+        |> Series.Arearange
+        |> DynamicHighcharts.Arearange
+    
+    arearange1.SetShift false
+    arearange1.Push(DateTime.Now.AddDays 3., 4., 10.)
+    arearange1.Close()
+
+    let arearange2 =
+        [
+            DateTime.Now, -2.5, 5.
+            DateTime.Now.AddDays 1., -3., 2.
+            DateTime.Now.AddDays 2., 3., 15.
+        ]
+        |> DynamicHighcharts.Arearange

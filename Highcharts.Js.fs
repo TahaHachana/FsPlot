@@ -711,6 +711,25 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
+
+    let arearange address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "arearange" options
+        setLegendOptions config.Legend options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        let tooltipOptions = createEmpty<HighchartsTooltipOptions>()
+        match config.Tooltip with
+        | None -> ()
+        | Some value -> tooltipOptions.pointFormat <- value
+        tooltipOptions.crosshairs <- true
+        options.tooltip <- tooltipOptions
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
@@ -719,3 +738,7 @@ let dynamicArea address guid shift config =
 let dynamicAreaspline address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.areaspline address guid shift %%configExpr @>
+
+let dynamicArearange address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.arearange address guid shift %%configExpr @>

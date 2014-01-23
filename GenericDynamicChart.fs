@@ -50,31 +50,20 @@ let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
 
 module Html =
     
-    let common address js =
-        let hubsJs = sprintf """<script src="%s/signalr/hubs" type="text/javascript"></script>""" address
-        String.concat
-            ""
-            [
-                "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
-                """<div id="chart" style="width:100%; height:100%"></div>"""
-                """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
-                """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.0.min.js"></script>"""
-                hubsJs
-                """<script src="http://code.highcharts.com/highcharts.js"></script>"""
-                """<script src="http://code.highcharts.com/modules/exporting.js"></script>"""
-                "<script>"
-                js
-                "</script></body></html>"
-            ]
+    let highcharts chartType address js =
+        match chartType with
+        | Arearange | Bubble | Radar -> Html.dynamicMore address js
+//        | Combination -> Html.combine
+//        | Funnel -> Html.funnel
+        | _ -> Html.dynamicCommon address js
 
 module Js =
 
     let highcharts address guid shift (config:ChartConfig) =
         match config.Type with
         | Area -> Js.dynamicArea address guid shift config
-        | _ -> Js.dynamicAreaspline address guid shift config
-
-//    let highcharts address guid shift (config:ChartConfig) = FsPlot.Highcharts.Js.dynamicArea address guid shift config
+        | Areaspline -> Js.dynamicAreaspline address guid shift config
+        | _ -> Js.dynamicArearange address guid shift config
 
 type GenericDynamicChart() as chart =
 
@@ -96,7 +85,7 @@ type GenericDynamicChart() as chart =
                         let js = Js.highcharts address guid shiftField msg
                         match inbox.CurrentQueueLength with
                         | 0 ->
-                            let html = Html.common address js
+                            let html = Html.highcharts msg.Type address js
                             match inbox.CurrentQueueLength with
                             | 0 ->
                                 System.IO.File.WriteAllText(fileName, html)
@@ -177,8 +166,11 @@ type GenericDynamicChart() as chart =
         agent.Post chart.chartData
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
-    member __.SetShift shift = shiftField <- shift
-        
+    member __.SetShift shift =
+        remove guid
+        shiftField <- shift
+        agent.Post chart.chartData
+
     /// <summary>Modifies the tooltip format for each data point.</summary>
     member __.SetTooltip(tooltip) =
         remove guid
