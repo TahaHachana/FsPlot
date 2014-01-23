@@ -185,3 +185,20 @@ module Column =
     let column3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Column
+
+module Donut =
+
+    let donut1 =
+        Series.Donut ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Donut
+
+    donut1.Push ("2014", 1400)
+    donut1.Close()
+
+    let donut2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Donut
+
+    let donut3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Donut

@@ -780,6 +780,25 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
+
+    let donut address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "pie" options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        let pieChart = createEmpty<HighchartsPieChart>()
+        pieChart.showInLegend <- config.Legend
+        pieChart.innerSize <- "50%"
+        let plotOptions = createEmpty<HighchartsPlotOptions>()
+        plotOptions.pie <- pieChart
+        options.plotOptions <- plotOptions
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        setTooltipOptions config.Tooltip options
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
@@ -804,3 +823,7 @@ let dynamicBubble address guid shift config =
 let dynamicColumn address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.column address guid shift %%configExpr @>
+
+let dynamicDonut address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.donut address guid shift %%configExpr @>
