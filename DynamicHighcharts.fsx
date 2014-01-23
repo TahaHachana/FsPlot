@@ -60,7 +60,7 @@ module Area =
         [next(); next(); next(); next()]
         |> DynamicHighcharts.Area
 
-    let updates2 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
+    let updates2 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
     updates2.Subscribe(fun _ -> area2.Push <| next()) |> ignore
     area2.Close()
 

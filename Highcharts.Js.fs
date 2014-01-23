@@ -164,7 +164,8 @@ module Utils =
         options.legend <- legendOptions
 
     let initSignalr address guid =
-        let hub = Globals.Dollar.hubConnection(address)
+        let hub = Globals.Dollar.connection.hub
+        hub.url <- (address + "/signalr")
         let proxy = hub.createHubProxy("dataHub")
         hub.start()._done(fun () ->
             let proxyGuid = proxy.connection.id

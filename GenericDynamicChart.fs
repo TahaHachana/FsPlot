@@ -111,6 +111,7 @@ type GenericDynamicChart() as chart =
     /// <summary>Closes the browser window.</summary>
     member __.Close() =
         try
+            browser.ExecuteScript("$.connection.hub.stop()") |> ignore
 //            app.Dispose()
             browser.Quit()
             remove guid
