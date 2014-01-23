@@ -65,6 +65,7 @@
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
     <None Include="DynamicHighcharts.fsx" />
+    <None Include="chromedriver.exe" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">
