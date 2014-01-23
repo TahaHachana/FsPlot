@@ -53,11 +53,11 @@
     <Compile Include="GenericDynamicChart.fs" />
     <Compile Include="GenericChart.fs" />
     <Compile Include="Highcharts.Charting.fs" />
-    <None Include="Highcharts.fsx" />
     <None Include="packages.config" />
     <Resource Include="ChartIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <None Include="Highcharts.fsx" />
     <None Include="Examples.fsx" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />

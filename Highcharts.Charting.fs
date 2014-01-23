@@ -2063,6 +2063,47 @@ type DynamicHighcharts =
         let shift = defaultArg shift true
         GenericDynamicChart.Create chartData shift
 
+    /// <summary>Creates a dynamic bubble chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Bubble(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Bubble xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic bubble chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Bubble(data:seq<#key*#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Bubble data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Bubble xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic bubble chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Bubble(data:seq<#value*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Bubble data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Bubble xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
 type DynamicChart =
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>
@@ -2086,7 +2127,8 @@ type DynamicChart =
         | Area -> DynamicHighcharts.Area series
         | Areaspline -> DynamicHighcharts.Areaspline series
         | Arearange -> DynamicHighcharts.Arearange series
-        | _ -> DynamicHighcharts.Bar series
+        | Bar -> DynamicHighcharts.Bar series
+        | _ -> DynamicHighcharts.Bubble series
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
     static member shift shift (chart:GenericDynamicChart) =

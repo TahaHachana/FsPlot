@@ -150,3 +150,23 @@ module Bar =
     let bar3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Bar
+
+module Bubble =
+    
+    let bubble1 =
+        Series.Bubble [97,36,79; 94,74,60; 68,76,58]
+        |> DynamicHighcharts.Bubble
+
+    bubble1.Push(50,72,48)
+    bubble1.Close()
+
+    let bubble2 =
+        [97,36,79; 94,74,60; 68,76,58]
+        |> DynamicHighcharts.Bubble
+
+    let bubble3 =
+        [
+            [36,79; 74,60; 76,58]
+        ]
+        |> DynamicHighcharts.Bubble
+
