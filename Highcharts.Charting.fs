@@ -855,7 +855,7 @@ type Highcharts =
     static member Line(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Line data
         let chartData = ChartConfig.New' categories [|series|] legend None title None Line xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsLine()) 
+        GenericChart.Create chartData (fun () -> HighchartsLine())
         
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -2205,6 +2205,47 @@ type DynamicHighcharts =
         let shift = defaultArg shift true
         GenericDynamicChart.Create chartData shift
 
+    /// <summary>Creates a dynamic line chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Line(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Line xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic line chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Line(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Line data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Line xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic line chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Line(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Line data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Line xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
 type DynamicChart =
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>
@@ -2232,7 +2273,8 @@ type DynamicChart =
         | Bubble -> DynamicHighcharts.Bubble series
         | Column -> DynamicHighcharts.Column series
         | Donut -> DynamicHighcharts.Donut series
-        | _ -> DynamicHighcharts.Funnel series
+        | Funnel -> DynamicHighcharts.Funnel series
+        | _ -> DynamicHighcharts.Line series
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
     static member shift shift (chart:GenericDynamicChart) =

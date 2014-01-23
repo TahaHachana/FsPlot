@@ -219,3 +219,20 @@ module Funnel =
     let funnel3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Funnel
+
+module Line =
+
+    let line1 =
+        Series.Line ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Line
+    
+    line1.Push ("2014", 1400)
+    line1.Close()
+
+    let line2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Line
+
+    let line3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Line
