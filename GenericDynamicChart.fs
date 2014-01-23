@@ -70,7 +70,9 @@ module Js =
         | Funnel -> Js.dynamicFunnel address guid shift config
         | Line -> Js.dynamicLine address guid shift config
         | Pie -> Js.dynamicPie address guid shift config
-        | _ -> Js.dynamicRadar address guid shift config
+        | Radar -> Js.dynamicRadar address guid shift config
+        | Scatter -> Js.dynamicScatter address guid shift config
+        | _ -> Js.dynamicSpline address guid shift config
 
 type GenericDynamicChart() as chart =
 

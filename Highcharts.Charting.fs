@@ -1350,7 +1350,7 @@ type Highcharts =
     static member Scatter(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Scatter data
         let chartData = ChartConfig.New' categories [|series|] legend None title None Scatter xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsScatter()) 
+        GenericChart.Create chartData (fun () -> HighchartsScatter())
         
     /// <summary>Creates a scatter chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -1442,7 +1442,7 @@ type Highcharts =
     static member Spline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Spline data
         let chartData = ChartConfig.New' categories [|series|] legend None title None Spline xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsSpline()) 
+        GenericChart.Create chartData (fun () -> HighchartsSpline())
         
     /// <summary>Creates a spline chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -2317,6 +2317,88 @@ type DynamicHighcharts =
         let shift = defaultArg shift true
         GenericDynamicChart.Create chartData shift
 
+    /// <summary>Creates a dynamic scatter chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Scatter(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Scatter xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic scatter chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Scatter(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Scatter data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Scatter xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic scatter chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Scatter(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Scatter data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Scatter xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Spline(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Spline xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic spline chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Spline(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Spline data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Spline xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic spline chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Spline(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Spline data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Spline xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
 type DynamicChart =
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>
@@ -2347,7 +2429,9 @@ type DynamicChart =
         | Funnel -> DynamicHighcharts.Funnel series
         | Line -> DynamicHighcharts.Line series
         | Pie -> DynamicHighcharts.Pie series
-        | _ -> DynamicHighcharts.Radar series
+        | Radar -> DynamicHighcharts.Radar series
+        | Scatter -> DynamicHighcharts.Scatter series
+        | _ -> DynamicHighcharts.Spline series
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
     static member shift shift (chart:GenericDynamicChart) =

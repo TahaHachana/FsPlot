@@ -908,6 +908,34 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
+
+    let scatter address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "scatter" options
+        setLegendOptions config.Legend options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        setTooltipOptions config.Tooltip options
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
+
+    let spline address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "spline" options
+        setLegendOptions config.Legend options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        setTooltipOptions config.Tooltip options
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
@@ -952,3 +980,11 @@ let dynamicPie address guid shift config =
 let dynamicRadar address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.radar address guid shift %%configExpr @>
+
+let dynamicScatter address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.scatter address guid shift %%configExpr @>
+
+let dynamicSpline address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.spline address guid shift %%configExpr @>

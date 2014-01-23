@@ -270,3 +270,37 @@ module Radar =
     let radar3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Radar
+
+module Scatter =
+
+    let scatter1 =
+        Series.Scatter ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Scatter
+    
+    scatter1.Push ("2014", 1400)
+    scatter1.Close()
+
+    let scatter2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Scatter
+
+    let scatter3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Scatter
+
+module Spline =
+
+    let spline1 =
+        Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Spline
+
+    spline1.Push ("2014", 1400)
+    spline1.Close()
+
+    let spline2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Spline
+
+    let spline3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Spline
