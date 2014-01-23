@@ -134,3 +134,19 @@ module Arearange =
             DateTime.Now.AddDays 2., 3., 15.
         ]
         |> DynamicHighcharts.Arearange
+
+module Bar =
+    
+    let bar1 =
+        Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Bar
+    
+    bar1.Push("2014", 1200)
+
+    let bar2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Bar
+
+    let bar3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Bar

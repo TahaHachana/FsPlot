@@ -63,7 +63,8 @@ module Js =
         match config.Type with
         | Area -> Js.dynamicArea address guid shift config
         | Areaspline -> Js.dynamicAreaspline address guid shift config
-        | _ -> Js.dynamicArearange address guid shift config
+        | Arearange-> Js.dynamicArearange address guid shift config
+        | _ -> Js.dynamicBar address guid shift config
 
 type GenericDynamicChart() as chart =
 
