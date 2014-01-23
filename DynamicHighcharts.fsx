@@ -236,3 +236,20 @@ module Line =
     let line3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Line
+
+module Pie =
+
+    let pie1 =
+        Series.Pie ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Pie
+
+    pie1.Push("2014", 1440)
+    pie1.Close()
+
+    let pie2 =
+        [1000; 1170; 560; 1030]
+        |> Highcharts.Pie
+
+    let pie3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> Highcharts.Pie

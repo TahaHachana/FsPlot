@@ -4,10 +4,10 @@ open System.Reflection
 
 [<
     AssemblyDescription("A Data Visualization Library for F# Using HTML5/JavaScript.");
-    AssemblyFileVersion("0.3.5");
+    AssemblyFileVersion("0.3.6");
     AssemblyProduct("FsPlot");
     AssemblyTitle("FsPlot");
-    AssemblyVersion("0.3.5")
+    AssemblyVersion("0.3.6")
 >]
 
 do ()

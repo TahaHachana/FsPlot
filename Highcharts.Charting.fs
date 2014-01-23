@@ -1202,17 +1202,6 @@ type Highcharts =
         GenericChart.Create chartData (fun () -> HighchartsPie()) 
 
     /// <summary>Creates a pie chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The X-axis categories.</param>
-    /// <param name="legend">Whether to display a legend or not.</param>
-    /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis title.</param>
-    /// <param name="yTitle">The Y-axis title.</param>
-    static member Pie(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = ChartConfig.New' categories (Seq.toArray data) legend None title None Pie xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsPie()) 
-
-    /// <summary>Creates a pie chart.</summary>
     /// <param name="data">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
@@ -1234,7 +1223,7 @@ type Highcharts =
     static member Pie(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
         let series = Series.Pie data
         let chartData = ChartConfig.New' categories [|series|] legend None title None Pie xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsPie()) 
+        GenericChart.Create chartData (fun () -> HighchartsPie())
 
     /// <summary>Creates a radar chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -1848,7 +1837,7 @@ type Chart =
             | PercentArea -> Highcharts.PercentArea series :> GenericChart
             | PercentBar -> Highcharts.PercentBar series :> GenericChart
             | PercentColumn -> Highcharts.PercentColumn series :> GenericChart
-            | Pie -> Highcharts.Pie series :> GenericChart
+//            | Pie -> Highcharts.Pie series :> GenericChart
             | Radar -> Highcharts.Radar series :> GenericChart
             | Scatter -> Highcharts.Scatter series :> GenericChart
             | Spline -> Highcharts.Spline series :> GenericChart
@@ -2246,6 +2235,47 @@ type DynamicHighcharts =
         let shift = defaultArg shift true
         GenericDynamicChart.Create chartData shift
 
+    /// <summary>Creates a dynamic pie chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Pie(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Pie xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic pie chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Pie(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Pie data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Pie xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic pie chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Pie(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Pie data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Pie xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
 type DynamicChart =
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>
@@ -2274,7 +2304,8 @@ type DynamicChart =
         | Column -> DynamicHighcharts.Column series
         | Donut -> DynamicHighcharts.Donut series
         | Funnel -> DynamicHighcharts.Funnel series
-        | _ -> DynamicHighcharts.Line series
+        | Line -> DynamicHighcharts.Line series
+        | _ -> DynamicHighcharts.Pie series
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
     static member shift shift (chart:GenericDynamicChart) =
