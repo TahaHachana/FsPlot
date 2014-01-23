@@ -799,17 +799,6 @@ type Highcharts =
         GenericChart.Create chartData (fun () -> HighchartsFunnel())
 
     /// <summary>Creates a funnel chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="categories">The X-axis categories.</param>
-    /// <param name="legend">Whether to display a legend or not.</param>
-    /// <param name="title">The chart's title.</param>
-    /// <param name="xTitle">The X-axis title.</param>
-    /// <param name="yTitle">The Y-axis title.</param>
-    static member Funnel(data:seq<Series>, ?categories, ?legend, ?title, ?xTitle, ?yTitle) =
-        let chartData = ChartConfig.New' categories (Seq.toArray data) legend None title None Funnel xTitle yTitle
-        GenericChart.Create chartData (fun () -> HighchartsFunnel())
-
-    /// <summary>Creates a funnel chart.</summary>
     /// <param name="data">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
@@ -1853,8 +1842,8 @@ type Chart =
             | Bar -> Highcharts.Bar series :> GenericChart
             | Bubble -> Highcharts.Bubble series :> GenericChart
             | Column -> Highcharts.Column series :> GenericChart
-            | Donut -> Highcharts.Donut series :> GenericChart
-            | Funnel -> Highcharts.Funnel series :> GenericChart
+//            | Donut -> Highcharts.Donut series :> GenericChart
+//            | Funnel -> Highcharts.Funnel series :> GenericChart
             | Line -> Highcharts.Line series :> GenericChart
             | PercentArea -> Highcharts.PercentArea series :> GenericChart
             | PercentBar -> Highcharts.PercentBar series :> GenericChart
@@ -2175,6 +2164,47 @@ type DynamicHighcharts =
         let shift = defaultArg shift true
         GenericDynamicChart.Create chartData shift
 
+    /// <summary>Creates a dynamic funnel chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Funnel(data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let chartData = ChartConfig.New' categories [|data|] legend None title None Funnel xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic funnel chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Funnel(data:seq<#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Funnel data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Funnel xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
+    /// <summary>Creates a dynamic funnel chart.</summary>
+    /// <param name="data">The chart's data.</param>
+    /// <param name="categories">The X-axis categories.</param>
+    /// <param name="legend">Whether to display a legend or not.</param>
+    /// <param name="title">The chart's title.</param>
+    /// <param name="xTitle">The X-axis title.</param>
+    /// <param name="yTitle">The Y-axis title.</param>
+    /// <param name="shift">When shift is true, one point is shifted off the start of the series as one is appended to the end.</param>
+    static member Funnel(data:seq<#key*#value>, ?categories, ?legend, ?title, ?xTitle, ?yTitle, ?shift) =
+        let series = Series.Funnel data
+        let chartData = ChartConfig.New' categories [|series|] legend None title None Funnel xTitle yTitle
+        let shift = defaultArg shift true
+        GenericDynamicChart.Create chartData shift
+
 type DynamicChart =
 
     /// <summary>Sets the categories of a chart's X-axis.</summary>
@@ -2201,7 +2231,8 @@ type DynamicChart =
         | Bar -> DynamicHighcharts.Bar series
         | Bubble -> DynamicHighcharts.Bubble series
         | Column -> DynamicHighcharts.Column series
-        | _ -> DynamicHighcharts.Donut series
+        | Donut -> DynamicHighcharts.Donut series
+        | _ -> DynamicHighcharts.Funnel series
 
     /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
     static member shift shift (chart:GenericDynamicChart) =

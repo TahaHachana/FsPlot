@@ -58,14 +58,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="Highcharts.fsx" />
+    <None Include="DynamicHighcharts.fsx" />
     <None Include="Examples.fsx" />
+    <None Include="chromedriver.exe" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
-    <None Include="DynamicHighcharts.fsx" />
-    <None Include="chromedriver.exe" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

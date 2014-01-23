@@ -202,3 +202,20 @@ module Donut =
     let donut3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Donut
+
+module Funnel =
+
+    let funnel1 =
+        Series.Funnel ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Funnel
+
+    funnel1.Push ("2014", 1400)
+    funnel1.Close()
+
+    let funnel2 =
+        [1000; 1170; 560; 1030]
+        |> DynamicHighcharts.Funnel
+
+    let funnel3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Funnel

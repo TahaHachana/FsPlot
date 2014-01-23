@@ -799,6 +799,25 @@ module DynamicChart =
         setTooltipOptions config.Tooltip options
         let chartElement = Utils.jq "#chart"
         chartElement.highcharts(options) |> ignore
+
+    let funnel address guid shift config =
+        let proxy = initSignalr address guid
+        let options = createEmpty<HighchartsOptions>()
+        setDynamicChartOptions proxy shift "chart" "funnel" options
+        setLegendOptions config.Legend options
+        setXAxisOptions config.XAxis options config.Categories config.XTitle
+        setYAxisOptions options config.YTitle
+        setTitle config.Title options
+        setSubtitle config.Subtitle options
+        setSeriesOptions config.Data options
+        setTooltipOptions config.Tooltip options
+        let plotOptions = createEmpty<HighchartsPlotOptions>()
+        let seriesChart = createEmpty<HighchartsSeriesChart>()
+        funnelNeck seriesChart
+        plotOptions.series <- seriesChart
+        options.plotOptions<- plotOptions
+        let chartElement = Utils.jq "#chart"
+        chartElement.highcharts(options) |> ignore
         
 let dynamicArea address guid shift config =
     let configExpr = quoteChartConfig config
@@ -827,3 +846,8 @@ let dynamicColumn address guid shift config =
 let dynamicDonut address guid shift config =
     let configExpr = quoteChartConfig config
     compile <@ DynamicChart.donut address guid shift %%configExpr @>
+
+let dynamicFunnel address guid shift config =
+    let configExpr = quoteChartConfig config
+    compile <@ DynamicChart.funnel address guid shift %%configExpr @>
+

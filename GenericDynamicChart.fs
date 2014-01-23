@@ -53,8 +53,7 @@ module Html =
     let highcharts chartType address js =
         match chartType with
         | Arearange | Bubble | Radar -> Html.dynamicMore address js
-//        | Combination -> Html.combine
-//        | Funnel -> Html.funnel
+        | Funnel -> Html.dynamicFunnel address js
         | _ -> Html.dynamicCommon address js
 
 module Js =
