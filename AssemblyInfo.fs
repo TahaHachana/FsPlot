@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace FsPlot
 
 open System.Reflection
 

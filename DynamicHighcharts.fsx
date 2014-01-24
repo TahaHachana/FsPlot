@@ -6,13 +6,11 @@
 #r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
 #r """.\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll"""
 #r """.\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll"""
-#r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
-#r """.\packages\Microsoft.AspNet.SignalR.Core.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll"""
-#r """.\packages\Microsoft.Owin.Cors.2.0.2\lib\net45\Microsoft.Owin.Cors.dll"""
-#r """.\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll"""
 #r """.\packages\Microsoft.Owin.Security.2.0.2\lib\net45\Microsoft.Owin.Security.dll"""
-#r """.\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll"""
+#r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
 #r """.\bin\release\FsPlot.dll"""
+
+// RX
 #r "System.ComponentModel.Composition.dll"
 #r @".\packages\Rx-Interfaces.2.2.2\lib\net45\System.Reactive.Interfaces.dll"
 #r @".\packages\Rx-Core.2.2.2\lib\net45\System.Reactive.Core.dll"
@@ -27,9 +25,49 @@ open System.Runtime
 open System.Reactive.Concurrency
 open System.Reactive.Linq
 
+// Warm up FunScript's compiler.
+FunScript.Compiler.compile
+    <@
+        createEmpty<HighchartsChartOptions>() |> ignore
+        Globals.Dollar.now()
+    @>
+|> ignore
+
+open Owin
+open Microsoft.Owin.Hosting
+open System.Net
+
+type WarmupStartup() =
+    
+    member __.Configuration(app:IAppBuilder) = ()
+
+let random = Random()
+  
+let freePort() =
+    let properties = NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
+
+    let tcpEndPoints =
+        properties.GetActiveTcpListeners()
+        |> Array.map (fun x -> x.Port)
+
+    let rec port() =
+        let rnd = random.Next(1000, 50000)    
+        let isActive = Array.exists (fun x -> x = rnd) tcpEndPoints
+        match isActive with
+        | false -> string rnd
+        | true -> port()
+    
+    port()
+
+let address = "http://localhost:" + freePort()
+let app = WebApp.Start<WarmupStartup> address
+app.Dispose()
+
+
 let series = Series.Area [1. .. 5.]
 
-let area = DynamicHighcharts.Area series
+let area = DynamicHighcharts.Area(series, shift = true)
+area.Push 6.
 
 area.ShowLegend()
 area.HideLegend()
@@ -42,75 +80,51 @@ area.SetXTitle "x-title"
 area.SetYTitle "y-title"
 area.Close()
 
-let rnd = Random()
-let next() = rnd.Next(1, 10)
-
 module Area =
 
     let area1 =
-        Series.Area [next(); next(); next(); next()]
+        Series.Area [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Area
 
-    let updates1 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
-    updates1.Subscribe(fun _ -> area1.Push <| next()) |> ignore
-
+    area1.Push 1423
     area1.Close()
     
     let area2 =
-        [next(); next(); next(); next()]
+        [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Area
 
-    let updates2 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
-    updates2.Subscribe(fun _ -> area2.Push <| next()) |> ignore
+    area2.Push 985
     area2.Close()
 
     let area3 =
-        [
-            5.
-            3.
-            10.
-        ]
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Area
 
-    area3.SetShift false
-
-    let updates3 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
-    updates3.Subscribe(fun _ -> area3.Push (float <| next())) |> ignore
+    area3.Push ("2014", 1200)
     area3.Close()
 
 module Areaspline =
 
-    let area1 =
-        Series.Areaspline [next(); next(); next(); next()]
+    let areaspline1 =
+        Series.Areaspline [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Areaspline
 
-    let updates1 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
-    updates1.Subscribe(fun _ -> area1.Push <| next()) |> ignore
+    areaspline1.Push 1255
+    areaspline1.Close()
 
-    area1.Close()
-
-    let area2 =
-        [next(); next(); next(); next()]
+    let areaspline2 =
+        [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Areaspline
 
-    let updates2 = Observable.Interval(TimeSpan.FromSeconds(1.0), Scheduler.Default)
-    updates2.Subscribe(fun _ -> area2.Push <| next()) |> ignore
+    areaspline2.Push 678
+    areaspline2.Close()
 
-    area2.Close()
+    let areaspline3 =
+        ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        |> DynamicHighcharts.Areaspline
 
-    let area3 =
-        [
-            5.
-            3.
-            10.
-        ]
-        |> DynamicHighcharts.Area
-
-    area3.SetShift false
-
-    let updates3 = Observable.Interval(TimeSpan.FromSeconds(2.0), Scheduler.Default)
-    updates3.Subscribe(fun _ -> area3.Push (float <| next())) |> ignore
-    area3.Close()
+    areaspline3.Push ("2014", 943)
+    areaspline3.Close()
 
 module Arearange =
 
@@ -123,7 +137,6 @@ module Arearange =
         |> Series.Arearange
         |> DynamicHighcharts.Arearange
     
-    arearange1.SetShift false
     arearange1.Push(DateTime.Now.AddDays 3., 4., 10.)
     arearange1.Close()
 
@@ -135,6 +148,9 @@ module Arearange =
         ]
         |> DynamicHighcharts.Arearange
 
+    arearange2.Push(DateTime.Now.AddDays 3., 4., 10.)
+    arearange2.Close()
+
 module Bar =
     
     let bar1 =
@@ -142,14 +158,21 @@ module Bar =
         |> DynamicHighcharts.Bar
     
     bar1.Push("2014", 1200)
+    bar1.Close()
 
     let bar2 =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Bar
 
+    bar2.Push 854
+    bar2.Close()
+
     let bar3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Bar
+
+    bar3.Push ("2014", 752)
+    bar3.Close()
 
 module Bubble =
     
@@ -164,9 +187,15 @@ module Bubble =
         [97,36,79; 94,74,60; 68,76,58]
         |> DynamicHighcharts.Bubble
 
+    bubble2.Push(50,72,48)
+    bubble2.Close()
+
     let bubble3 =
         [36,79; 74,60; 76,58]
         |> DynamicHighcharts.Bubble
+
+    bubble3.Push(50,72)
+    bubble3.Close()
 
 
 module Column =
@@ -182,9 +211,15 @@ module Column =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Column
 
+    column2.Push 649
+    column2.Close()
+
     let column3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Column
+
+    column3.Push("2014", 1320)
+    column3.Close()
 
 module Donut =
 
@@ -199,9 +234,15 @@ module Donut =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Donut
 
+    donut2.Push 547
+    donut2.Close()
+
     let donut3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Donut
+
+    donut3.Push ("2014", 1400)
+    donut3.Close()
 
 module Funnel =
 
@@ -216,9 +257,15 @@ module Funnel =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Funnel
 
+    funnel2.Push 841
+    funnel2.Close()
+
     let funnel3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Funnel
+
+    funnel3.Push ("2014", 1400)
+    funnel3.Close()
 
 module Line =
 
@@ -233,9 +280,15 @@ module Line =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Line
 
+    line2.Push 456
+    line2.Close()
+
     let line3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Line
+
+    line3.Push ("2014", 1400)
+    line3.Close()
 
 module Pie =
 
@@ -248,11 +301,17 @@ module Pie =
 
     let pie2 =
         [1000; 1170; 560; 1030]
-        |> Highcharts.Pie
+        |> DynamicHighcharts.Pie
+
+    pie2.Push 578
+    pie2.Close()
 
     let pie3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        |> Highcharts.Pie
+        |> DynamicHighcharts.Pie
+
+    pie3.Push("2014", 1440)
+    pie3.Close()
 
 module Radar =
 
@@ -267,9 +326,15 @@ module Radar =
         [1000; 1170; 560; 1030; 1250]
         |> DynamicHighcharts.Radar
 
+    radar2.Push 547
+    radar2.Close()
+
     let radar3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Radar
+
+    radar3.Push ("2014", 1400)
+    radar3.Close()
 
 module Scatter =
 
@@ -284,9 +349,15 @@ module Scatter =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Scatter
 
+    scatter2.Push 521
+    scatter2.Close()
+
     let scatter3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Scatter
+
+    scatter3.Push ("2014", 1400)
+    scatter3.Close()
 
 module Spline =
 
@@ -301,6 +372,12 @@ module Spline =
         [1000; 1170; 560; 1030]
         |> DynamicHighcharts.Spline
 
+    spline2.Push 675
+    spline2.Close()
+
     let spline3 =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicHighcharts.Spline
+
+    spline3.Push ("2014", 1400)
+    spline3.Close()

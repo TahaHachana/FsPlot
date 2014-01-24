@@ -1,5 +1,4 @@
 ﻿module internal FsPlot.ChartWindow
-//module ChartWindow =
 
 #if INTERACTIVE
 #r "PresentationCore.dll"

@@ -1,32 +1,42 @@
 ﻿module FsPlot.GenericDynamicChart
- 
-open System
-open System.Diagnostics
-open Owin
-open Microsoft.AspNet.SignalR
-open Microsoft.Owin.Hosting 
+
 open FsPlot.Dynamic
 open FsPlot.Config
 open FsPlot.Data
-open FsPlot.Highcharts
-  
-let freePort() =
-    let properties = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
+open Owin
+open Microsoft.AspNet.SignalR
+open Microsoft.Owin.Hosting 
+open System
+open System.IO
+open System.Net
 
-    let tcpEndPoints =
-        properties.GetActiveTcpListeners()
-        |> Array.map (fun x -> x.Port)
+module private Utils =
 
     let random = Random()
+  
+    let freePort() =
+        let properties = NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
 
-    let rec port() =
-        let rnd = random.Next(1000, 50000)    
-        let isActive = Array.exists (fun x -> x = rnd) tcpEndPoints
-        match isActive with
-        | false -> string rnd
-        | true -> port()
+        let tcpEndPoints =
+            properties.GetActiveTcpListeners()
+            |> Array.map (fun x -> x.Port)
+
+        let rec port() =
+            let rnd = random.Next(1000, 50000)    
+            let isActive = Array.exists (fun x -> x = rnd) tcpEndPoints
+            match isActive with
+            | false -> string rnd
+            | true -> port()
     
-    port()
+        port()
+
+    let guidsList = System.Collections.Generic.List<string*string>()
+
+    let remove guid =
+        guidsList.RemoveAll(fun (chartGuid, _) -> chartGuid = guid)
+        |> ignore
+
+open Utils
 
 type Startup() =
     
@@ -34,55 +44,23 @@ type Startup() =
         app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll) |> ignore
         app.MapSignalR() |> ignore
 
-let guidsList = System.Collections.Generic.List<string*string>()
-
-let remove guid =
-    guidsList.RemoveAll(fun (chartGuid, _) -> chartGuid = guid)
-    |> ignore
-
 type DataHub() =
     inherit Hub()
 
     member x.StoreGuids(chartGuid, proxyGuid) : unit =
         guidsList.Add(chartGuid, proxyGuid)
 
-let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
-
-module Html =
-    
-    let highcharts chartType address js =
-        match chartType with
-        | Arearange | Bubble | Radar -> Html.dynamicMore address js
-        | Funnel -> Html.dynamicFunnel address js
-        | _ -> Html.dynamicCommon address js
-
-module Js =
-
-    let highcharts address guid shift (config:ChartConfig) =
-        match config.Type with
-        | Area -> Js.dynamicArea address guid shift config
-        | Areaspline -> Js.dynamicAreaspline address guid shift config
-        | Arearange-> Js.dynamicArearange address guid shift config
-        | Bar -> Js.dynamicBar address guid shift config
-        | Bubble -> Js.dynamicBubble address guid shift config
-        | Column -> Js.dynamicColumn address guid shift config
-        | Donut -> Js.dynamicDonut address guid shift config
-        | Funnel -> Js.dynamicFunnel address guid shift config
-        | Line -> Js.dynamicLine address guid shift config
-        | Pie -> Js.dynamicPie address guid shift config
-        | Radar -> Js.dynamicRadar address guid shift config
-        | Scatter -> Js.dynamicScatter address guid shift config
-        | _ -> Js.dynamicSpline address guid shift config
+let dataHub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
 
 type GenericDynamicChart() as chart =
 
     [<DefaultValue>] val mutable private chartData : ChartConfig    
-    let mutable shiftField = true
+    let mutable shiftField = false
     let address = "http://localhost:" + freePort()
     let guid = Guid.NewGuid().ToString()
     let app = WebApp.Start<Startup> address
     let browser = Browser.start()
-    let fileName = System.IO.Path.GetTempPath() + guid + ".html"
+    let htmlFile = Path.GetTempPath() + guid + ".html"
 
     let agent =
         MailboxProcessor<ChartConfig>.Start(fun inbox ->
@@ -91,14 +69,14 @@ type GenericDynamicChart() as chart =
                     let! msg = inbox.Receive()
                     match inbox.CurrentQueueLength with
                     | 0 ->
-                        let js = Js.highcharts address guid shiftField msg
+                        let js = Js.dynamicHighcharts address guid shiftField msg
                         match inbox.CurrentQueueLength with
                         | 0 ->
-                            let html = Html.highcharts msg.Type address js
+                            let html = Html.dynamicHighcharts msg.Type address js
                             match inbox.CurrentQueueLength with
                             | 0 ->
-                                System.IO.File.WriteAllText(fileName, html)
-                                browser.Url <- fileName
+                                System.IO.File.WriteAllText(htmlFile, html)
+                                browser.Url <- htmlFile
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()
@@ -110,15 +88,15 @@ type GenericDynamicChart() as chart =
     member __.Close() =
         try
             browser.ExecuteScript("$.connection.hub.stop()") |> ignore
-//            app.Dispose()
             browser.Quit()
             remove guid
+            File.Delete htmlFile
         with _ -> ()
 
     static member internal Create config shift =
         let gdc = GenericDynamicChart()
         gdc.SetChartConfig  config
-        match shift with true -> () | false -> gdc.SetShift shift
+        match shift with true -> gdc.SetShift true | false -> ()
         gdc
 
     /// <summary>Hides the legend of a chart.</summary>
@@ -131,8 +109,7 @@ type GenericDynamicChart() as chart =
     member __.Push(value:#value) =
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
-//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
-            hub.Clients.Client(id)?push value |> ignore
+            dataHub.Clients.Client(id)?push value |> ignore
         with _ -> ()
 
     /// <summary>Adds a new data point to the chart.</summary>
@@ -142,8 +119,7 @@ type GenericDynamicChart() as chart =
         let value' = value :> value
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
-//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
-            hub.Clients.Client(id)?push [|key'; value'|] |> ignore
+            dataHub.Clients.Client(id)?push [|key'; value'|] |> ignore
         with _ -> ()
 
     /// <summary>Adds a new data point to the chart.</summary>
@@ -154,8 +130,7 @@ type GenericDynamicChart() as chart =
         let value2' = value' :> value
         try
             let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
-//            let hub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
-            hub.Clients.Client(id)?push [|key'; value1'; value2'|] |> ignore
+            dataHub.Clients.Client(id)?push [|key'; value1'; value2'|] |> ignore
         with _ -> ()
 
     member internal __.SetChartConfig chartData = 
@@ -209,6 +184,9 @@ type GenericDynamicChart() as chart =
         remove guid
         chart.chartData <- { chart.chartData with YTitle = Some title }
         agent.Post chart.chartData
+
+    /// <summary>Gets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
+    member __.Shift = shiftField
 
     /// <summary>Displays the legend of a chart.</summary>
     member __.ShowLegend() =

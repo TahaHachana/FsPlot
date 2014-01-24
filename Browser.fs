@@ -5,12 +5,11 @@
 #endif
 
 open OpenQA.Selenium.Chrome
-open OpenQA.Selenium.Firefox
+open System.Drawing
 
-let size = System.Drawing.Size(700, 500)
+let private size = Size(700, 500)
 
 let start() =
     let driver = new ChromeDriver(__SOURCE_DIRECTORY__)
-    let window = driver.Manage().Window
-    window.Size <- size
+    driver.Manage().Window.Size <- size
     driver

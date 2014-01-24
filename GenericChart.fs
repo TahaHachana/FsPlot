@@ -2,42 +2,6 @@
 
 open FsPlot.Config
 open FsPlot.Data
-open FsPlot.Highcharts.Options
-open FsPlot.Highcharts
-
-module private Js =
-
-    let highcharts (config:ChartConfig) =
-        match config.Type with
-        | Area -> Js.area config Disabled false
-        | Areaspline -> Js.areaspline config Disabled false
-        | Arearange -> Js.arearange config
-        | Bar -> Js.bar config Disabled
-        | Bubble -> Js.bubble config
-        | Column -> Js.column config Disabled
-        | Combination -> Js.combine config None
-        | Donut -> Js.donut config
-        | Funnel -> Js.funnel config
-        | Line -> Js.line config
-        | PercentArea -> Js.percentArea config false
-        | PercentBar -> Js.percentBar config
-        | PercentColumn -> Js.percentColumn config
-        | Pie -> Js.pie config
-        | Radar -> Js.radar config
-        | Scatter -> Js.scatter config
-        | Spline -> Js.spline config
-        | StackedArea -> Js.stackedArea config false
-        | StackedBar -> Js.stackedBar config
-        | StackedColumn -> Js.stackedColumn config
-
-module private Html =
-    
-    let highcharts chartType =
-        match chartType with
-        | Arearange | Bubble | Radar -> Html.more
-        | Combination -> Html.combine
-        | Funnel -> Html.funnel
-        | _ -> Html.common
 
 type GenericChart() as chart =
     
@@ -55,6 +19,7 @@ type GenericChart() as chart =
             let rec loop() =
                 async {
                     let! msg = inbox.Receive()
+                    let js = jsFun msg
                     match inbox.CurrentQueueLength with
                     | 0 ->
                         let js = jsFun msg

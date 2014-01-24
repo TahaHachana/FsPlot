@@ -99,7 +99,6 @@ let dynamicMore address js =
             "</script></body></html>"
         ]
 
-/// Generates the HTML document for the funnel chart type.
 let dynamicFunnel address js =
     let hubsJs = sprintf """<script src="%s/signalr/hubs" type="text/javascript"></script>""" address
     String.concat

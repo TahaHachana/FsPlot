@@ -1,4 +1,4 @@
-﻿module internal FsPlot.Highcharts.Js
+﻿module FsPlot.Highcharts.Js
 
 #if INTERACTIVE
 #r """.\packages\FunScript.1.1.0.28\lib\net40\FunScript.dll"""
@@ -15,7 +15,6 @@ open FsPlot.Highcharts.Options
 open FsPlot.Quote
 open FunScript
 open FunScript.Compiler
-open System
 
 module Inline =
 

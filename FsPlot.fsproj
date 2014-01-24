@@ -43,23 +43,26 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Browser.fs" />
     <Compile Include="ChartWindow.fs" />
-    <Compile Include="Highcharts.Options.fs" />
+    <Compile Include="HighchartsOptions.fs" />
     <Compile Include="Data.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="Quote.fs" />
-    <Compile Include="Highcharts.Js.fs" />
-    <Compile Include="Highcharts.Html.fs" />
+    <Compile Include="HighchartsJs.fs" />
+    <Compile Include="HighchartsHtml.fs" />
     <Compile Include="Dynamic.fs" />
+    <Compile Include="Html.fs" />
+    <Compile Include="Js.fs" />
     <Compile Include="GenericDynamicChart.fs" />
     <Compile Include="GenericChart.fs" />
-    <Compile Include="Highcharts.Charting.fs" />
-    <None Include="packages.config" />
+    <Compile Include="HighchartsCharting.fs" />
     <Resource Include="ChartIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <None Include="packages.config" />
     <None Include="Highcharts.fsx" />
     <None Include="DynamicHighcharts.fsx" />
     <None Include="Examples.fsx" />
+    <None Include="FsPlotInit.fsx" />
     <None Include="chromedriver.exe" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />

@@ -1,4 +1,4 @@
-﻿module FsPlot.Dynamic
+﻿module internal FsPlot.Dynamic
 
 // http://fssnip.net/2U
 open System

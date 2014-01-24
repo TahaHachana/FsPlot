@@ -3,6 +3,7 @@
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
+#r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
 #r """.\bin\release\FsPlot.dll"""
 
 open System
@@ -105,7 +106,7 @@ module Areaspline =
             [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         ]
         |> Highcharts.Areaspline
-
+        
     let areaspline6 =
         [
             Series.Areaspline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
