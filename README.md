@@ -32,6 +32,13 @@ Static Charts Demos
 
 Dynamic Charts Demos
 --------------------
+* Highcharts
+    * [Area](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicArea.md)
+    * [Areaspline](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicAreaspline.md)
+    * [Arearange](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicArearange.md)
+    * [Bar](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicBar.md)
+    * [Bubble](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicBubble.md)
+    * [Column](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicColumn.md)
 
 NuGet
 -----
