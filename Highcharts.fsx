@@ -11,14 +11,6 @@ open FsPlot.Data
 open FsPlot.Highcharts.Charting
 open FsPlot.Highcharts.Options
 
-// Warm up FunScript's compiler.
-FunScript.Compiler.compile
-    <@
-        createEmpty<HighchartsChartOptions>() |> ignore
-        Globals.Dollar.now()
-    @>
-|> ignore
-
 module Area =
     
     let area1 =

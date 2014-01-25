@@ -2,11 +2,11 @@ Highcharts Inverted Axes Area
 =============================
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
-open FsPlot.HighchartsOptions
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
+open FsPlot.Highcharts.Options
 
 let jane =
     ["Monday", 4; "Tuesday", 3; "Wednesday", 5; "Thursday", 4; "Friday", 3; "Saturday", 12; "Sunday", 9]
@@ -19,10 +19,10 @@ let john =
     |> Series.SetName "John"
 
 let invertedAxesArea =
-    Highcharts.plot [john; jane]
-    |> Highcharts.showLegend
-    |> Highcharts.title "Average Fruit Consumption"
-    |> Highcharts.yTitle "Number of Units"
+    Chart.plot [john; jane]
+    |> Chart.showLegend
+    |> Chart.title "Average Fruit Consumption"
+    |> Chart.yTitle "Number of Units"
     :?> HighchartsArea
     |> fun x -> x.SetInverted true
 ```

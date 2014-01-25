@@ -5,11 +5,11 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
-open FsPlot.HighchartsOptions
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
+open FsPlot.Highcharts.Options
 
 let columnSplinePie =
     [
@@ -19,8 +19,8 @@ let columnSplinePie =
         Series.Spline("Average", [3.; 2.67; 3.; 6.33; 3.33])
         Series.Pie("Total Consumption", ["Jane", 13; "John", 23; "Joe", 19])
     ]
-    |> Highcharts.plot
-    |> Highcharts.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
+    |> Chart.plot
+    |> Chart.categories ["Apples"; "Oranges"; "Pears"; "Bananas"; "Plums"]
     :?> HighchartsCombination
     |> fun x -> x.SetPieOptions {Center = [|100; 80|]; Size = 100}
 ```

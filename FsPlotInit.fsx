@@ -11,45 +11,12 @@
 #r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
 #r """.\bin\release\FsPlot.dll"""
 
-open Owin
-open Microsoft.Owin.Hosting
-open System
-open System.Net
-
 // Warm up FunScript's compiler.
 FunScript.Compiler.compile
     <@
         createEmpty<HighchartsChartOptions>() |> ignore
         createEmpty<HubProxy>() |> ignore
+        createEmpty<Date>() |> ignore
         Globals.Dollar.now()
     @>
 |> ignore
-
-// Warm up Owin
-type WarmupStartup() =
-    
-    member __.Configuration(app:IAppBuilder) = ()
-
-let random = Random()
-  
-let freePort() =
-    let properties = NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
-
-    let tcpEndPoints =
-        properties.GetActiveTcpListeners()
-        |> Array.map (fun x -> x.Port)
-
-    let rec port() =
-        let rnd = random.Next(1000, 50000)    
-        let isActive = Array.exists (fun x -> x = rnd) tcpEndPoints
-        match isActive with
-        | false -> string rnd
-        | true -> port()
-    
-    port()
-
-let address = "http://localhost:" + freePort()
-let app = WebApp.Start<WarmupStartup> address
-app.Dispose()
-
-

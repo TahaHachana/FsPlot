@@ -5,10 +5,10 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let john =
     ["Apples", 5; "Oranges", 3; "Pears", 4; "Grapes", 7; "Bananas", 2]
@@ -26,9 +26,9 @@ let joe =
     |> Series.SetName "Joe"
 
 let negativeValuesArea =
-    Highcharts.plot [john; jane; joe]
-    |> Highcharts.showLegend
-    |> Highcharts.title "Area Chart with Negative Values"
+    Chart.plot [john; jane; joe]
+    |> Chart.showLegend
+    |> Chart.title "Area Chart with Negative Values"
 ```
 Chart
 -----

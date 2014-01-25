@@ -5,20 +5,20 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let joe = Series.PercentColumn("Joe", ["Apples", 3; "Oranges", 5; "Pears", 2; "Bananas", 2])
 let jane = Series.PercentColumn("Jane", ["Apples", 2; "Oranges", 3; "Pears", 1; "Bananas", 3])
 let john = Series.PercentColumn("John", ["Apples", 1; "Oranges", 3; "Pears", 4; "Bananas", 4])
 
 let percentColumn =
-    Highcharts.plot [joe; jane; john]
-    |> Highcharts.showLegend
-    |> Highcharts.yTitle "% of Fruit Consumption"
-    |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+    Chart.plot [joe; jane; john]
+    |> Chart.showLegend
+    |> Chart.yTitle "% of Fruit Consumption"
+    |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
 ```
 Chart
 -----

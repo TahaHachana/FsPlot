@@ -251,7 +251,7 @@ type Highcharts =
         let chartData = ChartConfig.New categories [|data|] legend None title None Areaspline xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsAreaspline()) 
 
-    /// <summary>Creates an area chart.</summary>
+    /// <summary>Creates an areaspline chart.</summary>
     /// <param name="data">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>
@@ -1240,7 +1240,7 @@ type Highcharts =
         let chartData = ChartConfig.New categories [|series|] legend None title None Radar xTitle yTitle
         GenericChart.Create chartData (fun () -> HighchartsRadar())
 
-    /// <summary>Creates a Radar chart.</summary>
+    /// <summary>Creates a radar chart.</summary>
     /// <param name="data">The chart's data.</param>
     /// <param name="categories">The X-axis categories.</param>
     /// <param name="legend">Whether to display a legend or not.</param>

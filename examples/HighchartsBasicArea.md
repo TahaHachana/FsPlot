@@ -5,10 +5,10 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let sales =
     ["2010", 1300; "2011", 1470; "2012", 840; "2013", 1330]
@@ -22,9 +22,9 @@ let expenses =
 
 let basicArea =
     [sales; expenses]
-    |> Highcharts.plot
-    |> Highcharts.showLegend
-    |> Highcharts.title "Company Performance"
+    |> Chart.plot
+    |> Chart.showLegend
+    |> Chart.title "Company Performance"
 ```
 Chart
 -----

@@ -25,45 +25,6 @@ open System.Runtime
 open System.Reactive.Concurrency
 open System.Reactive.Linq
 
-// Warm up FunScript's compiler.
-FunScript.Compiler.compile
-    <@
-        createEmpty<HighchartsChartOptions>() |> ignore
-        Globals.Dollar.now()
-    @>
-|> ignore
-
-open Owin
-open Microsoft.Owin.Hosting
-open System.Net
-
-type WarmupStartup() =
-    
-    member __.Configuration(app:IAppBuilder) = ()
-
-let random = Random()
-  
-let freePort() =
-    let properties = NetworkInformation.IPGlobalProperties.GetIPGlobalProperties()
-
-    let tcpEndPoints =
-        properties.GetActiveTcpListeners()
-        |> Array.map (fun x -> x.Port)
-
-    let rec port() =
-        let rnd = random.Next(1000, 50000)    
-        let isActive = Array.exists (fun x -> x = rnd) tcpEndPoints
-        match isActive with
-        | false -> string rnd
-        | true -> port()
-    
-    port()
-
-let address = "http://localhost:" + freePort()
-let app = WebApp.Start<WarmupStartup> address
-app.Dispose()
-
-
 let series = Series.Area [1. .. 5.]
 
 let area = DynamicHighcharts.Area(series, shift = true)

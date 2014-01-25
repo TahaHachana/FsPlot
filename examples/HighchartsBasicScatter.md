@@ -5,19 +5,19 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let basicScatter =
     [8., 12.; 4., 5.5; 11., 14.; 4., 5.; 3., 3.5; 6.5, 7.]
     |> Series.Scatter
     |> Series.SetName "AgeVsWeight"
-    |> Highcharts.plot
-    |> Highcharts.title "Age vs. Weight comparison"
-    |> Highcharts.xTitle "Age"
-    |> Highcharts.yTitle "Weight"
+    |> Chart.plot
+    |> Chart.title "Age vs. Weight comparison"
+    |> Chart.xTitle "Age"
+    |> Chart.yTitle "Weight"
 ```
 Chart
 -----

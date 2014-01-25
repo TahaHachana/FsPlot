@@ -5,10 +5,10 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let basicBubble =
     [

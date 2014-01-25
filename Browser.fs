@@ -1,4 +1,4 @@
-﻿module FsPlot.Browser
+﻿module internal FsPlot.Browser
 
 #if INTERACTIVE
 #r """.\packages\Selenium.WebDriver.2.39.0\lib\net40\WebDriver.dll"""

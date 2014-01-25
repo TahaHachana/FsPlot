@@ -5,11 +5,11 @@ Code
 ----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
 open System
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 let tempratures =
     let rnd = Random()
@@ -20,8 +20,8 @@ let tempratures =
     |> Series.SetName "Tempratures"
 
 let basicArearange =
-    Highcharts.plot tempratures
-    |> Highcharts.title "Temprature Variation"
+    Chart.plot tempratures
+    |> Chart.title "Temprature Variation"
 ```
 Chart
 -----

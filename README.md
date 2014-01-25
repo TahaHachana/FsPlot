@@ -6,8 +6,8 @@ About
 
 FsPlot is an interactive data visualization library for F# using HTML5/JavaScript.
 
-Demos
------
+Static Charts Demos
+-------------------
 * Highcharts
     * Area: [Basic](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicArea.md), [Negative Values](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsNegativeValuesArea.md), [Inverted Axes](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsInvertedAxesArea.md)
     * [Areaspline](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsBasicAreaspline.md)
@@ -30,7 +30,8 @@ Demos
     * [StackedBar](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedBar.md)
     * [StackedColumn] (https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsStackedColumn.md)
 
-* Kendo UI DataViz
+Dynamic Charts Demos
+--------------------
 
 NuGet
 -----
@@ -41,19 +42,19 @@ Usage
 -----
 
 ```fsharp
-#load "FsPlot.fsx"
+#load "FsPlotInit.fsx"
 
-open FsPlot.DataSeries
-open FsPlot.Highcharts
+open FsPlot.Data
+open FsPlot.Highcharts.Charting
 
 // Functional style.
 let pie = 
     Series.Pie ["Chrome", 30.4; "Firefox", 26.6; "IE", 18.8; "Safari", 15.2; "Others", 9.]
     |> Series.SetName "Browser Share"
-    |> Highcharts.plot
-    |> Highcharts.title "Website Visitors By Browser"
-    |> Highcharts.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
-    |> Highcharts.showLegend
+    |> Chart.plot
+    |> Chart.title "Website Visitors By Browser"
+    |> Chart.tooltip """<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%<br/>"""
+    |> Chart.showLegend
 
 // Object-oriented style.
 let data =
