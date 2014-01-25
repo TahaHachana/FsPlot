@@ -1,8 +1,5 @@
-Highcharts Basic Bar
-====================
-
-Code
-----
+Highcharts Dynamic Bar
+======================
 
 ```fsharp
 #load "FsPlotInit.fsx"
@@ -10,16 +7,12 @@ Code
 open FsPlot.Data
 open FsPlot.Highcharts.Charting
 
-let basicBar =
-    [
-        Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
-        Series.Bar("Sales", ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330])
-    ]
-    |> Chart.plot
-    |> Chart.showLegend
-    |> Chart.title "Company Performance"
-```
-Chart
------
+let bar =
+    Series.Bar("Expenses", ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030])
+    |> DynamicChart.plot
+    |> DynamicChart.showLegend
+    |> DynamicChart.title "Company Performance"
 
-![Highcharts Basic Bar](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicBar.PNG)
+bar.Push ("2014", 785)
+//bar.Close()
+```
