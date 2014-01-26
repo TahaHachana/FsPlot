@@ -39,6 +39,13 @@ Dynamic Charts Demos
     * [Bar](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicBar.md)
     * [Bubble](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicBubble.md)
     * [Column](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicColumn.md)
+    * [Donut](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicDonut.md)
+    * [Funnel](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicFunnel.md)
+    * [Line](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicLine.md)
+    * [Pie](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicPie.md)
+    * [Radar](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicRadar.md)
+    * [Scatter](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicScatter.md)
+    * [Spline](https://github.com/TahaHachana/FsPlot/blob/master/examples/HighchartsDynamicSpline.md)
 
 NuGet
 -----
