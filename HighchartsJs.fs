@@ -1,20 +1,14 @@
 ﻿module FsPlot.Highcharts.Js
 
-#if INTERACTIVE
-#r """.\packages\FunScript.1.1.0.28\lib\net40\FunScript.dll"""
-#r """.\packages\FunScript.1.1.0.28\lib\net40\FunScript.Interop.dll"""
-#r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
-#r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
-#r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
-#r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
-#endif
-
 open FsPlot.Config
 open FsPlot.Data
 open FsPlot.Highcharts.Options
 open FsPlot.Quote
 open FunScript
 open FunScript.Compiler
+open FunScript.TypeScript
+
+
 
 module Inline =
 
@@ -138,7 +132,7 @@ module Utils =
         marker.radius <- 2.
         let state = createEmpty<HighchartsMarkerState>()
         state.enabled <- true
-        let states = createEmpty<AnonymousType1905>()
+        let states = createEmpty<AnonymousType2058>()
         states.hover <- state
         marker.states <- states
         areaChart.marker <- marker
@@ -166,10 +160,16 @@ module Utils =
         let hub = Globals.Dollar.connection.hub
         hub.url <- (address + "/signalr")
         let proxy = hub.createHubProxy("dataHub")
-        hub.start()._done(fun () ->
+        let test = createEmpty<JQueryPromiseCallback<_>>()
+        test.``Invoke <-``(fun _  ->
             let proxyGuid = proxy.connection.id
-            proxy.invoke("storeGuids", guid, proxyGuid)
-            ) |> ignore
+            proxy.invokeOverload2("storeGuids", guid, proxyGuid) |> ignore        
+        )
+
+        hub.start()._done(test) |> ignore //System.Func<_,_>(fun _ _ ->
+//            let proxyGuid = proxy.connection.id
+//            proxy.invoke("storeGuids", guid, proxyGuid)
+//            ) |> ignore
         proxy
 
     let setDynamicChartOptions (proxy:HubProxy) shift renderTo chartType (options:HighchartsOptions) =

@@ -14,6 +14,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
+    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +38,19 @@
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '11.0'">
+      <PropertyGroup>
+        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -69,54 +82,34 @@
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.js" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Data">
-      <HintPath>packages\FSharp.Data.1.1.5\lib\net40\FSharp.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Data.DesignTime">
-      <HintPath>packages\FSharp.Data.1.1.5\lib\net40\FSharp.Data.DesignTime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Data.Experimental">
-      <HintPath>packages\FSharp.Data.Experimental.1.1.5\lib\net40\FSharp.Data.Experimental.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Data.Experimental.DesignTime">
-      <HintPath>packages\FSharp.Data.Experimental.1.1.5\lib\net40\FSharp.Data.Experimental.DesignTime.dll</HintPath>
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript">
-      <HintPath>packages\FunScript.1.1.0.30\lib\net40\FunScript.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FunScript.BrowserAPI">
-      <HintPath>packages\FunScript.1.1.0.30\lib\net40\FunScript.BrowserAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FunScript.Data">
-      <HintPath>packages\FunScript.1.1.0.30\lib\net40\FunScript.Data.dll</HintPath>
+      <HintPath>packages\FunScript.1.1.50\lib\net40\FunScript.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.Interop">
-      <HintPath>packages\FunScript.1.1.0.30\lib\net40\FunScript.Interop.dll</HintPath>
+      <HintPath>packages\FunScript.1.1.50\lib\net40\FunScript.Interop.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.TypeScript.Binding.highcharts">
-      <HintPath>packages\FunScript.TypeScript.Binding.highcharts.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.highcharts.dll</HintPath>
+      <HintPath>packages\FunScript.TypeScript.Binding.highcharts.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.highcharts.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.TypeScript.Binding.jquery">
-      <HintPath>packages\FunScript.TypeScript.Binding.jquery.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.jquery.dll</HintPath>
+      <HintPath>packages\FunScript.TypeScript.Binding.jquery.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.jquery.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.TypeScript.Binding.lib">
-      <HintPath>packages\FunScript.TypeScript.Binding.lib.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.lib.dll</HintPath>
+      <HintPath>packages\FunScript.TypeScript.Binding.lib.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.lib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.TypeScript.Binding.signalr">
-      <HintPath>packages\FunScript.TypeScript.Binding.signalr.1.1.0.13\lib\net40\FunScript.TypeScript.Binding.signalr.dll</HintPath>
+      <HintPath>packages\FunScript.TypeScript.Binding.signalr.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.signalr.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
@@ -153,9 +146,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -193,7 +183,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebDriver">
-      <HintPath>packages\Selenium.WebDriver.2.39.0\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>packages\Selenium.WebDriver.2.42.0\lib\net40\WebDriver.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
