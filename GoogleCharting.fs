@@ -19,6 +19,10 @@ type Google =
     /// <param name="xTitle">The X-axis title.</param>
     /// <param name="yTitle">The Y-axis title.</param>
     // (data:Series, ?categories, ?legend, ?title, ?xTitle, ?yTitle)
-    static member Bar(data:Series) =
-        let chartData = ChartConfig.Google None [|data|] None None None None Bar None None
-        GoogleChart.Create chartData (fun () -> GoogleBar()) 
+    static member Bar(data:Series, ?label) =
+        let labels =
+            match label with
+            | None -> None
+            | Some x -> Some [x]
+        let chartData = ChartConfig.Google labels [|data|] None None None None Bar None None
+        GoogleChart.Create chartData (fun () -> GoogleBar())

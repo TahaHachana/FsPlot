@@ -26,6 +26,6 @@ FunScript.Compiler.compile
 module Bar =
 
     let bar1 =
-        Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        |> Google.Bar
+        let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.Bar(sales, "Sales")
 

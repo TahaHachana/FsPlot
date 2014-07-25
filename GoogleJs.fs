@@ -21,12 +21,19 @@ module Chart =
         | TypeCode.String -> "string"
         | _ -> "number"
 
+    let columnLabel config idx series =
+        let categories = config.Categories
+        match Array.isEmpty categories with
+        | false -> categories.[idx]
+        | true -> series.Name
+
     let addColumns (config:ChartConfig) (dataTable:google.visualization.DataTable) =
         config.Data
-        |> Array.iter(fun series ->
+        |> Array.iteri(fun idx series ->
             dataTable.addColumn(_type series.XType) |> ignore
-            dataTable.addColumn(_type series.YType) |> ignore
-            dataTable.addRows series.Values |> ignore            
+            let label = columnLabel config idx series
+            dataTable.addColumn(_type series.YType, label) |> ignore
+            dataTable.addRows series.Values |> ignore          
         )
 
     let drawOnLoad (drawChart:unit -> unit) =
