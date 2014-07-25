@@ -20,6 +20,6 @@ let private locateDriver() =
 let private size = Size(700, 500)
 
 let start() =
-    let driver = new ChromeDriver(locateDriver())
+    let driver = new ChromeDriver(__SOURCE_DIRECTORY__) //locateDriver())
     driver.Manage().Window.Size <- size
     driver

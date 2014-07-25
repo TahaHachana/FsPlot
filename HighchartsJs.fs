@@ -8,8 +8,6 @@ open FunScript
 open FunScript.Compiler
 open FunScript.TypeScript
 
-
-
 module Inline =
 
     [<JSEmitInline("{0}.center = {1}")>]

@@ -43,3 +43,7 @@ let dynamicHighcharts address guid shift (config:ChartConfig) =
     | Radar -> Js.dynamicRadar address guid shift config
     | Scatter -> Js.dynamicScatter address guid shift config
     | _ -> Js.dynamicSpline address guid shift config
+
+let google (config:ChartConfig) =
+    match config.Type with
+    | _ -> Google.Js.bar config

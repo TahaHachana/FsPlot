@@ -60,18 +60,22 @@
     <Compile Include="Data.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="Quote.fs" />
+    <Compile Include="GoogleJs.fs" />
     <Compile Include="HighchartsJs.fs" />
+    <Compile Include="GoogleHtml.fs" />
     <Compile Include="HighchartsHtml.fs" />
     <Compile Include="Dynamic.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Js.fs" />
     <Compile Include="GenericDynamicChart.fs" />
     <Compile Include="GenericChart.fs" />
+    <Compile Include="GoogleCharting.fs" />
     <Compile Include="HighchartsCharting.fs" />
     <Resource Include="ChartIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="packages.config" />
+    <None Include="GoogleCharts.fsx" />
     <None Include="Highcharts.fsx" />
     <None Include="DynamicHighcharts.fsx" />
     <None Include="Examples.fsx" />
@@ -94,6 +98,14 @@
     </Reference>
     <Reference Include="FunScript.Interop">
       <HintPath>packages\FunScript.1.1.50\lib\net40\FunScript.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FunScript.TypeScript.Binding.gapi">
+      <HintPath>packages\FunScript.TypeScript.Binding.gapi.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.gapi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FunScript.TypeScript.Binding.google_visualization">
+      <HintPath>packages\FunScript.TypeScript.Binding.google_visualization.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.google_visualization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FunScript.TypeScript.Binding.highcharts">

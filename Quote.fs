@@ -17,6 +17,7 @@ let stackingInfos = FSharpType.GetUnionCases typeof<Stacking>
 let axisTypeInfos = FSharpType.GetUnionCases typeof<AxisType>
 let pieOptionsInfos = FSharpType.GetUnionCases typeof<PieOptions option>
 let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
+let jsLibInfos = FSharpType.GetUnionCases typeof<JsLib>
 
 let quoteStringArr (arr:string []) =
     Expr.NewArray(
@@ -83,6 +84,7 @@ let areaSeriesExpr (x:Series) =
             quoteChartType x.Type
             objArrExpr x.Values x.XType
             Expr.Value x.XType
+            Expr.Value x.YType
         ])
 
 let quoteSeriesArr (series:Series []) =
@@ -117,6 +119,11 @@ let quotePieOptions (x:PieOptions option) =
     | None -> Expr.NewUnionCase(pieOptionsInfos.[0], [])
     | Some value -> Expr.NewUnionCase(pieOptionsInfos.[1], [pieOptionsExpr value])
 
+let quoteJsLib (jsLib:JsLib) =
+    match jsLib with
+    | Google -> Expr.NewUnionCase(jsLibInfos.[0], [])
+    | Highcharts -> Expr.NewUnionCase(jsLibInfos.[1], [])
+
 let quoteChartConfig (x:ChartConfig) =
     Expr.NewRecord(
         typeof<ChartConfig>,
@@ -131,4 +138,5 @@ let quoteChartConfig (x:ChartConfig) =
             quoteAxisType x.XAxis
             quoteStrOption x.XTitle
             quoteStrOption x.YTitle
+            quoteJsLib x.Library
         ])

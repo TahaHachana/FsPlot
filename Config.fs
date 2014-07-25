@@ -20,6 +20,9 @@ let inline private axisType (categories:string []) (data:Series []) =
     | _ -> Category
 
 [<ReflectedDefinition>]
+type JsLib = Google | Highcharts
+
+[<ReflectedDefinition>]
 type ChartConfig =
     {
         Categories : string []
@@ -32,9 +35,10 @@ type ChartConfig =
         XAxis : AxisType
         XTitle : string option
         YTitle : string option
+        Library : JsLib
     }
 
-    static member New categories data legend subtitle title tooltip chartType xTitle yTitle =
+    static member Google categories data legend subtitle title tooltip chartType xTitle yTitle =
         let legend' = defaultArg legend false
         let categories' =
             match categories with 
@@ -52,4 +56,26 @@ type ChartConfig =
             XAxis = xAxis
             XTitle = xTitle
             YTitle = yTitle
+            Library = JsLib.Google
+        }
+
+    static member Highcharts categories data legend subtitle title tooltip chartType xTitle yTitle =
+        let legend' = defaultArg legend false
+        let categories' =
+            match categories with 
+            | None -> [||]
+            | Some value -> Seq.toArray value
+        let xAxis = axisType categories' data
+        {
+            Categories = categories'
+            Data = data
+            Legend = legend'
+            Subtitle = subtitle
+            Title = title
+            Tooltip = tooltip
+            Type = chartType
+            XAxis = xAxis
+            XTitle = xTitle
+            YTitle = yTitle
+            Library = JsLib.Highcharts
         }

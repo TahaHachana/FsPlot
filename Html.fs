@@ -15,3 +15,8 @@ let dynamicHighcharts chartType address js =
     | Arearange | Bubble | Radar -> Html.dynamicMore address js
     | Funnel -> Html.dynamicFunnel address js
     | _ -> Html.dynamicCommon address js
+
+
+let google chartType =
+    match chartType with
+    | _ -> Google.Html.common

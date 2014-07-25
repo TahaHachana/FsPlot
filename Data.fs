@@ -61,6 +61,7 @@ type Series =
         Type : ChartType
         Values : obj []
         XType : TypeCode
+        YType : TypeCode
     }
     
     static member SetName name series = { series with Name = name }
@@ -73,6 +74,7 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = TypeCode.Empty
+            YType = (Seq.head values).GetTypeCode()
         }
 
     static member internal New(name, chartType, values:seq<#value>) =
@@ -83,50 +85,55 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = TypeCode.Empty
+            YType = (Seq.head values).GetTypeCode()
         }
 
     static member internal New(chartType, values:seq<#key*#value>) =
-        let k, _ = Seq.head values
+        let k, v = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
             Name = ""
             Values = Utils.upcastKeyValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
+            YType = v.GetTypeCode()
         }
 
     static member internal New(chartType, values:seq<#key*#value*#value>) =
-        let k, _, _ = Seq.head values
+        let k, v, _ = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
             Name = ""
             Values = Utils.upcastKeyValueValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
+            YType = v.GetTypeCode()
         }
 
     static member internal New(name, chartType, values:seq<#key*#value>) =
-        let k, _ = Seq.head values
+        let k, v = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
             Name = name
             Values = Utils.upcastKeyValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
+            YType = v.GetTypeCode()
         }
 
     static member internal New(name, chartType, values:seq<#key*#value*#value>) =
-        let k, _, _ = Seq.head values
+        let k, v, _ = Seq.head values
         let xTypeCode = k.GetTypeCode()
         {
             Name = name
             Values = Utils.upcastKeyValueValue xTypeCode values               
             Type = chartType
             XType = xTypeCode
+            YType = v.GetTypeCode()
         }
 
     static member internal New(values:seq<#value*#value>, chartType) =
-        let k, _ = Seq.head values
+        let k, v = Seq.head values
         {
             Name = ""
             Values =
@@ -134,6 +141,7 @@ type Series =
                 |> Seq.toArray
             Type = chartType
             XType = k.GetTypeCode()
+            YType = v.GetTypeCode()
         }
 
 // support series with null values

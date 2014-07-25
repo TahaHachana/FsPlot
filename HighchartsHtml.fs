@@ -5,7 +5,7 @@ let common js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
