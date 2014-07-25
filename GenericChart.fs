@@ -182,22 +182,27 @@ type GoogleChart() as chart =
 //    member __.SetSubtitle subtitle =
 //        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
 //        agent.Post chart.chartData
-//
-//    /// <summary>Sets the chart's title.</summary>
-//    member __.SetTitle title =
-//        chart.chartData <- { chart.chartData with Title = Some title }
-//        agent.Post chart.chartData
-//
-//    /// <summary>Sets the chart's X-axis title.</summary>
-//    member __.SetXTitle(title) =
-//        chart.chartData <- { chart.chartData with XTitle = Some title }
-//        agent.Post chart.chartData
-//
-//    /// <summary>Sets the chart's Y-axis title.</summary>
-//    member __.SetYTitle(title) =
-//        chart.chartData <- { chart.chartData with YTitle = Some title }
-//        agent.Post chart.chartData
-//
+
+    /// <summary>Sets the chart's data labels.</summary>
+    member __.SetLabels labels =
+        chart.chartData <- { chart.chartData with Categories = labels }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's title.</summary>
+    member __.SetTitle title =
+        chart.chartData <- { chart.chartData with Title = Some title }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's X-axis title.</summary>
+    member __.SetXTitle title =
+        chart.chartData <- { chart.chartData with XTitle = Some title }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's Y-axis title.</summary>
+    member __.SetYTitle title =
+        chart.chartData <- { chart.chartData with YTitle = Some title }
+        agent.Post chart.chartData
+
 //    /// <summary>Displays the legend of a chart.</summary>
 //    member __.ShowLegend() =
 //        chart.chartData <- { chart.chartData with Legend = true }

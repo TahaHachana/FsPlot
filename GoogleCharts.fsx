@@ -23,6 +23,14 @@ FunScript.Compiler.compile
     @>
 |> ignore
 
+let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+let chart = Google.Bar sales
+chart.SetLabels [|"Sales"|]
+chart.SetTitle "Company Performance"
+chart.SetXTitle "X Title"
+chart.SetYTitle "Y Title"
+chart.Close()
+
 module Bar =
 
     let bar1 =
@@ -32,3 +40,5 @@ module Bar =
     let bar2 =
         let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.Bar(sales, "Sales", "Company Performance")
+
+

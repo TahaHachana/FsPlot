@@ -48,6 +48,20 @@ module Chart =
             | None -> ()
             | Some x -> options.title <- x
 
+            match config.XTitle with
+            | None -> ()
+            | Some x ->
+                let xAxis = createEmpty<google.visualization.ChartAxis>()
+                xAxis.title <- x
+                options.hAxis <- xAxis 
+
+            match config.YTitle with
+            | None -> ()
+            | Some x ->
+                let yAxis = createEmpty<google.visualization.ChartAxis>()
+                yAxis.title <- x
+                options.vAxis <- yAxis 
+
             let dataTable = google.visualization.DataTable.Create()
             addColumns config dataTable
 
