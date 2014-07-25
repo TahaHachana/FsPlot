@@ -27,5 +27,8 @@ module Bar =
 
     let bar1 =
         let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        Google.Bar(sales, "Sales")
+        Google.Bar(sales, "Sales", "Company Performance")
 
+    let bar2 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.Bar(sales, "Sales", "Company Performance")

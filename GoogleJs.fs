@@ -43,10 +43,17 @@ module Chart =
     let bar (config:ChartConfig) =
         let drawChart() =
             let options = createEmpty<google.visualization.BarChartOptions>()
+            
+            match config.Title with
+            | None -> ()
+            | Some x -> options.title <- x
+
             let dataTable = google.visualization.DataTable.Create()
             addColumns config dataTable
+
             let chart = google.visualization.BarChart.Create(Globals.document.getElementById("chart"))
             chart.draw(dataTable, options)
+
         drawOnLoad drawChart
 
 let inline compile expr =
