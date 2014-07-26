@@ -38,7 +38,13 @@ module Bar =
         Google.Bar(sales, "Sales", "Company Performance")
 
     let bar2 =
-        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        Google.Bar(sales, "Sales", "Company Performance")
+        let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
+    let bar3 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
 
