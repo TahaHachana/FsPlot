@@ -82,6 +82,12 @@ module Chart =
                 yAxis.title <- x
                 options.vAxis <- yAxis 
 
+            let legend = createEmpty<google.visualization.ChartLegend>()
+            match config.Legend with
+            | false -> legend.position <- "none"
+            | true -> legend.position <- "bottom"
+            options.legend <- legend
+
             let data =
                 dataTables config
                 |> joinDataTables

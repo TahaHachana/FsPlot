@@ -29,6 +29,8 @@ chart.SetLabels [|"Sales"|]
 chart.SetTitle "Company Performance"
 chart.SetXTitle "X Title"
 chart.SetYTitle "Y Title"
+chart.ShowLegend()
+chart.HideLegend()
 chart.Close()
 
 module Bar =

@@ -144,10 +144,10 @@ type GoogleChart() as chart =
         gc.SetChartConfig  x
         gc
 
-//    /// <summary>Hides the legend of a chart.</summary>
-//    member __.HideLegend() =
-//        chart.chartData <- { chart.chartData with Legend = false }
-//        agent.Post chart.chartData
+    /// <summary>Hides the legend of a chart.</summary>
+    member __.HideLegend() =
+        chart.chartData <- { chart.chartData with Legend = false }
+        agent.Post chart.chartData
 
     member internal __.Navigate() = agent.Post chart.chartData
 
@@ -203,7 +203,7 @@ type GoogleChart() as chart =
         chart.chartData <- { chart.chartData with YTitle = Some title }
         agent.Post chart.chartData
 
-//    /// <summary>Displays the legend of a chart.</summary>
-//    member __.ShowLegend() =
-//        chart.chartData <- { chart.chartData with Legend = true }
-//        agent.Post chart.chartData
+    /// <summary>Displays the legend of a chart.</summary>
+    member __.ShowLegend() =
+        chart.chartData <- { chart.chartData with Legend = true }
+        agent.Post chart.chartData
