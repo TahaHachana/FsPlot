@@ -9,6 +9,9 @@ open FunScript.Compiler
 open FunScript.TypeScript
 open System
 
+[<JSEmitInline("google.visualization.data.join({0}, {1}, 'full', [[0,0]], [1], [1])")>]
+let join dt1 dt2 : google.visualization.DataTable = failwith ""
+
 [<ReflectedDefinition>]
 module Chart =
     
@@ -27,14 +30,31 @@ module Chart =
         | false -> categories.[idx]
         | true -> series.Name
 
-    let addColumns (config:ChartConfig) (dataTable:google.visualization.DataTable) =
+    let dataTables (config:ChartConfig) =
         config.Data
-        |> Array.iteri(fun idx series ->
+        |> Array.mapi(fun idx series ->
+            let dataTable = google.visualization.DataTable.Create()        
             dataTable.addColumn(_type series.XType) |> ignore
             let label = columnLabel config idx series
             dataTable.addColumn(_type series.YType, label) |> ignore
-            dataTable.addRows series.Values |> ignore          
+            dataTable.addRows series.Values |> ignore  
+            dataTable   
         )
+        |> Array.toList
+
+    let rec joinDataTables dts =
+        match dts with
+        | [dt] -> dt
+        | [dt1; dt2] -> join dt1 dt2
+        | x ->
+            dts
+            |> Seq.skip 2
+            |> Seq.toList
+            |> List.append [join x.[0] x.[1]]
+            |> joinDataTables
+//            let dt = join x.[0] x.[1]
+//            let dts' = Seq.skip 2 dts |> Seq.toList
+//            joinDataTables <| List.append [dt] dts'
 
     let drawOnLoad (drawChart:unit -> unit) =
         google.Globals.load("visualization", "1", {packages = [|"corechart"|]})
@@ -62,11 +82,12 @@ module Chart =
                 yAxis.title <- x
                 options.vAxis <- yAxis 
 
-            let dataTable = google.visualization.DataTable.Create()
-            addColumns config dataTable
+            let data =
+                dataTables config
+                |> joinDataTables
 
             let chart = google.visualization.BarChart.Create(Globals.document.getElementById("chart"))
-            chart.draw(dataTable, options)
+            chart.draw(data, options)
 
         drawOnLoad drawChart
 
