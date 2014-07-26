@@ -38,7 +38,7 @@ module Chart =
             let label = columnLabel config idx series
             dataTable.addColumn(_type series.YType, label) |> ignore
             dataTable.addRows series.Values |> ignore  
-            dataTable   
+            dataTable
         )
         |> Array.toList
 
@@ -144,6 +144,37 @@ module Chart =
 
         drawOnLoad drawChart
 
+    let geo config region mode =
+        let drawChart() =
+            let options = createEmpty<google.visualization.GeoChartOptions>()
+
+            match region with
+            | None -> ()
+            | Some x -> options.region <- x
+
+            match mode with
+            | None -> ()
+            | Some x -> options.displayMode <- x
+
+            let data =
+                dataTables config
+                |> joinDataTables
+
+//            let data =
+//                let series = config.Data.[0]
+//                let dataTable = google.visualization.DataTable.Create()        
+//                dataTable.addColumn(_type series.XType) |> ignore
+//                let label = columnLabel config 0 series
+//                dataTable.addColumn(_type series.YType, label) |> ignore
+//                dataTable.addRows series.Values |> ignore  
+//                dataTable   
+            
+            let chart = google.visualization.GeoChart.Create(Globals.document.getElementById("chart"))
+            chart.draw(data, options)
+
+        google.Globals.load("visualization", "1", {packages = [|"geochart"|]})
+        google.Globals.setOnLoadCallback drawChart
+
     let line (config:ChartConfig) =
         let drawChart() =
             let options = createEmpty<google.visualization.LineChartOptions>()
@@ -224,6 +255,12 @@ let bar config =
 let column config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.column %%configExpr @>
+
+let geo config region mode =
+    let configExpr = quoteChartConfig config
+    let regionExpr = quoteStrOption region
+    let modeExpr = quoteStrOption mode
+    compile <@ Chart.geo %%configExpr %%regionExpr %%modeExpr @>
 
 let line config =
     let configExpr = quoteChartConfig config

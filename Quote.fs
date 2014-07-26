@@ -53,6 +53,7 @@ let quoteChartType (chartType:ChartType) =
     | StackedArea -> chartTypeExpr 17
     | StackedBar -> chartTypeExpr 18
     | StackedColumn -> chartTypeExpr 19
+    | Geo -> chartTypeExpr 20
 
 let boxArrExpr (arr:obj []) =
     Expr.Call(

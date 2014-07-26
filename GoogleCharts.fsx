@@ -73,6 +73,16 @@ module Column =
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
+module Geo =
+
+    let geo1 =
+        let data = ["Germany", 200; "United States", 300; "Brazil", 400]
+        Google.Geo(data, "Popularity")
+
+    let geo2 =
+        let data = ["Rome", 2761477, 1285.31; "Milan", 1324110, 181.76]
+        Google.Geo(data, ["Population"; "Area"], "IT", "markers")
+
 module Line =
 
     let line1 =

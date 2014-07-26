@@ -113,6 +113,33 @@ type Google =
         let chartData = ChartConfig.Google labels data None None title None Column None None
         GoogleChart.Create chartData (fun () -> GoogleColumn())
 
+    /// <summary>Creates a geo chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="label">The data label displayed in the legend.</param>
+    static member Geo(data:seq<string * #value>, ?label, ?region, ?mode) =
+        let labels =
+            match label with
+            | None -> None
+            | Some x -> Some [x]
+        let data = Series.Geo data
+        let chartData = ChartConfig.Google labels [|data|] None None None None Geo None None
+        GoogleGeochart.Create chartData region mode
+
+    /// <summary>Creates a geo chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    static member Geo(data:seq<string * #value * #value>, ?labels, ?region, ?mode) =
+        let s1 =
+            data
+            |> Seq.map (fun (k, v, _) -> k, v)
+            |> Series.Geo
+        let s2 =
+            data
+            |> Seq.map (fun (k, _, v) -> k, v)
+            |> Series.Geo
+        let chartData = ChartConfig.Google labels [|s1; s2|] None None None None Geo None None
+        GoogleGeochart.Create chartData region mode
+
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>

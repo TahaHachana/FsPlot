@@ -101,7 +101,7 @@ module Utils =
             | Funnel -> "funnel"
             | Line | Radar -> "line"
             | Scatter -> "scatter"
-            | Spline -> "spline"
+            | _ -> "spline"
         options._type <- chartTypeStr
 
     let setSeriesOptions (series:Series []) (options:HighchartsOptions) =

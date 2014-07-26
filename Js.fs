@@ -26,7 +26,7 @@ let highcharts (config:ChartConfig) =
     | Spline -> Js.spline config
     | StackedArea -> Js.stackedArea config false
     | StackedBar -> Js.stackedBar config
-    | StackedColumn -> Js.stackedColumn config
+    | _ -> Js.stackedColumn config
 
 let dynamicHighcharts address guid shift (config:ChartConfig) =
     match config.Type with
@@ -51,3 +51,4 @@ let google (config:ChartConfig) =
     | Line -> Google.Js.line config
     | StackedBar -> Google.Js.stackedBar config
     | _ -> Google.Js.stackedColumn config
+//    | _ -> Google.Js.geo config

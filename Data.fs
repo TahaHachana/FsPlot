@@ -27,6 +27,7 @@ type ChartType =
     | StackedArea
     | StackedBar
     | StackedColumn
+    | Geo
 
 module internal Utils =
 
@@ -234,6 +235,15 @@ type Series =
 
     static member Column(name, values:seq<#key*#value>) =
         Series.New(name, Column, values)
+
+    static member Geo(values:seq<string * #value>) =
+        Series.New(Geo, values)
+
+//    static member Geo(values:seq<string * #value * #value>) =
+//        let dt1 = values |> Seq.map (fun (k, v:#value, _) -> k, v) |> Seq.toArray
+////        let dt2 = values |> Seq.map (fun (k, _, v:#value) -> k, v) |> Seq.toArray
+////        let values = Seq.concat [dt1; dt2]
+//        Series.New(Geo, dt1) //values)
 
     static member Donut(values:seq<#value>) =
         Series.New(Donut, values)
