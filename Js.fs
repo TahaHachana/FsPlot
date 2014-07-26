@@ -46,4 +46,5 @@ let dynamicHighcharts address guid shift (config:ChartConfig) =
 
 let google (config:ChartConfig) =
     match config.Type with
-    | _ -> Google.Js.bar config
+    | Bar -> Google.Js.bar config
+    | _ -> Google.Js.line config

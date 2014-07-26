@@ -97,6 +97,43 @@ module Chart =
 
         drawOnLoad drawChart
 
+    let line (config:ChartConfig) =
+        let drawChart() =
+            let options = createEmpty<google.visualization.LineChartOptions>()
+            
+            match config.Title with
+            | None -> ()
+            | Some x -> options.title <- x
+
+            match config.XTitle with
+            | None -> ()
+            | Some x ->
+                let xAxis = createEmpty<google.visualization.ChartAxis>()
+                xAxis.title <- x
+                options.hAxis <- xAxis 
+
+            match config.YTitle with
+            | None -> ()
+            | Some x ->
+                let yAxis = createEmpty<google.visualization.ChartAxis>()
+                yAxis.title <- x
+                options.vAxis <- yAxis 
+
+            let legend = createEmpty<google.visualization.ChartLegend>()
+            match config.Legend with
+            | false -> legend.position <- "none"
+            | true -> legend.position <- "bottom"
+            options.legend <- legend
+
+            let data =
+                dataTables config
+                |> joinDataTables
+
+            let chart = google.visualization.LineChart.Create(Globals.document.getElementById("chart"))
+            chart.draw(data, options)
+
+        drawOnLoad drawChart
+
 let inline compile expr =
     Compiler.Compile(
         expr,
@@ -106,3 +143,7 @@ let inline compile expr =
 let bar config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.bar %%configExpr @>
+
+let line config =
+    let configExpr = quoteChartConfig config
+    compile <@ Chart.line %%configExpr @>

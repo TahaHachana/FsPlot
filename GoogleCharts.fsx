@@ -46,7 +46,30 @@ module Bar =
     
     let bar3 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        Google.Bar(sales, "Sales", "Company Performance")
+
+    let bar4 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
+module Line =
 
+    let line1 =
+        let sales = Series.Line ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.Line(sales, "Sales", "Company Performance")
+
+    let line2 =
+        let sales = Series.Line ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Line ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
+    let line3 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        Google.Line(sales, "Sales", "Company Performance")
+
+    let line4 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+        
