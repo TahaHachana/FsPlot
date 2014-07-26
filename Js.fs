@@ -48,4 +48,5 @@ let google (config:ChartConfig) =
     match config.Type with
     | Bar -> Google.Js.bar config
     | Column -> Google.Js.column config
-    | _ -> Google.Js.line config
+    | Line -> Google.Js.line config
+    | _ -> Google.Js.stackedBar config

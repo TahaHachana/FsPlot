@@ -60,33 +60,38 @@ module Chart =
         google.Globals.load("visualization", "1", {packages = [|"corechart"|]})
         google.Globals.setOnLoadCallback drawChart
 
+    let barChartOptions config =
+        let options = createEmpty<google.visualization.BarChartOptions>()
+            
+        match config.Title with
+        | None -> ()
+        | Some x -> options.title <- x
+
+        match config.XTitle with
+        | None -> ()
+        | Some x ->
+            let xAxis = createEmpty<google.visualization.ChartAxis>()
+            xAxis.title <- x
+            options.hAxis <- xAxis 
+
+        match config.YTitle with
+        | None -> ()
+        | Some x ->
+            let yAxis = createEmpty<google.visualization.ChartAxis>()
+            yAxis.title <- x
+            options.vAxis <- yAxis 
+
+        let legend = createEmpty<google.visualization.ChartLegend>()
+        match config.Legend with
+        | false -> legend.position <- "none"
+        | true -> legend.position <- "bottom"
+        options.legend <- legend
+
+        options
+
     let bar (config:ChartConfig) =
         let drawChart() =
-            let options = createEmpty<google.visualization.BarChartOptions>()
-            
-            match config.Title with
-            | None -> ()
-            | Some x -> options.title <- x
-
-            match config.XTitle with
-            | None -> ()
-            | Some x ->
-                let xAxis = createEmpty<google.visualization.ChartAxis>()
-                xAxis.title <- x
-                options.hAxis <- xAxis 
-
-            match config.YTitle with
-            | None -> ()
-            | Some x ->
-                let yAxis = createEmpty<google.visualization.ChartAxis>()
-                yAxis.title <- x
-                options.vAxis <- yAxis 
-
-            let legend = createEmpty<google.visualization.ChartLegend>()
-            match config.Legend with
-            | false -> legend.position <- "none"
-            | true -> legend.position <- "bottom"
-            options.legend <- legend
+            let options = barChartOptions config
 
             let data =
                 dataTables config
@@ -171,6 +176,21 @@ module Chart =
 
         drawOnLoad drawChart
 
+    let stackedBar (config:ChartConfig) =
+        let drawChart() =
+            let options = barChartOptions config
+
+            options.isStacked <- true
+
+            let data =
+                dataTables config
+                |> joinDataTables
+
+            let chart = google.visualization.BarChart.Create(Globals.document.getElementById("chart"))
+            chart.draw(data, options)
+
+        drawOnLoad drawChart
+
 let inline compile expr =
     Compiler.Compile(
         expr,
@@ -188,3 +208,7 @@ let column config =
 let line config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.line %%configExpr @>
+
+let stackedBar config =
+    let configExpr = quoteChartConfig config
+    compile <@ Chart.stackedBar %%configExpr @>
