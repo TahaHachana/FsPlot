@@ -113,3 +113,22 @@ module StackedBar =
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         Google.StackedBar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
         
+module StackedColumn =
+
+    let column1 =
+        let sales = Series.StackedColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.StackedColumn(sales, "Sales", "Company Performance")
+
+    let column2 =
+        let sales = Series.StackedColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.StackedColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
+    let column3 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        Google.StackedColumn(sales, "Sales", "Company Performance")
+
+    let column4 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
