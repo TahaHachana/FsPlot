@@ -2,6 +2,7 @@
 
 open FsPlot.Config
 open FsPlot.Data
+open FsPlot.Google.Options
 
 type HighchartsChart() as chart =
     
@@ -213,6 +214,7 @@ type GoogleGeochart() as chart =
     [<DefaultValue>] val mutable private chartData : ChartConfig    
     [<DefaultValue>] val mutable private region : string option
     [<DefaultValue>] val mutable private mode : string option
+    [<DefaultValue>] val mutable private sizeAxis : SizeAxis option
 
     let mutable jsFun = Google.Js.geo 
     let htmlFun = Html.google
@@ -228,7 +230,7 @@ type GoogleGeochart() as chart =
                     let! msg = inbox.Receive()
                     match inbox.CurrentQueueLength with
                     | 0 ->
-                        let js = jsFun msg chart.region chart.mode
+                        let js = jsFun msg chart.region chart.mode chart.sizeAxis
                         match inbox.CurrentQueueLength with
                         | 0 ->
                             let html = htmlFun msg.Type js
@@ -246,10 +248,11 @@ type GoogleGeochart() as chart =
     /// <summary>Closes the chart's window.</summary>
     member __.Close() = wnd.Close()
 
-    static member internal Create x region mode =
+    static member internal Create x region mode sizeAxis =
         let gc = GoogleGeochart()
         gc.region <- region
         gc.mode <- mode
+        gc.sizeAxis <- sizeAxis
         gc.SetChartConfig  x
         gc
 

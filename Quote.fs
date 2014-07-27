@@ -3,6 +3,7 @@
 open FsPlot.Config
 open FsPlot.Data
 open FsPlot.Highcharts.Options
+open FsPlot.Google.Options
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Reflection
 open System
@@ -18,6 +19,7 @@ let axisTypeInfos = FSharpType.GetUnionCases typeof<AxisType>
 let pieOptionsInfos = FSharpType.GetUnionCases typeof<PieOptions option>
 let chartTypeExpr x = Expr.NewUnionCase(chartTypeInfos.[x], [])
 let jsLibInfos = FSharpType.GetUnionCases typeof<JsLib>
+let sizeAxisInfos = FSharpType.GetUnionCases typeof<SizeAxis option>
 
 let quoteStringArr (arr:string []) =
     Expr.NewArray(
@@ -119,6 +121,19 @@ let quotePieOptions (x:PieOptions option) =
     match x with
     | None -> Expr.NewUnionCase(pieOptionsInfos.[0], [])
     | Some value -> Expr.NewUnionCase(pieOptionsInfos.[1], [pieOptionsExpr value])
+
+let sizeAxisExpr (x:SizeAxis) =
+    Expr.NewRecord(
+        typeof<SizeAxis>,
+        [
+            Expr.Value x.MinValue
+            Expr.Value x.MaxValue
+        ])
+
+let quoteSizeAxis (x:SizeAxis option) =
+    match x with
+    | None -> Expr.NewUnionCase(sizeAxisInfos.[0], [])
+    | Some value -> Expr.NewUnionCase(sizeAxisInfos.[1], [sizeAxisExpr value])
 
 let quoteJsLib (jsLib:JsLib) =
     match jsLib with

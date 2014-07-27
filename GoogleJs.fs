@@ -8,6 +8,7 @@ open FunScript
 open FunScript.Compiler
 open FunScript.TypeScript
 open System
+open FsPlot.Google.Options
 
 [<JSEmitInline("google.visualization.data.join({0}, {1}, 'full', [[0,0]], [1], [1])")>]
 let join dt1 dt2 : google.visualization.DataTable = failwith ""
@@ -144,7 +145,7 @@ module Chart =
 
         drawOnLoad drawChart
 
-    let geo config region mode =
+    let geo config region mode sizeAxis =
         let drawChart() =
             let options = createEmpty<google.visualization.GeoChartOptions>()
 
@@ -155,6 +156,14 @@ module Chart =
             match mode with
             | None -> ()
             | Some x -> options.displayMode <- x
+
+            match sizeAxis with
+            | None -> ()
+            | Some x ->
+                let geoChartAxis = createEmpty<google.visualization.GeoChartAxis>()
+                geoChartAxis.minValue <- x.MinValue
+                geoChartAxis.maxValue <- x.MaxValue
+                options.sizeAxis <- geoChartAxis
 
             let data =
                 dataTables config
@@ -256,11 +265,12 @@ let column config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.column %%configExpr @>
 
-let geo config region mode =
+let geo config region mode sizeAxis =
     let configExpr = quoteChartConfig config
     let regionExpr = quoteStrOption region
     let modeExpr = quoteStrOption mode
-    compile <@ Chart.geo %%configExpr %%regionExpr %%modeExpr @>
+    let sizeAxisExpr = quoteSizeAxis sizeAxis
+    compile <@ Chart.geo %%configExpr %%regionExpr %%modeExpr %%sizeAxisExpr @>
 
 let line config =
     let configExpr = quoteChartConfig config

@@ -11,6 +11,7 @@
 open System
 open FsPlot.Data
 open FsPlot.Google.Charting
+open FsPlot.Google.Options
 open FunScript
 open FunScript.TypeScript
 
@@ -82,6 +83,15 @@ module Geo =
     let geo2 =
         let data = ["Rome", 2761477, 1285.31; "Milan", 1324110, 181.76]
         Google.Geo(data, ["Population"; "Area"], "IT", "markers")
+
+    let geo3 =
+        let data =
+            [
+                "France",  65700000, 50
+                "Germany", 81890000, 27
+                "Poland",  38540000, 23
+            ]
+        Google.Geo(data, ["Population"; "Area Percentage"], "155", "markers", {MinValue = 0.; MaxValue = 100.})
 
 module Line =
 

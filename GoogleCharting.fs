@@ -116,19 +116,25 @@ type Google =
     /// <summary>Creates a geo chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>
-    static member Geo(data:seq<string * #value>, ?label, ?region, ?mode) =
+    /// <param name="region">The area to display on the geochart.</param>
+    /// <param name="mode">The geochart type: auto, regions, markers or text.</param>
+    /// <param name="sizeAxis">The range used to display proportional marker values.</param>
+    static member Geo(data:seq<string * #value>, ?label, ?region, ?mode, ?sizeAxis) =
         let labels =
             match label with
             | None -> None
             | Some x -> Some [x]
         let data = Series.Geo data
         let chartData = ChartConfig.Google labels [|data|] None None None None Geo None None
-        GoogleGeochart.Create chartData region mode
+        GoogleGeochart.Create chartData region mode sizeAxis
 
     /// <summary>Creates a geo chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
-    static member Geo(data:seq<string * #value * #value>, ?labels, ?region, ?mode) =
+    /// <param name="region">The area to display on the geochart.</param>
+    /// <param name="mode">The geochart type: auto, regions, markers or text.</param>
+    /// <param name="sizeAxis">The range used to display proportional marker values.</param>
+    static member Geo(data:seq<string * #value * #value>, ?labels, ?region, ?mode, ?sizeAxis) =
         let s1 =
             data
             |> Seq.map (fun (k, v, _) -> k, v)
@@ -138,7 +144,7 @@ type Google =
             |> Seq.map (fun (k, _, v) -> k, v)
             |> Series.Geo
         let chartData = ChartConfig.Google labels [|s1; s2|] None None None None Geo None None
-        GoogleGeochart.Create chartData region mode
+        GoogleGeochart.Create chartData region mode sizeAxis
 
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
