@@ -17,7 +17,7 @@ let private locateDriver() =
     |> Directory.GetParent
     |> fun x -> x.FullName
 
-let private size = Size(700, 500)
+let private size = Size(1000, 700)
 
 let start() =
     let driver = new ChromeDriver(__SOURCE_DIRECTORY__) //locateDriver())

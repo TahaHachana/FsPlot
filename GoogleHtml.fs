@@ -6,7 +6,7 @@ let common js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script type="text/javascript" src="https://www.google.com/jsapi"></script>"""
             "<script>"
             js

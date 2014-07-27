@@ -3,6 +3,8 @@
 open FsPlot.Config
 open FsPlot.Data
 open FsPlot.Google.Options
+open System
+open System.IO
 
 type HighchartsChart() as chart =
     
@@ -111,7 +113,9 @@ type GoogleChart() as chart =
     let mutable jsFun = Js.google
     let htmlFun = Html.google
 
-    let wnd, browser = ChartWindow.show()
+    let browser = Browser.start()
+    let guid = Guid.NewGuid().ToString()
+    let htmlFile = Path.GetTempPath() + guid + ".html"
 
     let ctx = System.Threading.SynchronizationContext.Current
 
@@ -128,8 +132,8 @@ type GoogleChart() as chart =
                             let html = htmlFun msg.Type js
                             match inbox.CurrentQueueLength with
                             | 0 ->
-                                do! Async.SwitchToContext ctx
-                                browser.NavigateToString html
+                                System.IO.File.WriteAllText(htmlFile, html)
+                                browser.Url <- htmlFile
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()
@@ -138,7 +142,7 @@ type GoogleChart() as chart =
             loop())
 
     /// <summary>Closes the chart's window.</summary>
-    member __.Close() = wnd.Close()
+    member __.Close() = browser.Close()
 
     static member internal Create x (f:unit -> #GoogleChart) =
         let gc = f()
@@ -219,7 +223,9 @@ type GoogleGeochart() as chart =
     let mutable jsFun = Google.Js.geo 
     let htmlFun = Html.google
 
-    let wnd, browser = ChartWindow.show()
+    let browser = Browser.start()
+    let guid = Guid.NewGuid().ToString()
+    let htmlFile = Path.GetTempPath() + guid + ".html"
 
     let ctx = System.Threading.SynchronizationContext.Current
 
@@ -236,8 +242,8 @@ type GoogleGeochart() as chart =
                             let html = htmlFun msg.Type js
                             match inbox.CurrentQueueLength with
                             | 0 ->
-                                do! Async.SwitchToContext ctx
-                                browser.NavigateToString html
+                                System.IO.File.WriteAllText(htmlFile, html)
+                                browser.Url <- htmlFile
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()
@@ -246,7 +252,7 @@ type GoogleGeochart() as chart =
             loop())
 
     /// <summary>Closes the chart's window.</summary>
-    member __.Close() = wnd.Close()
+    member __.Close() = browser.Close()
 
     static member internal Create x region mode sizeAxis =
         let gc = GoogleGeochart()
