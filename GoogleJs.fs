@@ -119,6 +119,35 @@ module Chart =
 
         options
 
+    let lineChartOptions config =
+        let options = createEmpty<google.visualization.LineChartOptions>()
+            
+        match config.Title with
+        | None -> ()
+        | Some x -> options.title <- x
+
+        match config.XTitle with
+        | None -> ()
+        | Some x ->
+            let xAxis = createEmpty<google.visualization.ChartAxis>()
+            xAxis.title <- x
+            options.hAxis <- xAxis 
+
+        match config.YTitle with
+        | None -> ()
+        | Some x ->
+            let yAxis = createEmpty<google.visualization.ChartAxis>()
+            yAxis.title <- x
+            options.vAxis <- yAxis 
+
+        let legend = createEmpty<google.visualization.ChartLegend>()
+        match config.Legend with
+        | false -> legend.position <- "none"
+        | true -> legend.position <- "bottom"
+        options.legend <- legend
+
+        options
+
     let bar (config:ChartConfig) =
         let drawChart() =
             let options = barChartOptions config
@@ -186,31 +215,22 @@ module Chart =
 
     let line (config:ChartConfig) =
         let drawChart() =
-            let options = createEmpty<google.visualization.LineChartOptions>()
-            
-            match config.Title with
-            | None -> ()
-            | Some x -> options.title <- x
+            let options = lineChartOptions config
 
-            match config.XTitle with
-            | None -> ()
-            | Some x ->
-                let xAxis = createEmpty<google.visualization.ChartAxis>()
-                xAxis.title <- x
-                options.hAxis <- xAxis 
+            let data =
+                dataTables config
+                |> joinDataTables
 
-            match config.YTitle with
-            | None -> ()
-            | Some x ->
-                let yAxis = createEmpty<google.visualization.ChartAxis>()
-                yAxis.title <- x
-                options.vAxis <- yAxis 
+            let chart = google.visualization.LineChart.Create(Globals.document.getElementById("chart"))
+            chart.draw(data, options)
 
-            let legend = createEmpty<google.visualization.ChartLegend>()
-            match config.Legend with
-            | false -> legend.position <- "none"
-            | true -> legend.position <- "bottom"
-            options.legend <- legend
+        drawOnLoad drawChart
+
+    let spline (config:ChartConfig) =
+        let drawChart() =
+            let options = lineChartOptions config
+
+            options.curveType <- "function"
 
             let data =
                 dataTables config
@@ -275,6 +295,10 @@ let geo config region mode sizeAxis =
 let line config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.line %%configExpr @>
+
+let spline config =
+    let configExpr = quoteChartConfig config
+    compile <@ Chart.spline %%configExpr @>
 
 let stackedBar config =
     let configExpr = quoteChartConfig config

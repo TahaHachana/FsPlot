@@ -113,6 +113,26 @@ module Line =
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
         Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
+module Spline =
+
+    let spline1 =
+        let sales = Series.Spline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.Spline(sales, "Sales", "Company Performance")
+
+    let spline2 =
+        let sales = Series.Spline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
+    let spline3 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        Google.Spline(sales, "Sales", "Company Performance")
+
+    let line4 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
 module StackedBar =
 
     let bar1 =

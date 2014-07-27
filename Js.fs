@@ -49,6 +49,7 @@ let google (config:ChartConfig) =
     | Bar -> Google.Js.bar config
     | Column -> Google.Js.column config
     | Line -> Google.Js.line config
+    | Spline -> Google.Js.spline config
     | StackedBar -> Google.Js.stackedBar config
     | _ -> Google.Js.stackedColumn config
 //    | _ -> Google.Js.geo config
