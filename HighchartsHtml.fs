@@ -20,7 +20,7 @@ let combine js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
@@ -37,7 +37,7 @@ let funnel js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
@@ -53,7 +53,7 @@ let more js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
@@ -69,7 +69,7 @@ let dynamicCommon address js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""
@@ -86,7 +86,7 @@ let dynamicMore address js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""
@@ -104,7 +104,7 @@ let dynamicFunnel address js =
     String.concat
         ""
         [
-            "<!DOCTYPE html><head><title>Highcharts Chart</title></head><body>"
+            "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
             """<div id="chart" style="width:100%; height:100%"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""

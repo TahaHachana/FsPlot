@@ -4,6 +4,8 @@
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
+#r """C:\Users\AHMED\Documents\GitHub\FsPlot\packages\FunScript.TypeScript.Binding.gapi.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.gapi.dll"""
+#r """C:\Users\AHMED\Documents\GitHub\FsPlot\packages\FunScript.TypeScript.Binding.google_visualization.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.google_visualization.dll"""
 #r """.\packages\Microsoft.AspNet.Cors.5.1.0\lib\net45\System.Web.Cors.dll"""
 #r """.\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll"""
 #r """.\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll"""

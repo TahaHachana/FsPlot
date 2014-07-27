@@ -40,14 +40,6 @@ type Google =
 
     /// <summary>Creates a bar chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member Bar(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Bar None None
-        GoogleChart.Create chartData (fun () -> GoogleBar())
-
-    /// <summary>Creates a bar chart.</summary>
-    /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
     static member Bar(data:seq<#key * #value>, ?label, ?title) =
@@ -63,7 +55,55 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member Bar(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member Bar(data:seq<(#key * #value) list>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Bar
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Bar None None
+        GoogleChart.Create chartData (fun () -> GoogleBar())
+
+    /// <summary>Creates a bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Bar(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Bar
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Bar None None
+        GoogleChart.Create chartData (fun () -> GoogleBar())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>Creates a bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Bar(data:Series seq, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Bar None None
+        GoogleChart.Create chartData (fun () -> GoogleBar())
+
+
+    /// <summary>Creates a bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Bar(data:seq<seq<#key * #value>>, ?labels, ?title) =
         let data =
             data
             |> Seq.map Series.Bar
@@ -85,14 +125,6 @@ type Google =
 
     /// <summary>Creates a column chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member Column(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Column None None
-        GoogleChart.Create chartData (fun () -> GoogleColumn())
-
-    /// <summary>Creates a column chart.</summary>
-    /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
     static member Column(data:seq<#key * #value>, ?label, ?title) =
@@ -108,12 +140,44 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member Column(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member Column(data:seq<(#key * #value) list>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Column
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Column None None
+        GoogleChart.Create chartData (fun () -> GoogleColumn())
+
+    /// <summary>Creates a column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Column(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Column
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Column None None
+        GoogleChart.Create chartData (fun () -> GoogleColumn())
+
+    /// <summary>Creates a column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Column(data:seq<seq<#key * #value>>, ?labels, ?title) =
         let data =
             data
             |> Seq.map Series.Bar
             |> Seq.toArray
         let chartData = ChartConfig.Google labels data None None title None Column None None
+        GoogleChart.Create chartData (fun () -> GoogleColumn())
+
+    /// <summary>Creates a column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Column(data:Series seq, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Column None None
         GoogleChart.Create chartData (fun () -> GoogleColumn())
 
     /// <summary>Creates a geo chart.</summary>
@@ -163,14 +227,6 @@ type Google =
 
     /// <summary>Creates a line chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member Line(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Line None None
-        GoogleChart.Create chartData (fun () -> GoogleLine())
-
-    /// <summary>Creates a line chart.</summary>
-    /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
     static member Line(data:seq<#key * #value>, ?label, ?title) =
@@ -186,15 +242,49 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member Line(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member Line(data:seq<(#key * #value) list>, ?labels, ?title) =
         let data =
             data
-            |> Seq.map Series.Bar
+            |> Seq.map Series.Line
             |> Seq.toArray
         let chartData = ChartConfig.Google labels data None None title None Line None None
         GoogleChart.Create chartData (fun () -> GoogleLine())
 
     /// <summary>Creates a line chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Line(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Line
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Line None None
+        GoogleChart.Create chartData (fun () -> GoogleLine())
+
+    /// <summary>Creates a line chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Line(data:seq<seq<#key * #value>>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Line
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Line None None
+        GoogleChart.Create chartData (fun () -> GoogleLine())
+
+    /// <summary>Creates a line chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Line(data:seq<Series>, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Line None None
+        GoogleChart.Create chartData (fun () -> GoogleLine())
+
+
+
+    /// <summary>Creates a sline chart.</summary>
     /// <param name="series">The chart's data.</param>
     /// <param name="label">The data label displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
@@ -204,14 +294,6 @@ type Google =
             | None -> None
             | Some x -> Some [x]
         let chartData = ChartConfig.Google labels [|data|] None None title None Spline None None
-        GoogleChart.Create chartData (fun () -> GoogleSpline())
-
-    /// <summary>Creates a spline chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member Spline(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Spline None None
         GoogleChart.Create chartData (fun () -> GoogleSpline())
 
     /// <summary>Creates a spline chart.</summary>
@@ -231,13 +313,47 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member Spline(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member Spline(data:seq<(#key * #value) list>, ?labels, ?title) =
         let data =
             data
             |> Seq.map Series.Spline
             |> Seq.toArray
         let chartData = ChartConfig.Google labels data None None title None Spline None None
         GoogleChart.Create chartData (fun () -> GoogleSpline())
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Spline(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Spline
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Spline None None
+        GoogleChart.Create chartData (fun () -> GoogleSpline())
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Spline(data:seq<seq<#key * #value>>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.Spline
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None Spline None None
+        GoogleChart.Create chartData (fun () -> GoogleSpline())
+
+    /// <summary>Creates a spline chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member Spline(data:seq<Series>, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None Spline None None
+        GoogleChart.Create chartData (fun () -> GoogleSpline())
+
+
 
     /// <summary>Creates a stacked bar chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -249,14 +365,6 @@ type Google =
             | None -> None
             | Some x -> Some [x]
         let chartData = ChartConfig.Google labels [|data|] None None title None StackedBar None None
-        GoogleChart.Create chartData (fun () -> GoogleStackedBar())
-
-    /// <summary>Creates a stacked bar chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member StackedBar(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None StackedBar None None
         GoogleChart.Create chartData (fun () -> GoogleStackedBar())
 
     /// <summary>Creates a stacked bar chart.</summary>
@@ -276,13 +384,57 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member StackedBar(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member StackedBar(data:seq<(#key * #value) list>, ?labels, ?title) =
         let data =
             data
             |> Seq.map Series.StackedBar
             |> Seq.toArray
         let chartData = ChartConfig.Google labels data None None title None StackedBar None None
         GoogleChart.Create chartData (fun () -> GoogleStackedBar())
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedBar(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.StackedBar
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None StackedBar None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedBar())
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedBar(data:seq<seq<#key * #value>>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.StackedBar
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None StackedBar None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedBar())
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>Creates a stacked bar chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedBar(data:seq<Series>, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None StackedBar None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedBar())
+
+
 
     /// <summary>Creates a stacked column chart.</summary>
     /// <param name="series">The chart's data.</param>
@@ -294,14 +446,6 @@ type Google =
             | None -> None
             | Some x -> Some [x]
         let chartData = ChartConfig.Google labels [|data|] None None title None StackedColumn None None
-        GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
-
-    /// <summary>Creates a stacked column chart.</summary>
-    /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data labels displayed in the legend.</param>
-    /// <param name="title">The chart's title.</param>
-    static member StackedColumn(data:Series seq, ?labels, ?title) =
-        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None StackedColumn None None
         GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
 
     /// <summary>Creates a stacked column chart.</summary>
@@ -321,10 +465,45 @@ type Google =
     /// <param name="series">The chart's data.</param>
     /// <param name="labels">The data labels displayed in the legend.</param>
     /// <param name="title">The chart's title.</param>
-    static member StackedColumn(data:#seq<#key * #value> seq, ?labels, ?title) =
+    static member StackedColumn(data:seq<(#key * #value) list>, ?labels, ?title) =
         let data =
             data
             |> Seq.map Series.StackedColumn
             |> Seq.toArray
         let chartData = ChartConfig.Google labels data None None title None StackedColumn None None
         GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedColumn(data:seq<(#key * #value) []>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.StackedColumn
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None StackedColumn None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedColumn(data:seq<seq<#key * #value>>, ?labels, ?title) =
+        let data =
+            data
+            |> Seq.map Series.StackedColumn
+            |> Seq.toArray
+        let chartData = ChartConfig.Google labels data None None title None StackedColumn None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
+
+    /// <summary>Creates a stacked column chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    /// <param name="labels">The data labels displayed in the legend.</param>
+    /// <param name="title">The chart's title.</param>
+    static member StackedColumn(data:seq<Series>, ?labels, ?title) =
+        let chartData = ChartConfig.Google labels (Seq.toArray data) None None title None StackedColumn None None
+        GoogleChart.Create chartData (fun () -> GoogleStackedColumn())
+
+
+

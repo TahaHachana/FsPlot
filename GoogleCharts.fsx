@@ -21,6 +21,7 @@ FunScript.Compiler.compile
         Globals.Dollar.now() |> ignore
         createEmpty<HighchartsChartOptions>() |> ignore
         createEmpty<HubProxy>() |> ignore
+        createEmpty<google.visualization.BarChartOptions>() |> ignore
     @>
 |> ignore
 
@@ -41,17 +42,28 @@ module Bar =
         Google.Bar(sales, "Sales", "Company Performance")
 
     let bar2 =
-        let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
-    
-    let bar3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.Bar(sales, "Sales", "Company Performance")
 
+
+    let bar3 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
     let bar4 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let bar5 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
+        Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let bar6 =
+        let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Bar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.Bar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
 module Column =
@@ -61,17 +73,27 @@ module Column =
         Google.Column(sales, "Sales", "Company Performance")
 
     let column2 =
-        let sales = Series.Column ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.Column ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.Column(sales, "Sales", "Company Performance")
     
     let column3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
-        Google.Column(sales, "Sales", "Company Performance")
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
     let column4 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let column5 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
+        Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let column6 =
+        let sales = Series.Column ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Column ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.Column([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
 module Geo =
@@ -100,17 +122,28 @@ module Line =
         Google.Line(sales, "Sales", "Company Performance")
 
     let line2 =
-        let sales = Series.Line ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.Line ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
-    
-    let line3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.Line(sales, "Sales", "Company Performance")
 
+
+    let line3 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
     let line4 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let line5 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
+        Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let line6 =
+        let sales = Series.Line ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Line ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.Line([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
 module Spline =
@@ -120,55 +153,89 @@ module Spline =
         Google.Spline(sales, "Sales", "Company Performance")
 
     let spline2 =
-        let sales = Series.Spline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
-        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
-    
-    let spline3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.Spline(sales, "Sales", "Company Performance")
 
-    let line4 =
+
+    let spline3 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+    
+    let spline4 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let spline5 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
+        Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let spline6 =
+        let sales = Series.Spline ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.Spline ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.Spline([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
 
 module StackedBar =
 
-    let bar1 =
+    let stackedBar1 =
         let sales = Series.StackedBar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.StackedBar(sales, "Sales", "Company Performance")
 
-    let bar2 =
-        let sales = Series.StackedBar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
-        let expenses = Series.StackedBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+    let stackedBar2 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.StackedBar(sales, "Sales", "Company Performance")
+
+
+    let stackedBar3 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.StackedBar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
     
-    let bar3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
-        Google.StackedBar(sales, "Sales", "Company Performance")
-
-    let bar4 =
+    let stackedBar4 =
         let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
         let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.StackedBar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let stackedBar5 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
+        Google.StackedBar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let stackedBar6 =
+        let sales = Series.StackedBar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = Series.StackedBar ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.StackedBar([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
         
 module StackedColumn =
 
-    let column1 =
+    let stackedColumn1 =
         let sales = Series.StackedColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         Google.StackedColumn(sales, "Sales", "Company Performance")
 
-    let column2 =
+    let stackedColumn2 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        Google.StackedColumn(sales, "Sales", "Company Performance")
+
+    
+    let stackedColumn3 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
+        Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+
+    let stackedColumn4 =
+        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
+        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+        Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
+
+    let stackedColumn5 =
         let sales = Series.StackedColumn ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
         let expenses = Series.StackedColumn ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
-    
-    let column3 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
-        Google.StackedColumn(sales, "Sales", "Company Performance")
 
-    let column4 =
-        let sales = [|"2010", 1300; "2011", 1470; "2012", 740; "2013", 1330|]
-        let expenses = [|"2010", 1000; "2011", 1170; "2012", 560; "2013", 1030|]
+    let stackedColumn6 =
+        let sales = ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330] |> List.toSeq
+        let expenses = ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030] |> List.toSeq
         Google.StackedColumn([sales; expenses], ["Sales"; "Expenses"], "Company Performance")
