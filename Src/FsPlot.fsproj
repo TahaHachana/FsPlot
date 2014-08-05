@@ -82,11 +82,6 @@
     <None Include="Examples.fsx" />
     <None Include="FsPlotInit.fsx" />
     <None Include="chromedriver.exe" />
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery.signalR-2.0.2.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.0.2.js" />
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>

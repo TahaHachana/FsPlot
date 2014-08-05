@@ -59,8 +59,9 @@ type GenericDynamicChart() as chart =
     let address = "http://localhost:" + freePort()
     let guid = Guid.NewGuid().ToString()
     let app = WebApp.Start<Startup> address
-    let browser = Browser.start()
     let htmlFile = Path.GetTempPath() + guid + ".html"
+    do File.WriteAllText(htmlFile, "")
+    let browser = Browser.start htmlFile
 
     let agent =
         MailboxProcessor<ChartConfig>.Start(fun inbox ->
@@ -76,7 +77,7 @@ type GenericDynamicChart() as chart =
                             match inbox.CurrentQueueLength with
                             | 0 ->
                                 System.IO.File.WriteAllText(htmlFile, html)
-                                browser.Url <- htmlFile
+                                browser.Navigate().Refresh()
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()

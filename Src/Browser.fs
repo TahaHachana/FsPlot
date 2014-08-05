@@ -19,7 +19,10 @@ let private locateDriver() =
 
 let private size = Size(1000, 700)
 
-let start() =
-    let driver = new ChromeDriver(__SOURCE_DIRECTORY__) //locateDriver())
+let start url =
+    let options = ChromeOptions()
+    options.AddArgument("test-type")
+    let driver = new ChromeDriver(__SOURCE_DIRECTORY__, options) //locateDriver())
     driver.Manage().Window.Size <- size
+    driver.Url <- url
     driver

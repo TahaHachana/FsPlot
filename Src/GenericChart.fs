@@ -113,9 +113,10 @@ type GoogleChart() as chart =
     let mutable jsFun = Js.google
     let htmlFun = Html.google
 
-    let browser = Browser.start()
     let guid = Guid.NewGuid().ToString()
     let htmlFile = Path.GetTempPath() + guid + ".html"
+    do File.WriteAllText(htmlFile, "")
+    let browser = Browser.start htmlFile
 
     let ctx = System.Threading.SynchronizationContext.Current
 
@@ -133,7 +134,7 @@ type GoogleChart() as chart =
                             match inbox.CurrentQueueLength with
                             | 0 ->
                                 System.IO.File.WriteAllText(htmlFile, html)
-                                browser.Url <- htmlFile
+                                browser.Navigate().Refresh()
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()
@@ -223,9 +224,10 @@ type GoogleGeochart() as chart =
     let mutable jsFun = Google.Js.geo 
     let htmlFun = Html.google
 
-    let browser = Browser.start()
     let guid = Guid.NewGuid().ToString()
     let htmlFile = Path.GetTempPath() + guid + ".html"
+    do File.WriteAllText(htmlFile, "")
+    let browser = Browser.start htmlFile
 
     let ctx = System.Threading.SynchronizationContext.Current
 
@@ -243,7 +245,7 @@ type GoogleGeochart() as chart =
                             match inbox.CurrentQueueLength with
                             | 0 ->
                                 System.IO.File.WriteAllText(htmlFile, html)
-                                browser.Url <- htmlFile
+                                browser.Navigate().Refresh()
                                 return! loop()
                             | _ -> return! loop()
                         | _ -> return! loop()
