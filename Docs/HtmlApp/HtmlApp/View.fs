@@ -1,6 +1,5 @@
 ﻿module HtmlApp.View
 
-open HtmlApp.Content
 open HtmlApp.Model
 open HtmlApp.Skin
 open IntelliFactory.Html

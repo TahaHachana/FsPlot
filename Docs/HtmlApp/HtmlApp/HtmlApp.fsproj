@@ -35,7 +35,6 @@
   <ItemGroup>
     <Compile Include="Model.fs" />
     <Compile Include="Skin.fs" />
-    <Compile Include="Content.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Main.fs" />
     <None Include="extra.files" />
