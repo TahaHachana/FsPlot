@@ -27,7 +27,7 @@ FunScript.Compiler.compile
 
 let sales = Series.Bar ["2010", 1300; "2011", 1470; "2012", 740; "2013", 1330]
 let chart = Google.Bar sales
-chart.SetLabels [|"Sales"|]
+chart.SetCategories [|"Sales"|]
 chart.SetTitle "Company Performance"
 chart.SetXTitle "X Title"
 chart.SetYTitle "Y Title"

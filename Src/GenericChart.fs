@@ -166,10 +166,19 @@ type GoogleChart() as chart =
         chart.chartData <- chartData
         agent.Post chart.chartData
 
-//    /// <summary>Sets the data series used by a chart.</summary>
-//    member __.SetData series =
-//        chart.chartData <- { chart.chartData with Data = [|series|] }
-//        agent.Post chart.chartData
+    /// <summary>Sets the chart's data.</summary>
+    member __.SetData (data:Series) =
+        chart.chartData <- { chart.chartData with Data = [|data|] }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's data.</summary>
+    member __.SetData (data:seq<Series>) =
+        chart.chartData <- { chart.chartData with Data = Seq.toArray data }
+        agent.Post chart.chartData
+
+
+
+
 //
 //    /// <summary>Sets the data series used by a chart.</summary>
 //    member __.SetData (data:seq<Series>) =
@@ -189,9 +198,9 @@ type GoogleChart() as chart =
 //        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
 //        agent.Post chart.chartData
 
-    /// <summary>Sets the chart's data labels.</summary>
-    member __.SetLabels labels =
-        chart.chartData <- { chart.chartData with Categories = labels }
+    /// <summary>Sets the chart's data categories.</summary>
+    member __.SetCategories (categories:#seq<string>) =
+        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories }
         agent.Post chart.chartData
 
     /// <summary>Sets the chart's title.</summary>
@@ -271,10 +280,10 @@ type GoogleGeochart() as chart =
 
     member internal __.Navigate() = agent.Post chart.chartData
 
-//    /// <summary>Sets the categories of a chart's X-axis.</summary>
-//    member __.SetCategories(categories) =
-//        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
-//        agent.Post chart.chartData
+    /// <summary>Sets the chart's data categories.</summary>
+    member __.SetCategories (categories:#seq<string>) =
+        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories }
+        agent.Post chart.chartData
 
     member internal __.SetChartConfig chartData = 
         chart.chartData <- chartData
@@ -307,10 +316,36 @@ type GoogleGeochart() as chart =
 //        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
 //        agent.Post chart.chartData
 
-    /// <summary>Sets the chart's data labels.</summary>
-    member __.SetLabels labels =
-        chart.chartData <- { chart.chartData with Categories = labels }
+    /// <summary>Sets the chart's data categories.</summary>
+    member __.SetCategories categories =
+        chart.chartData <- { chart.chartData with Categories = categories }
         agent.Post chart.chartData
+
+    /// <summary>Sets the chart's data.</summary>
+    member __.SetData (data:Series) =
+        chart.chartData <- { chart.chartData with Data = [|data|] }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's data.</summary>
+    member __.SetData (data:seq<string * #value>) =
+        chart.chartData <- { chart.chartData with Data = [|Series.Geo data|] }
+        agent.Post chart.chartData
+
+    /// <summary>Sets the chart's data.</summary>
+    member __.SetData (data:seq<string * #value * #value>) =
+        let s1 =
+            data
+            |> Seq.map (fun (k, v, _) -> k, v)
+            |> Series.Geo
+        let s2 =
+            data
+            |> Seq.map (fun (k, _, v) -> k, v)
+            |> Series.Geo
+        chart.chartData <- { chart.chartData with Data = [|s1; s2|] }
+        agent.Post chart.chartData
+
+
+
 
 //    /// <summary>Sets the chart's title.</summary>
 //    member __.SetTitle title =

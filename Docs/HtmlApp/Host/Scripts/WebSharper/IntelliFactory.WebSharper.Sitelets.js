@@ -1,0 +1,19 @@
+(function()
+{
+ var Global=this,Runtime=this.IntelliFactory.Runtime;
+ Runtime.Define(Global,{
+  IntelliFactory:{
+   WebSharper:{
+    Sitelets:{
+     UrlEncoding:{
+      NoFormatError:Runtime.Class({})
+     }
+    }
+   }
+  }
+ });
+ Runtime.OnLoad(function()
+ {
+  return;
+ });
+}());
