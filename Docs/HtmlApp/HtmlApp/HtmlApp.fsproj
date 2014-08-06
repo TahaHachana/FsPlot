@@ -7,7 +7,9 @@
     <ProjectGuid>{218f37b9-b1bd-433d-9178-dfa9fd779b78}</ProjectGuid>
     <WebSharperProject>Html</WebSharperProject>
     <WebSharperHtmlDirectory>$(MSBuildThisFileDirectory)bin\html</WebSharperHtmlDirectory>
-    <NuGetPackageImportStamp>ca3e5eda</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1ed6c1e3</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -67,11 +69,13 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <Import Project="..\packages\WebSharper.2.5.119.54\build\WebSharper.targets" Condition="Exists('..\packages\WebSharper.2.5.119.54\build\WebSharper.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\WebSharper.2.5.119.54\build\WebSharper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WebSharper.2.5.119.54\build\WebSharper.targets'))" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\WebSharper.2.5.119.54\build\WebSharper.targets" Condition="Exists('..\packages\WebSharper.2.5.119.54\build\WebSharper.targets')" />
 </Project>
