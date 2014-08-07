@@ -21,4 +21,4 @@ let basicPie =
 Chart
 -----
 
-![Highcharts Basic Pie](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicPie.PNG)
+![Highcharts Basic Pie](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicPie.PNG)

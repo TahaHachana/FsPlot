@@ -22,4 +22,4 @@ let basicLine =
 Chart
 -----
 
-![Highcharts Basic Line](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicLine.PNG)
+![Highcharts Basic Line](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicLine.PNG)

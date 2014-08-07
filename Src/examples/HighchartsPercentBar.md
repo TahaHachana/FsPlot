@@ -23,4 +23,4 @@ let percentdBar =
 Chart
 -----
 
-![Highcharts Percent Bar](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsPercentBar.PNG)
+![Highcharts Percent Bar](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsPercentBar.PNG)

@@ -22,4 +22,4 @@ let basicSpline =
 Chart
 -----
 
-![Highcharts Basic Spline](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicSpline.PNG)
+![Highcharts Basic Spline](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicSpline.PNG)

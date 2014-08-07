@@ -23,4 +23,4 @@ let percentColumn =
 Chart
 -----
 
-![Highcharts Percent Column](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsPercentColumn.PNG)
+![Highcharts Percent Column](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsPercentColumn.PNG)

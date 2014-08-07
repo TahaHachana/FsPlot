@@ -22,4 +22,4 @@ let stackedColumn =
 Chart
 -----
 
-![Highcharts Stacked Column](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsStackedColumn.PNG)
+![Highcharts Stacked Column](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsStackedColumn.PNG)

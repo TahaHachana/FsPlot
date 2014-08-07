@@ -29,4 +29,4 @@ let basicAreaspline =
 Chart
 -----
 
-![Highcharts Basic Areaspline](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicAreaspline.PNG)
+![Highcharts Basic Areaspline](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicAreaspline.PNG)

@@ -26,4 +26,4 @@ let basicFunnel =
 Chart
 -----
 
-![Highcharts Basic Funnel](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicFunnel.PNG)
+![Highcharts Basic Funnel](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicFunnel.PNG)

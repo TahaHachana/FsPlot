@@ -22,4 +22,4 @@ let basicScatter =
 Chart
 -----
 
-![Highcharts Basic Scatter](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicScatter.PNG)
+![Highcharts Basic Scatter](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicScatter.PNG)

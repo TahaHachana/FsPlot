@@ -22,4 +22,4 @@ let basicColumn =
 Chart
 -----
 
-![Highcharts Basic Column](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicColumn.PNG)
+![Highcharts Basic Column](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicColumn.PNG)

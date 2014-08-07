@@ -22,4 +22,4 @@ let basicDonut =
 Chart
 -----
 
-![Highcharts Basic Donut](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicDonut.PNG)
+![Highcharts Basic Donut](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicDonut.PNG)

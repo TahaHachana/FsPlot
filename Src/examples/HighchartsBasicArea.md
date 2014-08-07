@@ -29,4 +29,4 @@ let basicArea =
 Chart
 -----
 
-![Highcharts Basic Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicArea.PNG)
+![Highcharts Basic Area](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicArea.PNG)

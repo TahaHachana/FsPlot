@@ -23,4 +23,4 @@ let basicRadar =
 Chart
 -----
 
-![Highcharts Basic Radar](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicRadar.PNG)
+![Highcharts Basic Radar](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicRadar.PNG)

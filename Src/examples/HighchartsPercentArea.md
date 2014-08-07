@@ -26,4 +26,4 @@ let percentArea =
 Chart
 -----
 
-![Highcharts Percent Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsPercentArea.PNG)
+![Highcharts Percent Area](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsPercentArea.PNG)

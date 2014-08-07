@@ -27,4 +27,4 @@ let columnSplinePie =
 Chart
 -----
 
-![Highcharts Column Spline Pie Combination](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsColumnSplinePie.PNG)
+![Highcharts Column Spline Pie Combination](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsColumnSplinePie.PNG)

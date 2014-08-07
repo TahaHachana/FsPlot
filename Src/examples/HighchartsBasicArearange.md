@@ -26,4 +26,4 @@ let basicArearange =
 Chart
 -----
 
-![Highcharts Basic Arearange](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicArearange.PNG)
+![Highcharts Basic Arearange](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicArearange.PNG)

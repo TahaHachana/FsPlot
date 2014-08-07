@@ -26,4 +26,4 @@ let stackedArea =
 Chart
 -----
 
-![Highcharts Stacked Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsStackedArea.PNG)
+![Highcharts Stacked Area](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsStackedArea.PNG)

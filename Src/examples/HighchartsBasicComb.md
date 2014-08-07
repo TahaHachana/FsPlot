@@ -22,4 +22,4 @@ let basicComb =
 Chart
 -----
 
-![Highcharts Basic Combination](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicComb.PNG)
+![Highcharts Basic Combination](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicComb.PNG)

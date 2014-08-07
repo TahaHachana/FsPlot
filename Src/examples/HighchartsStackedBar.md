@@ -22,4 +22,4 @@ let stackedBar =
 Chart
 -----
 
-![Highcharts Stacked Bar](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsStackedBar.PNG)
+![Highcharts Stacked Bar](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsStackedBar.PNG)

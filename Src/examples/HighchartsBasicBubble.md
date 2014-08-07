@@ -22,4 +22,4 @@ let basicBubble =
 Chart
 -----
 
-![Highcharts Basic Bubble](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsBasicBubble.PNG)
+![Highcharts Basic Bubble](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsBasicBubble.PNG)

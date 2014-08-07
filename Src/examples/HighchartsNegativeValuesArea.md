@@ -33,4 +33,4 @@ let negativeValuesArea =
 Chart
 -----
 
-![Highcharts Area with Negative Values](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsNegativeValuesArea.PNG)
+![Highcharts Area with Negative Values](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsNegativeValuesArea.PNG)

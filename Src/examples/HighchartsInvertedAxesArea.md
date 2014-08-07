@@ -26,4 +26,4 @@ let invertedAxesArea =
     :?> HighchartsArea
     |> fun x -> x.SetInverted true
 ```
-![Highcharts Inverted Axes Area](https://raw.github.com/TahaHachana/FsPlot/master/screenshots/HighchartsInvertedAxesArea.PNG)
+![Highcharts Inverted Axes Area](https://raw.github.com/TahaHachana/FsPlot/master/Src/screenshots/HighchartsInvertedAxesArea.PNG)
