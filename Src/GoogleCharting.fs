@@ -574,10 +574,6 @@ type Geochart =
     /// <summary>Closes the chart's window.</summary>
     static member close (chart:#GoogleGeochart) = chart.Close()
 
-
-
-
-
     /// <summary>Sets the chart's data.</summary>
     static member data (data:Series) (chart:#GoogleGeochart) = chart.SetData data
 

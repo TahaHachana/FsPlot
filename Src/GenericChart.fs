@@ -318,7 +318,7 @@ type GoogleGeochart() as chart =
 
     /// <summary>Sets the chart's data categories.</summary>
     member __.SetCategories categories =
-        chart.chartData <- { chart.chartData with Categories = categories }
+        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories }
         agent.Post chart.chartData
 
     /// <summary>Sets the chart's data.</summary>
