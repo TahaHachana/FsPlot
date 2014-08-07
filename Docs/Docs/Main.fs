@@ -40,6 +40,8 @@ module Site =
             Sitelet.Content "/chart/google-column-chart" (Chart ("Google Column Chart", "766f29a5400e9892cc51")) (View.chart "Google Column Chart" "766f29a5400e9892cc51")
             Sitelet.Content "/chart/google-geo-chart" (Chart ("Google Geo Chart", "1dfb083d10e37d106ff3")) (View.chart "Google Geo Chart" "1dfb083d10e37d106ff3")
             Sitelet.Content "/chart/google-line-chart" (Chart ("Google Line Chart", "3c70c83956be38e2e990")) (View.chart "Google Geo Chart" "3c70c83956be38e2e990")
+            Sitelet.Content "/chart/google-spline-chart" (Chart ("Google Spline Chart", "149fea9707dd8ebf7b22")) (View.chart "Google Spline Chart" "149fea9707dd8ebf7b22")
+            Sitelet.Content "/chart/google-stacked-bar-chart" (Chart ("Google Stacked Bar Chart", "b74bfed5807709fa3bf0")) (View.chart "Google Stacked Bar Chart" "b74bfed5807709fa3bf0")
 
 //            Sitelet.Content "/chart/google-geo-chart" (Chart ("Google Column Chart", "")) (View.chart "Google Geo Chart" "")
         ]
@@ -57,6 +59,8 @@ type Website() =
                 Chart ("Google Column Chart", "766f29a5400e9892cc51")
                 Chart ("Google Geo Chart", "1dfb083d10e37d106ff3")
                 Chart ("Google Line Chart", "3c70c83956be38e2e990")
+                Chart ("Google Spline Chart", "149fea9707dd8ebf7b22")            
+                Chart ("Google Stacked Bar Chart", "b74bfed5807709fa3bf0")
             ]
 
 [<assembly: Website(typeof<Website>)>]
