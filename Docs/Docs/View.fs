@@ -11,13 +11,13 @@ let home =
         ]
 
 let googleCharts =
-    Skin.withGoogleTemplate "Google Charts" <| fun ctx ->
+    Skin.withGoogleTemplate "FsPlot · Google Charts Support" <| fun ctx ->
         [
         ]
 
 
 let highcharts =
-    Skin.withHighchartsTemplate "Highcharts" <| fun ctx ->
+    Skin.withHighchartsTemplate "FsPlot · Highcharts Support" <| fun ctx ->
         [
 
         ]
