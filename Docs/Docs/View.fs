@@ -15,10 +15,6 @@ let home =
 let googleCharts =
     Skin.withGoogleTemplate "Google Charts" <| fun ctx ->
         [
-            UL [
-                LI [A [HRef "/chart/google-bar-chart.html"] -< [Text "Bar Chart"]]
-            ]
-
         ]
 
 
