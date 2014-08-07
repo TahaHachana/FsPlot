@@ -36,7 +36,7 @@ module Site =
             Sitelet.Content "/" Home View.home
             Sitelet.Content "/google-charts" GoogleCharts View.googleCharts
             Sitelet.Content "/highcharts" Highcharts View.highcharts
-            Sitelet.Content "/chart/google-bar-chart" (Chart ("Google Bar Chart", "3e3f26f5590ea4e29227")) (View.chart "Google Bar Chart" "3e3f26f5590ea4e29227")
+            Sitelet.Content "/chart/google-bar-chart" (Chart ("Google Bar Chart", "aab4fdc7360e039e0bba")) (View.chart "Google Bar Chart" "aab4fdc7360e039e0bba")
         ]
 
 [<Sealed>]
@@ -48,7 +48,7 @@ type Website() =
                 Home
                 GoogleCharts
                 Highcharts
-                Chart ("Google Bar Chart", "3e3f26f5590ea4e29227")
+                Chart ("Google Bar Chart", "aab4fdc7360e039e0bba")
             ]
 
 [<assembly: Website(typeof<Website>)>]
