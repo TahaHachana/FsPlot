@@ -38,7 +38,8 @@ module Site =
             Sitelet.Content "/highcharts" Highcharts View.highcharts
             Sitelet.Content "/chart/google-bar-chart" (Chart ("Google Bar Chart", "aab4fdc7360e039e0bba")) (View.chart "Google Bar Chart" "aab4fdc7360e039e0bba")
             Sitelet.Content "/chart/google-column-chart" (Chart ("Google Column Chart", "766f29a5400e9892cc51")) (View.chart "Google Column Chart" "766f29a5400e9892cc51")
-
+            Sitelet.Content "/chart/google-geo-chart" (Chart ("Google Geo Chart", "1dfb083d10e37d106ff3")) (View.chart "Google Geo Chart" "1dfb083d10e37d106ff3")
+//            Sitelet.Content "/chart/google-geo-chart" (Chart ("Google Column Chart", "")) (View.chart "Google Geo Chart" "")
         ]
 
 [<Sealed>]
@@ -52,6 +53,7 @@ type Website() =
                 Highcharts
                 Chart ("Google Bar Chart", "aab4fdc7360e039e0bba")
                 Chart ("Google Column Chart", "766f29a5400e9892cc51")
+                Chart ("Google Geo Chart", "1dfb083d10e37d106ff3")
             ]
 
 [<assembly: Website(typeof<Website>)>]
