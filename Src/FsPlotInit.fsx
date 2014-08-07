@@ -10,7 +10,12 @@
 #r """.\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll"""
 #r """.\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll"""
 #r """.\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll"""
+#r """.\packages\Microsoft.Owin.Cors.2.1.0\lib\net45\Microsoft.Owin.Cors.dll"""
+#r """.\packages\Microsoft.AspNet.Cors.5.1.0\lib\net45\System.Web.Cors.dll"""
 #r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
+#r """.\packages\Selenium.WebDriver.2.42.0\lib\net40\WebDriver.dll"""
+#r """.\packages\Microsoft.AspNet.SignalR.Core.2.0.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll"""
+#r """.\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll"""
 #r """.\bin\release\FsPlot.dll"""
 
 open FunScript.TypeScript

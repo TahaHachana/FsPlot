@@ -143,7 +143,7 @@ type GoogleChart() as chart =
             loop())
 
     /// <summary>Closes the chart's window.</summary>
-    member __.Close() = browser.Close()
+    member __.Close() = browser.Quit()
 
     static member internal Create x (f:unit -> #GoogleChart) =
         let gc = f()
@@ -263,7 +263,7 @@ type GoogleGeochart() as chart =
             loop())
 
     /// <summary>Closes the chart's window.</summary>
-    member __.Close() = browser.Close()
+    member __.Close() = browser.Quit()
 
     static member internal Create x region mode sizeAxis =
         let gc = GoogleGeochart()
