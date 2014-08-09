@@ -1,4 +1,0 @@
-C:\Users\AHMED\Documents\GitHub\FsPlot\Docs\Docs\bin\Release\HtmlApp.dll
-C:\Users\AHMED\Documents\GitHub\FsPlot\Docs\Docs\bin\Release\HtmlApp.pdb
-C:\Users\AHMED\Documents\GitHub\FsPlot\Docs\Docs\obj\Release\HtmlApp.dll
-C:\Users\AHMED\Documents\GitHub\FsPlot\Docs\Docs\obj\Release\HtmlApp.pdb
