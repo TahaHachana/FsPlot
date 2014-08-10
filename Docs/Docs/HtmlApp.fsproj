@@ -7,7 +7,7 @@
     <ProjectGuid>{218f37b9-b1bd-433d-9178-dfa9fd779b78}</ProjectGuid>
     <WebSharperProject>Html</WebSharperProject>
     <WebSharperHtmlDirectory>$(MSBuildThisFileDirectory)bin\html</WebSharperHtmlDirectory>
-    <NuGetPackageImportStamp>3cbb89e3</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f1ba0c2a</NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
