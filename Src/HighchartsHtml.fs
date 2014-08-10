@@ -6,7 +6,7 @@ let common js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
             """<script src="http://code.highcharts.com/modules/exporting.js"></script>"""
@@ -21,7 +21,7 @@ let combine js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts-more.js"></script>"""
@@ -38,7 +38,7 @@ let funnel js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
             """<script src="http://code.highcharts.com/modules/exporting.js"></script>"""
@@ -54,7 +54,7 @@ let more js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts.js"></script>"""
             """<script src="http://code.highcharts.com/highcharts-more.js"></script>"""
@@ -70,7 +70,7 @@ let dynamicCommon address js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""
             hubsJs
@@ -87,7 +87,7 @@ let dynamicMore address js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""
             hubsJs
@@ -105,7 +105,7 @@ let dynamicFunnel address js =
         ""
         [
             "<!DOCTYPE html><html><head><title>Highcharts Chart</title></head><body>"
-            """<div id="chart" style="width:100%; height:100%"></div>"""
+            """<div id="chart" style="width: 900px; height: 500px;"></div>"""
             """<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>"""
             """<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>"""
             hubsJs
