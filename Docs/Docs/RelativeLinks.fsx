@@ -16,8 +16,8 @@ let updateLinks html =
         match link.StartsWith("http") with
         | false ->
             Regex.Replace(link, "^\.*/", "")
-            |> fun x -> "href=\"" + projectUrl + x + "\""
-        | true -> link
+            |> fun x -> matchObj.Groups.[1].Value + "=\"" + projectUrl + x + "\""
+        | true -> matchObj.Groups.[1].Value + "=\"" + link + "\""
     )
 
 Directory.EnumerateFiles(path, "*.html", SearchOption.AllDirectories)
