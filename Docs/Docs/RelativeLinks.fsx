@@ -22,6 +22,7 @@ let updateLinks html =
 
 Directory.EnumerateFiles(path, "*.html", SearchOption.AllDirectories)
 |> Seq.toList
+|> List.filter (fun x -> x.Contains "/iframe/" = false)
 |> List.iter (fun x ->
     File.ReadAllText x
     |> updateLinks
