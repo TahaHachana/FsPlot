@@ -29,7 +29,9 @@ let chart title gistId =
                 H1 [Text title]
             ]
             H2 [Text "Code"]
-            Script [Src <| "https://gist.github.com/TahaHachana/" + gistId + ".js"]
+            Div [Id "gist"] -< [
+                Script [Src <| "https://gist.github.com/TahaHachana/" + gistId + ".js"]
+            ]
             H2 [Text "Chart"]
             IFrame [Src <| "../iframe/" + gistId + ".html"; Id "chart-iframe"]
         ]

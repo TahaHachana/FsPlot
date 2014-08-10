@@ -46,6 +46,7 @@ module Site =
 
 //            Sitelet.Content "/chart/google-geo-chart" (Chart ("Google Column Chart", "")) (View.chart "Google Geo Chart" "")
         ]
+//        |> Sitelet.Shift "FsPlot"
 
 [<Sealed>]
 type Website() =
