@@ -17,6 +17,7 @@ open FsPlot.Data
 open FsPlot.Highcharts.Charting
 open FunScript.TypeScript
 open System
+open System.IO
 
 FunScript.Compiler.compile
     <@
@@ -34,6 +35,13 @@ module Area =
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> DynamicChart.Area
         
+    let fileName =
+        Path.Combine
+            (Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "chart.png")
+
+    DynamicChart.SavePng fileName chart1
+
     chart1.Push("2014", 577)
     chart1.Close()
 

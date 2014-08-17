@@ -48,7 +48,7 @@ type HighchartsChart() as chart =
 
     member internal __.Refresh() = agent.Post chart.config
 
-    /// <summary>Sets the chart's title.</summary>
+    /// <summary>Set the chart's title.</summary>
     member __.WithTitle title =
         chart.config <-
             {
@@ -57,7 +57,7 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data set name.</summary>
+    /// <summary>Set the chart's data set name.</summary>
     member __.WithName name =
         chart.config <-
             {
@@ -66,7 +66,7 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data sets names.</summary>
+    /// <summary>Set the chart's data sets names.</summary>
     member __.WithNames names =
         let series =
             Seq.zip names chart.config.Data
@@ -79,7 +79,7 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data points labels.</summary>
+    /// <summary>Set the chart's data points labels.</summary>
     member __.WithLabels labels =
         chart.config <-
             {
@@ -88,7 +88,7 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's X-axis title.</summary>
+    /// <summary>Set the chart's X-axis title.</summary>
     member __.WithXTitle xTitle =
         chart.config <-
             {
@@ -97,7 +97,7 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's Y-axis title.</summary>
+    /// <summary>Set the chart's Y-axis title.</summary>
     member __.WithYTitle yTitle =
         chart.config <-
             {
@@ -115,11 +115,17 @@ type HighchartsChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Closes the chart's window.</summary>
+    /// <summary>Close the chart's window.</summary>
     member __.Close() = //wnd.Close()
         browser.Quit()
         File.Delete htmlFile
 
+    /// Save the chart as a PNG image.
+    member __.SavePng(fileName) =
+        browser
+            .GetScreenshot()
+            .SaveAsFile(fileName, Drawing.Imaging.ImageFormat.Png)
+            
 type AreaChart() =
     inherit HighchartsChart()
 
@@ -1304,44 +1310,49 @@ type Chart =
 
 type Chart with
 
-    /// <summary>Sets the chart's data set name.</summary>  
+    /// Set the chart's data set name.
     static member WithName name (chart:#HighchartsChart) =
         chart.WithName name
         chart
 
-    /// <summary>Sets the chart's data sets names.</summary>  
+    /// Set the chart's data sets names.
     static member WithNames names (chart:#HighchartsChart) =
         chart.WithNames names
         chart
 
-    /// <summary>Sets the title of a chart.</summary>  
+    /// Set the title of a chart.
     static member WithTitle title (chart:#HighchartsChart) =
         chart.WithTitle title
         chart
 
-    /// <summary>Sets the chart's data points labels.</summary>
+    /// Set the chart's data points labels.
     static member WithLabels labels (chart:#HighchartsChart) =
         chart.WithLabels labels
         chart
 
-    /// <summary>Sets the chart's X-axis title.</summary>
+    /// Set the chart's X-axis title.
     static member WithXTitle xTitle (chart:#HighchartsChart) =
         chart.WithXTitle xTitle
         chart
 
-    /// <summary>Sets the chart's Y-axis title.</summary>
+    /// Set the chart's Y-axis title.
     static member WithYTitle yTitle (chart:#HighchartsChart) =
         chart.WithYTitle yTitle
         chart
 
-    /// <summary>Display/hide the legend of the chart.</summary>
+    /// Display/hide the legend of the chart.
     static member WithLegend enabled (chart:#HighchartsChart) =
         chart.WithLegend enabled
         chart
 
-    /// <summary>Closes the chart's window.</summary>
+    /// Close the chart's window.
     static member Close (chart:#HighchartsChart) =
         chart.Close()
+
+    /// Save the chart as a PNG image.
+    static member SavePng fileName (chart:#HighchartsChart) =
+        chart.SavePng fileName
+        chart
 
 open FsPlot.HighchartsDynamic
 
@@ -1479,30 +1490,34 @@ type DynamicChart =
 
 type DynamicChart with
 
-    /// <summary>Sets the chart's data set name.</summary>
+    /// Set the chart's data set name.
     static member WithName name (chart:HighchartsDynamicChart) =
         chart.WithName name
         chart
 
-    /// <summary>Sets the chart's title.</summary>
+    /// Set the chart's title.
     static member WithTitle title (chart:HighchartsDynamicChart) =
         chart.WithTitle title
         chart
 
-    /// <summary>Sets the chart's X-Axis title.</summary>
+    /// Set the chart's X-Axis title.
     static member WithXTitle xTitle (chart:HighchartsDynamicChart) =
         chart.WithXTitle xTitle
         chart
 
-    /// <summary>Sets the chart's Y-axis title.</summary>
+    /// Set the chart's Y-axis title.
     static member WithYTitle yTitle (chart:HighchartsDynamicChart) =
         chart.WithYTitle yTitle
         chart
 
-    /// <summary>Closes the chart's browser window.</summary>
+    /// Close the chart's browser window.
     static member Close (chart:HighchartsDynamicChart) =
         chart.Close()
 
+    /// Save the chart as a PNG image.
+    static member SavePng fileName (chart:HighchartsDynamicChart) =
+        chart.SavePng fileName
+        chart
 
 
 

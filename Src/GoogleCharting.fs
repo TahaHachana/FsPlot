@@ -51,7 +51,7 @@ type GoogleChart() as chart =
 
     member internal __.Refresh() = agent.Post chart.config
 
-    /// <summary>Sets the chart's title.</summary>
+    /// Set the chart's title.
     member __.WithTitle title =
         chart.config <-
             {
@@ -60,7 +60,7 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data set name.</summary>
+    /// Set the chart's data set name.
     member __.WithName name =
         chart.config <-
             {
@@ -69,7 +69,7 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data sets names.</summary>
+    /// Set the chart's data sets names.
     member __.WithNames names =
         let series =
             Seq.zip names chart.config.Data
@@ -82,7 +82,7 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's X-axis title.</summary>
+    /// Set the chart's X-axis title.
     member __.WithXTitle xTitle =
         chart.config <-
             {
@@ -91,7 +91,7 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's Y-axis title.</summary>
+    /// Set the chart's Y-axis title.
     member __.WithYTitle yTitle =
         chart.config <-
             {
@@ -100,7 +100,7 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Display/hide the legend of the chart.</summary>
+    /// Display/hide the legend of the chart.
     member __.WithLegend enabled =
         chart.config <-
             {
@@ -109,10 +109,16 @@ type GoogleChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Closes the chart's window.</summary>
+    /// Close the chart's window.
     member __.Close() =
         browser.Quit()
         File.Delete htmlFile
+
+    /// Save the chart as a PNG image.
+    member __.SavePng(fileName) =
+        browser
+            .GetScreenshot()
+            .SaveAsFile(fileName, Drawing.Imaging.ImageFormat.Png)
 
 type BarChart() =
     inherit GoogleChart()
@@ -344,6 +350,11 @@ type Chart with
     static member Close (chart:#GoogleChart) =
         chart.Close()
 
+    /// Save the chart as a PNG image.
+    static member SavePng fileName (chart:#GoogleChart) =
+        chart.SavePng fileName
+        chart
+
 type GoogleGeochart() as chart =
     
     [<DefaultValue>] val mutable private config: ChartConfig    
@@ -383,18 +394,6 @@ type GoogleGeochart() as chart =
                 }
             loop())
 
-    member __.WithRegion region = 
-        chart.region <- Some region
-        agent.Post chart.config
-
-    member __.WithMode mode = 
-        chart.mode <- Some mode
-        agent.Post chart.config
-
-    member __.WithSizeAxis sizeAxis = 
-        chart.sizeAxis <- Some sizeAxis
-        agent.Post chart.config
-
     static member internal Create x region mode sizeAxis =
         let gc = GoogleGeochart()
         gc.region <- region
@@ -406,7 +405,22 @@ type GoogleGeochart() as chart =
 
     member internal __.Refresh() = agent.Post chart.config
 
-    /// <summary>Sets the chart's data set name.</summary>
+    /// The area to display on the geochart.
+    member __.WithRegion region = 
+        chart.region <- Some region
+        agent.Post chart.config
+
+    /// Which type of geochart this is: "auto", "regions", "markers" or "text".
+    member __.WithMode mode = 
+        chart.mode <- Some mode
+        agent.Post chart.config
+
+    /// Configure how values are associated with bubble size.
+    member __.WithSizeAxis sizeAxis = 
+        chart.sizeAxis <- Some sizeAxis
+        agent.Post chart.config
+
+    /// Set the chart's data set name.
     member __.WithName name =
         chart.config <-
             {
@@ -415,7 +429,7 @@ type GoogleGeochart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the chart's data sets names.</summary>
+    /// Set the chart's data sets names.
     member __.WithNames names =
         let series =
             Seq.zip names chart.config.Data
@@ -428,10 +442,16 @@ type GoogleGeochart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Closes the chart's window.</summary>
+    /// Close the chart's window.
     member __.Close() =
         browser.Quit()
         File.Delete htmlFile
+
+    /// Save the chart as a PNG image.
+    member __.SavePng(fileName) =
+        browser
+            .GetScreenshot()
+            .SaveAsFile(fileName, Drawing.Imaging.ImageFormat.Png)
 
 type Geochart =
 
@@ -471,26 +491,35 @@ type Geochart =
         let chartData = ChartConfig.Google None series None None None None Geo None None
         GoogleGeochart.Create chartData Region Mode SizeAxis
 
-    static member WithRegion region (chart:GoogleGeochart) = 
-        chart.WithRegion region
-        chart
+    /// The area to display on the geochart.
+    static member WithRegion region (geochart:GoogleGeochart) = 
+        geochart.WithRegion region
+        geochart
 
-    static member WithMode mode (chart:GoogleGeochart) = 
-        chart.WithMode mode
-        chart
+    /// Which type of geochart this is: "auto", "regions", "markers" or "text".
+    static member WithMode mode (geochart:GoogleGeochart) = 
+        geochart.WithMode mode
+        geochart
 
-    static member WithSizeAxis sizeAxis (chart:GoogleGeochart) = 
-        chart.WithSizeAxis sizeAxis
-        chart
+    /// Configure how values are associated with bubble size.
+    static member WithSizeAxis sizeAxis (geochart:GoogleGeochart) = 
+        geochart.WithSizeAxis sizeAxis
+        geochart
 
-    static member Close (chart:GoogleGeochart) = chart.Close()
+    static member Close (geochart:GoogleGeochart) = geochart.Close()
 
-    /// <summary>Sets the chart's data set name.</summary>
-    static member WithName name (chart:GoogleGeochart) =
-        chart.WithName name
-        chart
+    /// Set the chart's data set name.
+    static member WithName name (geochart:GoogleGeochart) =
+        geochart.WithName name
+        geochart
 
-    /// <summary>Sets the chart's data sets names.</summary>
-    static member WithNames names (chart:GoogleGeochart) =
-        chart.WithNames names
-        chart
+    /// Set the chart's data sets names.
+    static member WithNames names (geochart:GoogleGeochart) =
+        geochart.WithNames names
+        geochart
+
+    /// Save the chart as a PNG image.
+    static member SavePng fileName (geochart:GoogleGeochart) =
+        geochart.SavePng fileName
+        geochart
+

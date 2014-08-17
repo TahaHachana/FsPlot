@@ -14,6 +14,7 @@ open FsPlot.Google.Charting
 open FsPlot.Google.Options
 open FunScript
 open FunScript.TypeScript
+open System.IO
 
 FunScript.Compiler.compile
     <@
@@ -35,6 +36,13 @@ module Bar =
         |> Chart.WithXTitle "X Title"
         |> Chart.WithYTitle "Y Title"
         |> Chart.WithLegend true
+
+    let fileName =
+        Path.Combine
+            (Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "chart.png")
+
+    Chart.SavePng fileName chart1
 
     Chart.Close chart1
 
@@ -168,6 +176,13 @@ module Geo =
         ["Germany", 200; "United States", 300; "Brazil", 400]
         |> Geochart.New
         |> Geochart.WithName "Popularity"
+
+    let fileName =
+        Path.Combine
+            (Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "chart.png")
+
+    Geochart.SavePng fileName geo1
 
     Geochart.Close geo1
 

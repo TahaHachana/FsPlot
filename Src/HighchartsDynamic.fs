@@ -85,7 +85,7 @@ type HighchartsDynamicChart() as chart =
                 }
             loop())
 
-    /// <summary>Closes the browser window.</summary>
+    /// <summary>Close the browser window.</summary>
     member __.Close() =
         try
             browser.ExecuteScript("$.connection.hub.stop()") |> ignore
@@ -100,13 +100,13 @@ type HighchartsDynamicChart() as chart =
         gdc.Refresh()
         gdc
 
-    /// <summary>Hides the legend of a chart.</summary>
+    /// Hide the legend of a chart.
     member __.WithLegend enabled =
         remove guid
         chart.config <- { chart.config with Legend = enabled }
         agent.Post chart.config
 
-    /// <summary>Adds a new data point to the chart.</summary>
+    /// Add a new data point to the chart.
     member __.Push(key:#key, value:#value) =
         let keyType = (key :> key).GetTypeCode()
         let key' = Utils.utcIfDatetime keyType key
@@ -116,7 +116,7 @@ type HighchartsDynamicChart() as chart =
             dataHub.Clients.Client(id)?push [|key'; value'|] |> ignore
         with _ -> ()
 
-    /// <summary>Adds a new data point to the chart.</summary>
+    /// Add a new data point to the chart.
     member __.Push(key:#key, value:#value, value':#value) =
         let keyType = (key :> key).GetTypeCode()
         let key' = Utils.utcIfDatetime keyType key
@@ -129,7 +129,7 @@ type HighchartsDynamicChart() as chart =
 
     member internal __.Refresh() = agent.Post chart.config
 
-    /// <summary>Sets the chart's data set name.</summary>
+    /// Set the chart's data set name.
     member __.WithName name =
         chart.config <-
             {
@@ -138,28 +138,34 @@ type HighchartsDynamicChart() as chart =
             }
         chart.Refresh()
 
-    /// <summary>Sets the shift property that determines whether
+    /// Set the shift property that determines whether
     /// one point is shifted off the start of the series as one
-    /// is appended to the end.</summary>
+    /// is appended to the end.
     member __.WithShift enabled =
         remove guid
         shiftField <- enabled
         agent.Post chart.config
 
-    /// <summary>Sets the chart's title.</summary>
+    /// Set the chart's title.
     member __.WithTitle title =
         remove guid
         chart.config <- { chart.config with Title = Some title }
         agent.Post chart.config
 
-    /// <summary>Sets the chart's X-axis title.</summary>
+    /// Set the chart's X-axis title.
     member __.WithXTitle(title) =
         remove guid
         chart.config <- { chart.config with XTitle = Some title }
         agent.Post chart.config
 
-    /// <summary>Sets the chart's Y-axis title.</summary>
+    /// Set the chart's Y-axis title.
     member __.WithYTitle(title) =
         remove guid
         chart.config <- { chart.config with YTitle = Some title }
         agent.Post chart.config
+
+    /// Save the chart as a PNG image.
+    member __.SavePng(fileName) =
+        browser
+            .GetScreenshot()
+            .SaveAsFile(fileName, Drawing.Imaging.ImageFormat.Png)

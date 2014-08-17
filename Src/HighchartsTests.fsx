@@ -12,6 +12,7 @@ open FsPlot.Data
 open FsPlot.Highcharts.Charting
 open FunScript.TypeScript
 open System
+open System.IO
 
 FunScript.Compiler.compile
     <@
@@ -34,6 +35,13 @@ module Area =
         |> Chart.WithXTitle "X Title"
         |> Chart.WithYTitle "Y Title"
         |> Chart.WithLegend true
+
+    let fileName =
+        Path.Combine
+            (Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "chart.png")
+
+    Chart.SavePng fileName chart1
 
     chart1.WithName "New Name"
     chart1.WithTitle "New Chart Title"
