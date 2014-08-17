@@ -1,6 +1,6 @@
 ﻿module FsPlot.Google.Options
 
-/// Center and size settings for pie charts.
+/// Configuration for how values are associated with bubble size.
 [<ReflectedDefinition>]
 type SizeAxis =
     {

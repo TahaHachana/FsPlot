@@ -1,6 +1,7 @@
 ﻿module internal FsPlot.Dynamic
 
 // http://fssnip.net/2U
+
 open System
 open System.Runtime.CompilerServices
 open Microsoft.CSharp.RuntimeBinder

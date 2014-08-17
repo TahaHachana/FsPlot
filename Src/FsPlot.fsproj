@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Browser.fs" />
-    <Compile Include="ChartWindow.fs" />
     <Compile Include="GoogleOptions.fs" />
     <Compile Include="HighchartsOptions.fs" />
     <Compile Include="Data.fs" />
@@ -68,20 +67,16 @@
     <Compile Include="Dynamic.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Js.fs" />
-    <Compile Include="GenericDynamicChart.fs" />
-    <Compile Include="GenericChart.fs" />
-    <Compile Include="GoogleCharting.fs" />
+    <Compile Include="HighchartsDynamic.fs" />
     <Compile Include="HighchartsCharting.fs" />
-    <Resource Include="ChartIcon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <None Include="packages.config" />
-    <None Include="GoogleCharts.fsx" />
-    <None Include="Highcharts.fsx" />
-    <None Include="DynamicHighcharts.fsx" />
+    <Compile Include="GoogleCharting.fs" />
+    <None Include="HighchartsTests.fsx" />
+    <None Include="HighchartsDynamicTests.fsx" />
+    <None Include="GoogleChartsTests.fsx" />
     <None Include="Examples.fsx" />
     <None Include="FsPlotInit.fsx" />
     <None Include="chromedriver.exe" />
+    <None Include="packages.config" />
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>

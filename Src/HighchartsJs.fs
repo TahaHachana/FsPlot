@@ -164,10 +164,7 @@ module Utils =
             proxy.invokeOverload2("storeGuids", guid, proxyGuid) |> ignore        
         )
 
-        hub.start()._done(test) |> ignore //System.Func<_,_>(fun _ _ ->
-//            let proxyGuid = proxy.connection.id
-//            proxy.invoke("storeGuids", guid, proxyGuid)
-//            ) |> ignore
+        hub.start()._done(test) |> ignore
         proxy
 
     let setDynamicChartOptions (proxy:HubProxy) shift renderTo chartType (options:HighchartsOptions) =

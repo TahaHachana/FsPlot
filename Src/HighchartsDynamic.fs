@@ -1,4 +1,4 @@
-﻿module FsPlot.GenericDynamicChart
+﻿module FsPlot.HighchartsDynamic
 
 open FsPlot.Dynamic
 open FsPlot.Config
@@ -52,10 +52,10 @@ type DataHub() =
 
 let dataHub = GlobalHost.ConnectionManager.GetHubContext<DataHub>()
 
-type GenericDynamicChart() as chart =
+type HighchartsDynamicChart() as chart =
 
-    [<DefaultValue>] val mutable private chartData : ChartConfig    
-    let mutable shiftField = false
+    [<DefaultValue>] val mutable private config : ChartConfig    
+    let mutable shiftField = true
     let address = "http://localhost:" + freePort()
     let guid = Guid.NewGuid().ToString()
     let app = WebApp.Start<Startup> address
@@ -94,27 +94,20 @@ type GenericDynamicChart() as chart =
             File.Delete htmlFile
         with _ -> ()
 
-    static member internal Create config shift =
-        let gdc = GenericDynamicChart()
-        gdc.SetChartConfig  config
-        match shift with true -> gdc.SetShift true | false -> ()
+    static member internal Create config =
+        let gdc = HighchartsDynamicChart()
+        gdc.config <- config
+        gdc.Refresh()
         gdc
 
     /// <summary>Hides the legend of a chart.</summary>
-    member __.HideLegend() =
+    member __.WithLegend enabled =
         remove guid
-        chart.chartData <- { chart.chartData with Legend = false }
-        agent.Post chart.chartData
+        chart.config <- { chart.config with Legend = enabled }
+        agent.Post chart.config
 
     /// <summary>Adds a new data point to the chart.</summary>
-    member __.Push(value:#value) =
-        try
-            let id = guidsList |> Seq.find (fun x -> fst x = guid) |> snd
-            dataHub.Clients.Client(id)?push value |> ignore
-        with _ -> ()
-
-    /// <summary>Adds a new data point to the chart.</summary>
-    member __.Push(key, value) =
+    member __.Push(key:#key, value:#value) =
         let keyType = (key :> key).GetTypeCode()
         let key' = Utils.utcIfDatetime keyType key
         let value' = value :> value
@@ -124,7 +117,7 @@ type GenericDynamicChart() as chart =
         with _ -> ()
 
     /// <summary>Adds a new data point to the chart.</summary>
-    member __.Push(key, value, value') =
+    member __.Push(key:#key, value:#value, value':#value) =
         let keyType = (key :> key).GetTypeCode()
         let key' = Utils.utcIfDatetime keyType key
         let value1' = value :> value
@@ -134,63 +127,39 @@ type GenericDynamicChart() as chart =
             dataHub.Clients.Client(id)?push [|key'; value1'; value2'|] |> ignore
         with _ -> ()
 
-    member internal __.SetChartConfig chartData = 
-        chart.chartData <- chartData
-        agent.Post chart.chartData
+    member internal __.Refresh() = agent.Post chart.config
 
-    /// <summary>Sets the categories of a chart's X-axis.</summary>
-    member __.SetCategories(categories) =
-        remove guid
-        chart.chartData <- { chart.chartData with Categories = Seq.toArray categories}
-        agent.Post chart.chartData
+    /// <summary>Sets the chart's data set name.</summary>
+    member __.WithName name =
+        chart.config <-
+            {
+                chart.config with
+                    Data = [|chart.config.Data.[0] |> Series.WithName name |]
+            }
+        chart.Refresh()
 
-    /// <summary>Sets the data series used by a chart.</summary>
-    member __.SetData series =
+    /// <summary>Sets the shift property that determines whether
+    /// one point is shifted off the start of the series as one
+    /// is appended to the end.</summary>
+    member __.WithShift enabled =
         remove guid
-        chart.chartData <- { chart.chartData with Data = [|series|] }
-        agent.Post chart.chartData
-
-    /// <summary>Sets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
-    member __.SetShift shift =
-        remove guid
-        shiftField <- shift
-        agent.Post chart.chartData
-
-    /// <summary>Modifies the tooltip format for each data point.</summary>
-    member __.SetTooltip(tooltip) =
-        remove guid
-        chart.chartData <- { chart.chartData with Tooltip = Some tooltip }
-        agent.Post chart.chartData
-
-    /// <summary>Sets the chart's subtitle.</summary>
-    member __.SetSubtitle subtitle =
-        remove guid
-        chart.chartData <- { chart.chartData with Subtitle = Some subtitle }
-        agent.Post chart.chartData
+        shiftField <- enabled
+        agent.Post chart.config
 
     /// <summary>Sets the chart's title.</summary>
-    member __.SetTitle title =
+    member __.WithTitle title =
         remove guid
-        chart.chartData <- { chart.chartData with Title = Some title }
-        agent.Post chart.chartData
+        chart.config <- { chart.config with Title = Some title }
+        agent.Post chart.config
 
     /// <summary>Sets the chart's X-axis title.</summary>
-    member __.SetXTitle(title) =
+    member __.WithXTitle(title) =
         remove guid
-        chart.chartData <- { chart.chartData with XTitle = Some title }
-        agent.Post chart.chartData
+        chart.config <- { chart.config with XTitle = Some title }
+        agent.Post chart.config
 
     /// <summary>Sets the chart's Y-axis title.</summary>
-    member __.SetYTitle(title) =
+    member __.WithYTitle(title) =
         remove guid
-        chart.chartData <- { chart.chartData with YTitle = Some title }
-        agent.Post chart.chartData
-
-    /// <summary>Gets the shift property that determines whether one point is shifted off the start of the series as one is appended to the end.</summary>
-    member __.Shift = shiftField
-
-    /// <summary>Displays the legend of a chart.</summary>
-    member __.ShowLegend() =
-        remove guid
-        chart.chartData <- { chart.chartData with Legend = true }
-        agent.Post chart.chartData
+        chart.config <- { chart.config with YTitle = Some title }
+        agent.Post chart.config

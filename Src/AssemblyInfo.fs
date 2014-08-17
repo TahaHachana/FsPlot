@@ -3,7 +3,7 @@
 open System.Reflection
 
 [<
-    AssemblyDescription("A Data Visualization Library for F# Using HTML5/JavaScript.");
+    AssemblyDescription("F# Data Visualization Library");
     AssemblyFileVersion("0.5.0");
     AssemblyProduct("FsPlot");
     AssemblyTitle("FsPlot");

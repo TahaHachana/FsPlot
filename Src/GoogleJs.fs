@@ -25,20 +25,29 @@ module Chart =
         | TypeCode.String -> "string"
         | _ -> "number"
 
-    let columnLabel config idx series =
-        let categories = config.Categories
-        match Array.isEmpty categories with
-        | false -> categories.[idx]
-        | true -> series.Name
-
     let dataTables (config:ChartConfig) =
         config.Data
         |> Array.mapi(fun idx series ->
-            let dataTable = google.visualization.DataTable.Create()        
-            dataTable.addColumn(_type series.XType) |> ignore
-            let label = columnLabel config idx series
-            dataTable.addColumn(_type series.YType, label) |> ignore
-            dataTable.addRows series.Values |> ignore  
+            let dataTable = google.visualization.DataTable.Create()  
+            let xType = series.XType      
+            dataTable.addColumn(_type xType) |> ignore
+            dataTable.addColumn(_type series.YType, series.Name) |> ignore
+            // TODO: find better way to handle dates
+            let values =
+                match xType with
+                | TypeCode.DateTime ->
+                    series.Values
+                    |> Array.map(fun arr ->
+                        box [|
+                            (arr :?> obj []).[0]
+                            :?> float
+                            |> Globals.Date.Create
+                            |> box
+                            (arr :?> obj []).[1]
+                        |]
+                    )
+                | _ -> series.Values
+            dataTable.addRows values |> ignore
             dataTable
         )
         |> Array.toList
@@ -53,9 +62,6 @@ module Chart =
             |> Seq.toList
             |> List.append [join x.[0] x.[1]]
             |> joinDataTables
-//            let dt = join x.[0] x.[1]
-//            let dts' = Seq.skip 2 dts |> Seq.toList
-//            joinDataTables <| List.append [dt] dts'
 
     let drawOnLoad (drawChart:unit -> unit) =
         google.Globals.load("visualization", "1", {packages = [|"corechart"|]})
@@ -80,6 +86,7 @@ module Chart =
         | Some x ->
             let yAxis = createEmpty<google.visualization.ChartAxis>()
             yAxis.title <- x
+            
             options.vAxis <- yAxis 
 
         let legend = createEmpty<google.visualization.ChartLegend>()
@@ -92,7 +99,7 @@ module Chart =
 
     let columnChartOptions config =
         let options = createEmpty<google.visualization.ColumnChartOptions>()
-            
+        
         match config.Title with
         | None -> ()
         | Some x -> options.title <- x
@@ -197,15 +204,6 @@ module Chart =
             let data =
                 dataTables config
                 |> joinDataTables
-
-//            let data =
-//                let series = config.Data.[0]
-//                let dataTable = google.visualization.DataTable.Create()        
-//                dataTable.addColumn(_type series.XType) |> ignore
-//                let label = columnLabel config 0 series
-//                dataTable.addColumn(_type series.YType, label) |> ignore
-//                dataTable.addRows series.Values |> ignore  
-//                dataTable   
             
             let chart = google.visualization.GeoChart.Create(Globals.document.getElementById("chart"))
             chart.draw(data, options)

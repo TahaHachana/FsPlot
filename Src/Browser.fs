@@ -17,12 +17,10 @@ let private locateDriver() =
     |> Directory.GetParent
     |> fun x -> x.FullName
 
-let private size = Size(1000, 700)
-
 let start url =
     let options = ChromeOptions()
     options.AddArgument("test-type")
     let driver = new ChromeDriver(__SOURCE_DIRECTORY__, options) //locateDriver(), options)
-    driver.Manage().Window.Size <- size
+    driver.Manage().Window.Size <- Size(1000, 700)
     driver.Url <- url
     driver

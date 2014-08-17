@@ -1,5 +1,8 @@
 ﻿module internal FsPlot.Highcharts.Html
 
+// TODO: refactor HTML document creation
+// val doc : scripts:string list -> js:string -> string 
+
 /// Generates the HTML document for common chart types.
 let common js =
     String.concat
