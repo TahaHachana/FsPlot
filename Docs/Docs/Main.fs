@@ -56,8 +56,13 @@ module Site =
             chartSitelet
                 "/chart/google-geo-chart"
                 3
-                "Google Geo Chart"
-                [Demo.New "1dfb083d10e37d106ff3" "Google Geo Chart"]
+                "Google Geochart"
+                [
+                    Demo.New "1dfb083d10e37d106ff3" "Region Geochart"
+                    Demo.New "054b9373c210329ae682" "Marker Geochart"                
+                    Demo.New "044838f15db66c60f140" "Marker Geochart - Displaying Proportional Markers"
+                    Demo.New "d80698abecb0098e41cb" "Text Geochart"
+                ]
             chartSitelet
                 "/chart/google-line-chart"
                 4
@@ -82,7 +87,10 @@ module Site =
                 "/chart/highcharts-area-chart"
                 8
                 "Highcharts Area Chart"
-                [Demo.New "4c4f49ed1a44383be329" "Highcharts Area Chart"]
+                [
+                    Demo.New "4c4f49ed1a44383be329" "Highcharts Area Chart"
+                    Demo.New "b27962b275a1e4736e66" "Area Chart with Negative Values"
+                ]
         ]
 
 [<Sealed>]
