@@ -22,16 +22,32 @@ let highcharts =
 
         ]
 
-let chart title gistId =
+type Demo =
+    {
+        Id : string
+        Heading : string
+    }
+
+    static member New id heading =
+        {
+            Id = id
+            Heading = heading
+            
+        }
+
+let chart title (demos:Demo list) = //gistId =
      Skin.withChartTemplate ("FsPlot · " + title) <| fun ctx ->
         [
-            Div [Class "page-header"] -< [
-                H1 [Text title]
-            ]
-            H2 [Text "Code"]
-            Div [Id "gist"] -< [
-                Script [Src <| "https://gist.github.com/TahaHachana/" + gistId + ".js"]
-            ]
-            H2 [Text "Chart"]
-            IFrame [Src <| "../iframe/" + gistId + ".html"; Id "chart-iframe"]
+//            yield Div [Class "page-header"] -< [
+//                H1 [Text title]
+//            ]
+            for demo in demos do
+                let demoId = demo.Id
+                yield Div [Id demoId] -< [
+                    H2 [Class "page-header"] -< [Text demo.Heading]
+                    Div [Id "gist"] -< [
+                        Script [Src <| "https://gist.github.com/TahaHachana/" + demoId + ".js"]
+                    ]
+                    IFrame [Src <| "../iframe/" + demoId + ".html"; Class "chart-iframe"]
+                ]
         ]

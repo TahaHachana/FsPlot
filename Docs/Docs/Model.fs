@@ -5,8 +5,8 @@ type Action =
     | Home
     | GoogleCharts
     | Highcharts
-    | Chart of title * gistId
+    | Chart of int //gistId //title * gistId
 
-and title = string
+//and title = string
 
-and gistId = string
+//and gistId = string

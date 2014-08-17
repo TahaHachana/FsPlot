@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FsPlot</id>
+    <version>0.6.0-RC1</version>
+    <authors>Taha Hachana</authors>
+    <owners>Taha Hachana</owners>
+    <projectUrl>https://github.com/TahaHachana/FsPlot</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Data Visualization Library for F# Using HTML5/JavaScript.</description>
+    <releaseNotes>Fix locating Chrome's driver.</releaseNotes>
+    <tags>F# HTML5 Data Visualization Chart JavaScript</tags>
+    <dependencies>
+      <dependency id="FunScript.TypeScript.Binding.jquery" version="[1.1.0.37]" />
+      <dependency id="FunScript.TypeScript.Binding.lib" version="[1.1.0.37]" />
+      <dependency id="FunScript" version="[1.1.50]" />
+      <dependency id="FunScript.TypeScript.Binding.highcharts" version="[1.1.0.37]" />
+      <dependency id="FunScript.TypeScript.Binding.signalr" version="[1.1.0.37]" />
+      <dependency id="FunScript.TypeScript.Binding.gapi" version="[1.1.0.37]" />
+      <dependency id="FunScript.TypeScript.Binding.google_visualization" version="[1.1.0.37]" />
+      <dependency id="Microsoft.AspNet.Cors" version="[5.1.0]" />
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="[2.0.2]" />
+      <dependency id="Microsoft.AspNet.SignalR.JS" version="[2.0.2]" />
+      <dependency id="Microsoft.Owin" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Cors" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Diagnostics" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Host.HttpListener" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Hosting" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.Security" version="[2.1.0]" />
+      <dependency id="Microsoft.Owin.SelfHost" version="[2.1.0]" />
+      <dependency id="Newtonsoft.Json" version="[5.0.8]" />
+      <dependency id="Selenium.WebDriver" version="[2.42.0]" />
+      <dependency id="Owin" version="[1.0]" />
+    </dependencies>
+  </metadata>
+</package>

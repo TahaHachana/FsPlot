@@ -42,6 +42,14 @@
     <None Include="extra.files" />
     <Content Include="Home.html" />
     <Content Include="robots.txt" />
+    <None Include="iframe\0094ce931e590f5d4636.html" />
+    <None Include="iframe\149fea9707dd8ebf7b22.html" />
+    <None Include="iframe\1dfb083d10e37d106ff3.html" />
+    <None Include="iframe\3c70c83956be38e2e990.html" />
+    <None Include="iframe\4c4f49ed1a44383be329.html" />
+    <None Include="iframe\766f29a5400e9892cc51.html" />
+    <None Include="iframe\aab4fdc7360e039e0bba.html" />
+    <None Include="iframe\b74bfed5807709fa3bf0.html" />
     <None Include="style.css" />
     <None Include="GoogleCharts.html" />
     <None Include="Highcharts.html" />
