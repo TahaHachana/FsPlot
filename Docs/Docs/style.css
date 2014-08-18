@@ -42,6 +42,7 @@ body {
 
 .inner-jumbotron {
     background-color: white;
+    padding: 0;
 }
 
 /* Chart Page */

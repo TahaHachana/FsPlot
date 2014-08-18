@@ -91,6 +91,28 @@ module Site =
                     Demo.New "4c4f49ed1a44383be329" "Highcharts Area Chart"
                     Demo.New "b27962b275a1e4736e66" "Area Chart with Negative Values"
                 ]
+            chartSitelet
+                "/chart/highcharts-areaspline-chart"
+                9
+                "Highcharts Areaspline Chart"
+                [
+                    Demo.New "61b4dada35c17bb0513a" "Highcharts Areaspline Chart"
+                ]
+            chartSitelet
+                "/chart/highcharts-arearange-chart"
+                10
+                "Highcharts Arearange Chart"
+                [
+                    Demo.New "5d854fb7fc2ef097a95e" "Highcharts Arearange Chart"
+                ]
+            chartSitelet
+                "/chart/highcharts-bar-chart"
+                11
+                "Highcharts Bar Chart"
+                [
+                    Demo.New "10a101fc9c3469ddb80f" "Highcharts Bar Chart"
+                ]
+
         ]
 
 [<Sealed>]
@@ -110,6 +132,9 @@ type Website() =
                 Chart 6 //("Google Stacked Bar Chart", "b74bfed5807709fa3bf0")
                 Chart 7 //("Google Stacked Column Chart", "0094ce931e590f5d4636")
                 Chart 8 //("Highcharts Area Chart", "4c4f49ed1a44383be329")         
+                Chart 9
+                Chart 10
+                Chart 11
             ]
 
 [<assembly: Website(typeof<Website>)>]
