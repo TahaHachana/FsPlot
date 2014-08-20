@@ -1,0 +1,1141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Highcharts Chart</title>
+</head>
+<body>
+    <div id="chart" style="width: 900px; height: 500px;"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script>
+        var ob, nb, mb, lb, kb, jb, ib, hb, gb, fb, eb, db, cb, bb, ab, _, Z, Y, X, W, V, U, T, S, R, Q, P, O, N, M, L, K, J, I, H, G, F, E, D, C, B, A, z, y, x, w, v, u, t, s, r, q, p, o, n, m, l, k, j, i, h, g, f, e, d, c, b, a;
+        a = (function (pb) {
+            return pb.length;;
+        });
+        b = (function (pb) {
+            return new Array(pb);;
+        });
+        c = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Category";
+        });
+        c.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = ((this.Tag < pb.Tag) ? -1.000000 : ((this.Tag == pb.Tag) ? 0.000000 : 1.000000));
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        d = (function (pb) {
+            return pb;
+        });
+        e = (function (pb, qb, rb, sb, tb, ub, vb, wb, xb, yb, zb) {
+            this.Categories = pb;
+            this.Data = qb;
+            this.Legend = rb;
+            this.Subtitle = sb;
+            this.Title = tb;
+            this.Tooltip = ub;
+            this.Type = vb;
+            this.XAxis = wb;
+            this.XTitle = xb;
+            this.YTitle = yb;
+            this.Library = zb;
+        });
+        e.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            var sb = 0.000000;
+            while (((rb == 0.000000) && ((sb < this.Categories.length) && (sb < pb.Categories.length)))) {
+                rb = ((this.Categories[sb] < pb.Categories[sb]) ? -1.000000 : ((this.Categories[sb] == pb.Categories[sb]) ? 0.000000 : 1.000000));
+                sb = (sb + 1.000000);
+            };
+            rb = ((rb == 0.000000) ? (this.Categories.length - pb.Categories.length) : rb);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var tb = 0.000000;
+                var ub = 0.000000;
+                while (((tb == 0.000000) && ((ub < this.Data.length) && (ub < pb.Data.length)))) {
+                    tb = this.Data[ub].CompareTo(pb.Data[ub]);
+                    ub = (ub + 1.000000);
+                };
+                tb = ((tb == 0.000000) ? (this.Data.length - pb.Data.length) : tb);
+                qb = tb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    var vb = 0.000000;
+                    vb = ((this.Legend < pb.Legend) ? -1.000000 : ((this.Legend == pb.Legend) ? 0.000000 : 1.000000));
+                    qb = vb;
+                    if ((qb != 0.000000)) {
+                        return qb;
+                    }
+                    else {
+                        var wb = 0.000000;
+                        wb = this.Subtitle.CompareTo(pb.Subtitle);
+                        qb = wb;
+                        if ((qb != 0.000000)) {
+                            return qb;
+                        }
+                        else {
+                            var xb = 0.000000;
+                            xb = this.Title.CompareTo(pb.Title);
+                            qb = xb;
+                            if ((qb != 0.000000)) {
+                                return qb;
+                            }
+                            else {
+                                var yb = 0.000000;
+                                yb = this.Tooltip.CompareTo(pb.Tooltip);
+                                qb = yb;
+                                if ((qb != 0.000000)) {
+                                    return qb;
+                                }
+                                else {
+                                    var zb = 0.000000;
+                                    zb = this.Type.CompareTo(pb.Type);
+                                    qb = zb;
+                                    if ((qb != 0.000000)) {
+                                        return qb;
+                                    }
+                                    else {
+                                        var Ab = 0.000000;
+                                        Ab = this.XAxis.CompareTo(pb.XAxis);
+                                        qb = Ab;
+                                        if ((qb != 0.000000)) {
+                                            return qb;
+                                        }
+                                        else {
+                                            var Bb = 0.000000;
+                                            Bb = this.XTitle.CompareTo(pb.XTitle);
+                                            qb = Bb;
+                                            if ((qb != 0.000000)) {
+                                                return qb;
+                                            }
+                                            else {
+                                                var Cb = 0.000000;
+                                                Cb = this.YTitle.CompareTo(pb.YTitle);
+                                                qb = Cb;
+                                                if ((qb != 0.000000)) {
+                                                    return qb;
+                                                }
+                                                else {
+                                                    var Db = 0.000000;
+                                                    Db = this.Library.CompareTo(pb.Library);
+                                                    qb = Db;
+                                                    if ((qb != 0.000000)) {
+                                                        return qb;
+                                                    }
+                                                    else {
+                                                        return 0.000000;
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        f = (function () {
+            this.Tag = 5.000000;
+            this._CaseName = "Column";
+        });
+        f.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = ((this.Tag < pb.Tag) ? -1.000000 : ((this.Tag == pb.Tag) ? 0.000000 : 1.000000));
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        g = (function (pb, qb) {
+            var rb = ({});
+            gb("chart", "column", rb);
+            hb(pb.Legend, rb);
+            nb(pb.XAxis, rb, pb.Categories, pb.XTitle);
+            ob(rb, pb.YTitle);
+            var sb = ({});
+            if ((qb.Tag == 1.000000)) {
+                (sb.stacking) = "normal";
+                null;
+            }
+            else {
+                if ((qb.Tag == 2.000000)) {
+                    (sb.stacking) = "percent";
+                    null;
+                }
+                else {
+                    ;
+                };
+            };
+            var tb = ({});
+            (tb.column) = sb;
+            null;
+            (rb.plotOptions) = tb;
+            null;
+            lb(pb.Title, rb);
+            kb(pb.Subtitle, rb);
+            jb(pb.Data, rb);
+            mb(pb.Tooltip, rb);
+            var ub = fb("#chart");
+            return (function (vb) {
+                var wb = vb;
+            })((ub.highcharts(rb)));
+        });
+        h = (function (pb) {
+            this.factory = pb;
+        });
+        i = (function (pb) {
+            this.factory = pb;
+        });
+        j = (function (pb) {
+            this.factory = pb;
+        });
+        k = (function () {
+            this.Tag = 1.000000;
+            this._CaseName = "Highcharts";
+        });
+        k.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = ((this.Tag < pb.Tag) ? -1.000000 : ((this.Tag == pb.Tag) ? 0.000000 : 1.000000));
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        l = (function (pb) {
+            return pb.Value;;
+        });
+        m = (function (pb) {
+            return pb.Value;;
+        });
+        n = (function (pb) {
+            return pb.Value;;
+        });
+        o = (function (pb) {
+            return pb.Value;;
+        });
+        p = (function (pb) {
+            return pb.Value;;
+        });
+        q = (function (pb) {
+            return pb.Value;;
+        });
+        r = (function (pb) {
+            return pb.Value;;
+        });
+        s = (function (pb) {
+            return pb.Value;;
+        });
+        t = (function (pb) {
+            return pb.Value;;
+        });
+        u = (function (pb) {
+            return pb.Value;;
+        });
+        v = (function (pb) {
+            return pb.Value;;
+        });
+        w = (function (pb) {
+            return ((pb.Tag == 1.000000) && true);
+        });
+        x = (function (pb) {
+            return ((pb.Tag == 1.000000) && true);
+        });
+        y = (function (pb) {
+            return ((pb.Tag == 1.000000) && true);
+        });
+        z = (function (pb) {
+            return ((pb.Tag == 1.000000) && true);
+        });
+        A = (function (pb, qb) {
+            return (function (rb) {
+                return B(rb);
+            })(N(pb, qb));
+        });
+        B = (function (pb) {
+            return (function (qb) {
+                return C(qb);
+            })((function (qb) {
+                var rb = F(pb);
+                var sb = (function (tb) {
+                    var ub = { contents: tb };
+                    var vb = { contents: { Tag: 0.000000 } };
+                    var wb = { contents: false };
+                    while ((!wb.contents)) {
+                        var xb = ub.contents;
+                        if ((xb.Tag == 1.000000)) {
+                            var yb = o(xb);
+                            if (yb.MoveNext()) {
+                                vb.contents = { Tag: 1.000000, Value: yb.get_Current() };
+                                null;
+                                wb.contents = true;
+                                null;
+                            }
+                            else {
+                                ub.contents = { Tag: 0.000000 };
+                                null;
+                            };
+                        }
+                        else {
+                            if (rb.MoveNext()) {
+                                ub.contents = { Tag: 1.000000, Value: E(rb.get_Current()) };
+                                null;
+                            }
+                            else {
+                                wb.contents = true;
+                                null;
+                            };
+                        };
+                    };
+                    var zb = (new X(ub.contents, vb.contents));
+                    if ((zb.Items[0.000000].Tag == 1.000000)) {
+                        if ((zb.Items[1.000000].Tag == 1.000000)) {
+                            var Ab = o(zb.Items[0.000000]);
+                            var Bb = n(zb.Items[1.000000]);
+                            return { Tag: 1.000000, Value: (new Z(Bb, { Tag: 1.000000, Value: Ab })) };
+                        }
+                        else {
+                            return { Tag: 0.000000 };
+                        };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+                return S((function (tb) {
+                    return sb(tb);
+                }), { Tag: 0.000000 });
+            }));
+        });
+        C = (function (pb) {
+            return J((function (qb) {
+                var rb;
+                var sb;
+                rb = pb(sb);
+                return E(rb);
+            }));
+        });
+        D = (function (pb) {
+            return K((function (qb) {
+                var rb;
+                var sb;
+                rb = pb(sb);
+                return F(rb);
+            }));
+        });
+        E = (function (pb) {
+            return pb.GetEnumerator();
+        });
+        F = (function (pb) {
+            return pb.GetEnumerator();
+        });
+        G = (function (pb) {
+            return pb.GetEnumerator();
+        });
+        H = (function (pb, qb, rb) {
+            return I(pb, qb, E(rb));
+        });
+        I = (function (pb, qb, rb) {
+            var sb = { contents: 0 };
+            var tb = { contents: qb };
+            while (rb.MoveNext()) {
+                tb.contents = pb(sb.contents)(tb.contents)(rb.get_Current());
+                null;
+                sb.contents = (sb.contents + 1);
+                null;
+            };
+            return tb.contents;
+        });
+        J = (function (pb) {
+            var qb;
+            qb = (new h(pb));
+            return {
+                GetEnumerator: (function (rb) {
+                    return (function (sb, rb) {
+                        var tb;
+                        return sb.factory(tb);
+                    })(qb, rb);
+                })
+            };
+        });
+        K = (function (pb) {
+            var qb;
+            qb = (new i(pb));
+            return {
+                GetEnumerator: (function (rb) {
+                    return (function (sb, rb) {
+                        var tb;
+                        return sb.factory(tb);
+                    })(qb, rb);
+                })
+            };
+        });
+        L = (function (pb) {
+            var qb;
+            qb = (new j(pb));
+            return {
+                GetEnumerator: (function (rb) {
+                    return (function (sb, rb) {
+                        var tb;
+                        return sb.factory(tb);
+                    })(qb, rb);
+                })
+            };
+        });
+        M = (function (pb, qb) {
+            var rb;
+            return H((function (sb) {
+                return (function (tb) {
+                    return (function (ub) {
+                        return pb(sb)(ub);
+                    });
+                });
+            }), rb, qb);
+        });
+        N = (function (pb, qb) {
+            return (function (rb) {
+                return D(rb);
+            })((function (rb) {
+                var sb;
+                var tb = (function (ub) {
+                    if (ub.MoveNext()) {
+                        return { Tag: 1.000000, Value: (new _(pb(ub.get_Current()), ub)) };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+                sb = (function (ub) {
+                    return T(tb, ub);
+                });
+                return sb(G(qb));
+            }));
+        });
+        O = (function (pb) {
+            var qb;
+            var rb = (function (sb) {
+                if ((sb < a(pb))) {
+                    return { Tag: 1.000000, Value: (new ab(pb[sb], (sb + 1))) };
+                }
+                else {
+                    return { Tag: 0.000000 };
+                };
+            });
+            qb = (function (sb) {
+                return U(rb, sb);
+            });
+            return qb(0);
+        });
+        P = (function (pb) {
+            var qb;
+            var rb = (function (sb) {
+                if ((sb.Tag == 0.000000)) {
+                    return { Tag: 0.000000 };
+                }
+                else {
+                    var tb = n(sb);
+                    return { Tag: 1.000000, Value: (new Y(tb, { Tag: 0.000000 })) };
+                };
+            });
+            qb = (function (sb) {
+                return R(rb, sb);
+            });
+            return qb({ Tag: 1.000000, Value: pb });
+        });
+        Q = (function (pb) {
+            var qb = b(0);
+            var rb;
+            var sb = (function (tb) {
+                return (function (ub) {
+                    qb[tb] = ub;
+                    return null;
+                });
+            });
+            rb = (function (tb) {
+                return M(sb, tb);
+            });
+            rb(pb);
+            return qb;
+        });
+        R = (function (pb, qb) {
+            return J((function (rb) {
+                var sb;
+                sb = (new bb(qb, pb));
+                return {
+                    get_Current: (function (tb) {
+                        return (function (ub, tb) {
+                            return ub.current;
+                        })(sb, tb);
+                    }), Dispose: (function (tb) {
+                        return (function (ub, tb) {
+                            ;
+                        })(sb, tb);
+                    }), MoveNext: (function (tb) {
+                        return (function (ub, tb) {
+                            var vb = (function (wb) {
+                                var xb = l(ub.acc);
+                                var yb = ub.unfold(xb);
+                                if ((yb.Tag == 1.000000)) {
+                                    var zb = s(yb).Items[0.000000];
+                                    var Ab = s(yb).Items[1.000000];
+                                    ub.acc = { Tag: 1.000000, Value: Ab };
+                                    ub.current = zb;
+                                    return true;
+                                }
+                                else {
+                                    ub.acc = { Tag: 0.000000 };
+                                    ub.current = null;
+                                    return false;
+                                };
+                            });
+                            return (w(ub.acc) && (function () {
+                                var wb;
+                                return vb(wb);
+                            })());
+                        })(sb, tb);
+                    }), Reset: (function (tb) {
+                        return (function (ub, tb) {
+                            ub.acc = { Tag: 1.000000, Value: ub.seed };
+                            ub.current = null;
+                        })(sb, tb);
+                    })
+                };
+            }));
+        });
+        S = (function (pb, qb) {
+            return J((function (rb) {
+                var sb;
+                sb = (new cb(qb, pb));
+                return {
+                    get_Current: (function (tb) {
+                        return (function (ub, tb) {
+                            return ub.current;
+                        })(sb, tb);
+                    }), Dispose: (function (tb) {
+                        return (function (ub, tb) {
+                            ;
+                        })(sb, tb);
+                    }), MoveNext: (function (tb) {
+                        return (function (ub, tb) {
+                            var vb = (function (wb) {
+                                var xb = m(ub.acc);
+                                var yb = ub.unfold(xb);
+                                if ((yb.Tag == 1.000000)) {
+                                    var zb = t(yb).Items[0.000000];
+                                    var Ab = t(yb).Items[1.000000];
+                                    ub.acc = { Tag: 1.000000, Value: Ab };
+                                    ub.current = zb;
+                                    return true;
+                                }
+                                else {
+                                    ub.acc = { Tag: 0.000000 };
+                                    ub.current = null;
+                                    return false;
+                                };
+                            });
+                            return (x(ub.acc) && (function () {
+                                var wb;
+                                return vb(wb);
+                            })());
+                        })(sb, tb);
+                    }), Reset: (function (tb) {
+                        return (function (ub, tb) {
+                            ub.acc = { Tag: 1.000000, Value: ub.seed };
+                            ub.current = null;
+                        })(sb, tb);
+                    })
+                };
+            }));
+        });
+        T = (function (pb, qb) {
+            return K((function (rb) {
+                var sb;
+                sb = (new db(qb, pb));
+                return {
+                    get_Current: (function (tb) {
+                        return (function (ub, tb) {
+                            return ub.current;
+                        })(sb, tb);
+                    }), Dispose: (function (tb) {
+                        return (function (ub, tb) {
+                            ;
+                        })(sb, tb);
+                    }), MoveNext: (function (tb) {
+                        return (function (ub, tb) {
+                            var vb = (function (wb) {
+                                var xb = p(ub.acc);
+                                var yb = ub.unfold(xb);
+                                if ((yb.Tag == 1.000000)) {
+                                    var zb = u(yb).Items[0.000000];
+                                    var Ab = u(yb).Items[1.000000];
+                                    ub.acc = { Tag: 1.000000, Value: Ab };
+                                    ub.current = zb;
+                                    return true;
+                                }
+                                else {
+                                    ub.acc = { Tag: 0.000000 };
+                                    ub.current = null;
+                                    return false;
+                                };
+                            });
+                            return (y(ub.acc) && (function () {
+                                var wb;
+                                return vb(wb);
+                            })());
+                        })(sb, tb);
+                    }), Reset: (function (tb) {
+                        return (function (ub, tb) {
+                            ub.acc = { Tag: 1.000000, Value: ub.seed };
+                            ub.current = null;
+                        })(sb, tb);
+                    })
+                };
+            }));
+        });
+        U = (function (pb, qb) {
+            return L((function (rb) {
+                var sb;
+                sb = (new eb(qb, pb));
+                return {
+                    get_Current: (function (tb) {
+                        return (function (ub, tb) {
+                            return ub.current;
+                        })(sb, tb);
+                    }), Dispose: (function (tb) {
+                        return (function (ub, tb) {
+                            ;
+                        })(sb, tb);
+                    }), MoveNext: (function (tb) {
+                        return (function (ub, tb) {
+                            var vb = (function (wb) {
+                                var xb = q(ub.acc);
+                                var yb = ub.unfold(xb);
+                                if ((yb.Tag == 1.000000)) {
+                                    var zb = v(yb).Items[0.000000];
+                                    var Ab = v(yb).Items[1.000000];
+                                    ub.acc = { Tag: 1.000000, Value: Ab };
+                                    ub.current = zb;
+                                    return true;
+                                }
+                                else {
+                                    ub.acc = { Tag: 0.000000 };
+                                    ub.current = null;
+                                    return false;
+                                };
+                            });
+                            return (z(ub.acc) && (function () {
+                                var wb;
+                                return vb(wb);
+                            })());
+                        })(sb, tb);
+                    }), Reset: (function (tb) {
+                        return (function (ub, tb) {
+                            ub.acc = { Tag: 1.000000, Value: ub.seed };
+                            ub.current = null;
+                        })(sb, tb);
+                    })
+                };
+            }));
+        });
+        V = (function (pb, qb, rb, sb, tb) {
+            this.Name = pb;
+            this.Type = qb;
+            this.Values = rb;
+            this.XType = sb;
+            this.YType = tb;
+        });
+        V.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = ((this.Name < pb.Name) ? -1.000000 : ((this.Name == pb.Name) ? 0.000000 : 1.000000));
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = this.Type.CompareTo(pb.Type);
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    var tb = 0.000000;
+                    var ub = 0.000000;
+                    while (((tb == 0.000000) && ((ub < this.Values.length) && (ub < pb.Values.length)))) {
+                        tb = this.Values[ub].CompareTo(pb.Values[ub]);
+                        ub = (ub + 1.000000);
+                    };
+                    tb = ((tb == 0.000000) ? (this.Values.length - pb.Values.length) : tb);
+                    qb = tb;
+                    if ((qb != 0.000000)) {
+                        return qb;
+                    }
+                    else {
+                        var vb = 0.000000;
+                        vb = ((this.XType < pb.XType) ? -1.000000 : ((this.XType == pb.XType) ? 0.000000 : 1.000000));
+                        qb = vb;
+                        if ((qb != 0.000000)) {
+                            return qb;
+                        }
+                        else {
+                            var wb = 0.000000;
+                            wb = ((this.YType < pb.YType) ? -1.000000 : ((this.YType == pb.YType) ? 0.000000 : 1.000000));
+                            qb = wb;
+                            if ((qb != 0.000000)) {
+                                return qb;
+                            }
+                            else {
+                                return 0.000000;
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        W = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Disabled";
+        });
+        W.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = ((this.Tag < pb.Tag) ? -1.000000 : ((this.Tag == pb.Tag) ? 0.000000 : 1.000000));
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        X = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        X.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = this.Items[0.000000].CompareTo(pb.Items[0.000000]);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = this.Items[1.000000].CompareTo(pb.Items[1.000000]);
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        Y = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        Y.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = this.Items[0.000000].CompareTo(pb.Items[0.000000]);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = this.Items[1.000000].CompareTo(pb.Items[1.000000]);
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        Z = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        Z.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = this.Items[0.000000].CompareTo(pb.Items[0.000000]);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = this.Items[1.000000].CompareTo(pb.Items[1.000000]);
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        _ = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        _.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = this.Items[0.000000].CompareTo(pb.Items[0.000000]);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = this.Items[1.000000].CompareTo(pb.Items[1.000000]);
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        ab = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        ab.prototype.CompareTo = (function (pb) {
+            var qb = 0.000000;
+            var rb = 0.000000;
+            rb = this.Items[0.000000].CompareTo(pb.Items[0.000000]);
+            qb = rb;
+            if ((qb != 0.000000)) {
+                return qb;
+            }
+            else {
+                var sb = 0.000000;
+                sb = ((this.Items[1.000000] < pb.Items[1.000000]) ? -1.000000 : ((this.Items[1.000000] == pb.Items[1.000000]) ? 0.000000 : 1.000000));
+                qb = sb;
+                if ((qb != 0.000000)) {
+                    return qb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        bb = (function (pb, qb) {
+            this.seed = pb;
+            this.unfold = qb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        cb = (function (pb, qb) {
+            this.seed = pb;
+            this.unfold = qb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        db = (function (pb, qb) {
+            this.seed = pb;
+            this.unfold = qb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        eb = (function (pb, qb) {
+            this.seed = pb;
+            this.unfold = qb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        fb = (function (pb) {
+            return ((window.$)(pb));
+        });
+        gb = (function (pb, qb, rb) {
+            var sb = ({});
+            (sb.renderTo) = pb;
+            null;
+            (sb.type) = qb;
+            null;
+            (rb.chart) = sb;
+            return null;
+        });
+        hb = (function (pb, qb) {
+            var rb = ({});
+            (rb.enabled) = pb;
+            null;
+            (qb.legend) = rb;
+            return null;
+        });
+        ib = (function (pb, qb) {
+            var rb;
+            if ((pb.Tag == 0.000000)) {
+                rb = "area";
+            }
+            else {
+                if ((pb.Tag == 17.000000)) {
+                    rb = "area";
+                }
+                else {
+                    if ((pb.Tag == 10.000000)) {
+                        rb = "area";
+                    }
+                    else {
+                        if ((pb.Tag == 1.000000)) {
+                            rb = "areaspline";
+                        }
+                        else {
+                            if ((pb.Tag == 2.000000)) {
+                                rb = "arearange";
+                            }
+                            else {
+                                if ((pb.Tag == 3.000000)) {
+                                    rb = "bar";
+                                }
+                                else {
+                                    if ((pb.Tag == 18.000000)) {
+                                        rb = "bar";
+                                    }
+                                    else {
+                                        if ((pb.Tag == 11.000000)) {
+                                            rb = "bar";
+                                        }
+                                        else {
+                                            if ((pb.Tag == 4.000000)) {
+                                                rb = "bubble";
+                                            }
+                                            else {
+                                                if ((pb.Tag == 5.000000)) {
+                                                    rb = "column";
+                                                }
+                                                else {
+                                                    if ((pb.Tag == 19.000000)) {
+                                                        rb = "column";
+                                                    }
+                                                    else {
+                                                        if ((pb.Tag == 12.000000)) {
+                                                            rb = "column";
+                                                        }
+                                                        else {
+                                                            if ((pb.Tag == 6.000000)) {
+                                                                rb = "";
+                                                            }
+                                                            else {
+                                                                if ((pb.Tag == 7.000000)) {
+                                                                    rb = "pie";
+                                                                }
+                                                                else {
+                                                                    if ((pb.Tag == 13.000000)) {
+                                                                        rb = "pie";
+                                                                    }
+                                                                    else {
+                                                                        if ((pb.Tag == 8.000000)) {
+                                                                            rb = "funnel";
+                                                                        }
+                                                                        else {
+                                                                            if ((pb.Tag == 9.000000)) {
+                                                                                rb = "line";
+                                                                            }
+                                                                            else {
+                                                                                if ((pb.Tag == 14.000000)) {
+                                                                                    rb = "line";
+                                                                                }
+                                                                                else {
+                                                                                    if ((pb.Tag == 15.000000)) {
+                                                                                        rb = "scatter";
+                                                                                    }
+                                                                                    else {
+                                                                                        rb = "spline";
+                                                                                    };
+                                                                                };
+                                                                            };
+                                                                        };
+                                                                    };
+                                                                };
+                                                            };
+                                                        };
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+            var sb = rb;
+            (qb.type) = sb;
+            return null;
+        });
+        jb = (function (pb, qb) {
+            var rb = Q(C((function (sb) {
+                return A((function (tb) {
+                    var ub = ({});
+                    (ub.data) = tb.Values;
+                    null;
+                    (ub.name) = tb.Name;
+                    null;
+                    ib(tb.Type, ub);
+                    return P(ub);
+                }), O(pb));
+            })));
+            (qb.series) = rb;
+            return null;
+        });
+        kb = (function (pb, qb) {
+            if ((pb.Tag == 1.000000)) {
+                var rb = r(pb);
+                var sb = ({});
+                (sb.text) = rb;
+                null;
+                (qb.subtitle) = sb;
+                return null;
+            }
+            else {
+                ;
+            };
+        });
+        lb = (function (pb, qb) {
+            var rb = ({});
+            var sb;
+            if ((pb.Tag == 1.000000)) {
+                var tb = r(pb);
+                sb = tb;
+            }
+            else {
+                sb = "";
+            };
+            var ub;
+            if ((pb.Tag == 1.000000)) {
+                var tb = r(pb);
+                ub = tb;
+            }
+            else {
+                ub = "";
+            };
+            (rb.text) = sb;
+            null;
+            (qb.title) = rb;
+            return null;
+        });
+        mb = (function (pb, qb) {
+            if ((pb.Tag == 1.000000)) {
+                var rb = r(pb);
+                var sb = ({});
+                (sb.pointFormat) = rb;
+                null;
+                (qb.tooltip) = sb;
+                return null;
+            }
+            else {
+                ;
+            };
+        });
+        nb = (function (pb, qb, rb, sb) {
+            var tb = ({});
+            var ub;
+            var vb = a(rb);
+            if ((vb == 0)) {
+                if ((pb.Tag == 1.000000)) {
+                    ub = "datetime";
+                }
+                else {
+                    if ((pb.Tag == 2.000000)) {
+                        ub = "linear";
+                    }
+                    else {
+                        ub = "category";
+                    };
+                };
+            }
+            else {
+                (tb.categories) = rb;
+                null;
+                ub = "category";
+            };
+            var wb = ub;
+            (tb.type) = wb;
+            null;
+            var xb = ({});
+            var yb;
+            if ((sb.Tag == 1.000000)) {
+                var zb = r(sb);
+                yb = zb;
+            }
+            else {
+                yb = "";
+            };
+            var Ab;
+            if ((sb.Tag == 1.000000)) {
+                var zb = r(sb);
+                Ab = zb;
+            }
+            else {
+                Ab = "";
+            };
+            (xb.text) = yb;
+            null;
+            (tb.title) = xb;
+            null;
+            (qb.xAxis) = tb;
+            return null;
+        });
+        ob = (function (pb, qb) {
+            var rb = ({});
+            var sb = ({});
+            var tb;
+            if ((qb.Tag == 1.000000)) {
+                var ub = r(qb);
+                tb = ub;
+            }
+            else {
+                tb = "";
+            };
+            var vb;
+            if ((qb.Tag == 1.000000)) {
+                var ub = r(qb);
+                vb = ub;
+            }
+            else {
+                vb = "";
+            };
+            (sb.text) = tb;
+            null;
+            (rb.title) = sb;
+            null;
+            (pb.yAxis) = rb;
+            return null;
+        });
+        g((new e([], [(new V("Expenses", (new f()), [d(["2010", 1000]), d(["2011", 1170]), d(["2012", 560]), d(["2013", 1030])], 18, 9)), (new V("Sales", (new f()), [d(["2010", 1300]), d(["2011", 1470]), d(["2012", 740]), d(["2013", 1330])], 18, 9))], true, { Tag: 0.000000 }, { Tag: 1.000000, Value: "Company Performance" }, { Tag: 0.000000 }, (new f()), (new c()), { Tag: 0.000000 }, { Tag: 0.000000 }, (new k()))), (new W()))</script>
+</body>
+</html>

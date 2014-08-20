@@ -9,7 +9,7 @@
     <title>${title}</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' media="screen" />    
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' media="screen" />
     <link rel="stylesheet" href="style.css" />
 
     <!--[if lt IE 9]>
@@ -47,8 +47,9 @@
         </div>
         <div class="row">
             <div class="col-md-9">
-                <p class="lead">FsPlot is a JavaScript data visualization library for F# powered by <a href="http://funscript.info/" target="_blank">FunScript</a>.</p>
-                <section>
+                <p class="lead">FsPlot is an interactive data visualization library for F# powered by <a href="http://funscript.info/" target="_blank">FunScript</a>.</p>
+                <a href="https://github.com/TahaHachana/FsPlot" target="_blank" class="btn btn-primary btn-lg">Fork me on GitHub</a>
+                <section id="libs">
                     <div class="page-header">
                         <h2>Supported JavaScript Libraries</h2>
                     </div>
@@ -57,18 +58,32 @@
                     <h3><a href="highcharts.html">Highcharts</a></h3>
                     <p>A powerful HTML5 charting library for creating rich interactive charts. Free for non-commercial use.</p>
                 </section>
-                <section>
+                <section id="nuget">
                     <div class="page-header">
                         <h2>Nuget</h2>
                     </div>
                     <kbd>PM> Install-Package FsPlot</kbd>
                 </section>
+                <section id="share">
+                    <div class="page-header">
+                        <h2>Sharing Charts</h2>
+                    </div>
+                    <p>You have two options for sharing the charts you create:</p>
+                    <ul>
+                        <li>Upload the chart's HTML source online ;</li>
+                        <li>Export a PNG screenshot of the chart as shown in the example below.</li>
+                    </ul>
+                    <h3>Code</h3>
+                    <script src="https://gist.github.com/TahaHachana/6d087bb4c0c33bfcedd9.js"></script>
+                    <h3>Screenshot</h3>
+                    <div><img class="thumbnail" src="screenshot.png" alt="chart-screenshot" /></div>
+                </section>
 
             </div>
-            </div>
+        </div>
         <div data-replace="body">
         </div>
-        
+
     </div>
     <div id="push"></div>
     <div class="footer">

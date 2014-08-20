@@ -57,12 +57,29 @@
     <None Include="iframe\61b4dada35c17bb0513a.html" />
     <None Include="iframe\5d854fb7fc2ef097a95e.html" />
     <None Include="iframe\10a101fc9c3469ddb80f.html" />
+    <None Include="iframe\b80547bb1918793651d0.html" />
+    <None Include="iframe\acad8d538edeac22a7d3.html" />
+    <None Include="iframe\a2ea2861f3dbdbb955ff.html" />
+    <None Include="iframe\3b5c60d148f3aae425ce.html" />
+    <None Include="iframe\bd95d7e5ac0a40b6c704.html" />
+    <None Include="iframe\38eaf4529f1b8d9d5e5e.html" />
+    <None Include="iframe\6d1f469e424c1582381c.html" />
+    <None Include="iframe\e3f40b9b326d4f63655e.html" />
+    <None Include="iframe\3032649453f3098de0ab.html" />
+    <None Include="iframe\4776e466bf44202728ec.html" />
+    <None Include="iframe\6defb9874b198729d29e.html" />
+    <None Include="iframe\b802a18f6c4516de0d95.html" />
+    <None Include="iframe\3975f3755ce136d05a7c.html" />
+    <None Include="iframe\d559870885471ea3bf9e.html" />
+    <None Include="iframe\75f7614553b51fd6ba0a.html" />
+    <None Include="iframe\a64105b3ebbe7fb6ef67.html" />
     <None Include="style.css" />
     <None Include="GoogleCharts.html" />
     <None Include="Highcharts.html" />
     <None Include="Chart.html" />
     <None Include="RelativeLinks.fsx" />
     <None Include="packages.config" />
+    <None Include="screenshot.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

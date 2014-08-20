@@ -1519,9 +1519,17 @@ type DynamicChart with
         chart.SavePng fileName
         chart
 
+    /// Display/hide the legend of a chart.
+    static member WithLegend enabled (chart:HighchartsDynamicChart) =
+        chart.WithLegend enabled
+        chart
 
-
-
+    /// Set the shift property that determines whether
+    /// one point is shifted off the start of the series as one
+    /// is appended to the end.
+    static member WithShift enabled (chart:HighchartsDynamicChart) =
+        chart.WithShift enabled
+        chart
 
 
 

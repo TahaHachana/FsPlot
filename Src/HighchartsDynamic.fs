@@ -100,7 +100,7 @@ type HighchartsDynamicChart() as chart =
         gdc.Refresh()
         gdc
 
-    /// Hide the legend of a chart.
+    /// Display/hide the legend of a chart.
     member __.WithLegend enabled =
         remove guid
         chart.config <- { chart.config with Legend = enabled }
