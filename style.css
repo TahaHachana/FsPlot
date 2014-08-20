@@ -42,14 +42,19 @@ body {
 
 .inner-jumbotron {
     background-color: white;
+    padding: 0;
 }
 
 /* Chart Page */
+.demo-header {
+    width: 80%;
+}
+
 #gist {
     width: 75%;
 }
 
-#chart-iframe {
+.chart-iframe {
     width: 100%;
     height: 600px;
     border: none;

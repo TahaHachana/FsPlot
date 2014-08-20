@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Highcharts Chart</title>
+</head>
+<body>
+    <div id="chart" style="width: 900px; height: 500px;"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script>
+        var jb, ib, hb, gb, fb, eb, db, cb, bb, ab, _, Z, Y, X, W, V, U, T, S, R, Q, P, O, N, M, L, K, J, I, H, G, F, E, D, C, B, A, z, y, x, w, v, u, t, s, r, q, p, o, n, m, l, k, j, i, h, g, f, e, d, c, b, a;
+        a = (function (kb) {
+            return kb.length;;
+        });
+        b = (function (kb) {
+            return new Array(kb);;
+        });
+        c = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Category";
+        });
+        c.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = ((this.Tag < kb.Tag) ? -1.000000 : ((this.Tag == kb.Tag) ? 0.000000 : 1.000000));
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        d = (function (kb) {
+            return kb;
+        });
+        e = (function (kb, lb, mb, nb, ob, pb, qb, rb, sb, tb, ub) {
+            this.Categories = kb;
+            this.Data = lb;
+            this.Legend = mb;
+            this.Subtitle = nb;
+            this.Title = ob;
+            this.Tooltip = pb;
+            this.Type = qb;
+            this.XAxis = rb;
+            this.XTitle = sb;
+            this.YTitle = tb;
+            this.Library = ub;
+        });
+        e.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            var nb = 0.000000;
+            while (((mb == 0.000000) && ((nb < this.Categories.length) && (nb < kb.Categories.length)))) {
+                mb = ((this.Categories[nb] < kb.Categories[nb]) ? -1.000000 : ((this.Categories[nb] == kb.Categories[nb]) ? 0.000000 : 1.000000));
+                nb = (nb + 1.000000);
+            };
+            mb = ((mb == 0.000000) ? (this.Categories.length - kb.Categories.length) : mb);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var ob = 0.000000;
+                var pb = 0.000000;
+                while (((ob == 0.000000) && ((pb < this.Data.length) && (pb < kb.Data.length)))) {
+                    ob = this.Data[pb].CompareTo(kb.Data[pb]);
+                    pb = (pb + 1.000000);
+                };
+                ob = ((ob == 0.000000) ? (this.Data.length - kb.Data.length) : ob);
+                lb = ob;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    var qb = 0.000000;
+                    qb = ((this.Legend < kb.Legend) ? -1.000000 : ((this.Legend == kb.Legend) ? 0.000000 : 1.000000));
+                    lb = qb;
+                    if ((lb != 0.000000)) {
+                        return lb;
+                    }
+                    else {
+                        var rb = 0.000000;
+                        rb = this.Subtitle.CompareTo(kb.Subtitle);
+                        lb = rb;
+                        if ((lb != 0.000000)) {
+                            return lb;
+                        }
+                        else {
+                            var sb = 0.000000;
+                            sb = this.Title.CompareTo(kb.Title);
+                            lb = sb;
+                            if ((lb != 0.000000)) {
+                                return lb;
+                            }
+                            else {
+                                var tb = 0.000000;
+                                tb = this.Tooltip.CompareTo(kb.Tooltip);
+                                lb = tb;
+                                if ((lb != 0.000000)) {
+                                    return lb;
+                                }
+                                else {
+                                    var ub = 0.000000;
+                                    ub = this.Type.CompareTo(kb.Type);
+                                    lb = ub;
+                                    if ((lb != 0.000000)) {
+                                        return lb;
+                                    }
+                                    else {
+                                        var vb = 0.000000;
+                                        vb = this.XAxis.CompareTo(kb.XAxis);
+                                        lb = vb;
+                                        if ((lb != 0.000000)) {
+                                            return lb;
+                                        }
+                                        else {
+                                            var wb = 0.000000;
+                                            wb = this.XTitle.CompareTo(kb.XTitle);
+                                            lb = wb;
+                                            if ((lb != 0.000000)) {
+                                                return lb;
+                                            }
+                                            else {
+                                                var xb = 0.000000;
+                                                xb = this.YTitle.CompareTo(kb.YTitle);
+                                                lb = xb;
+                                                if ((lb != 0.000000)) {
+                                                    return lb;
+                                                }
+                                                else {
+                                                    var yb = 0.000000;
+                                                    yb = this.Library.CompareTo(kb.Library);
+                                                    lb = yb;
+                                                    if ((lb != 0.000000)) {
+                                                        return lb;
+                                                    }
+                                                    else {
+                                                        return 0.000000;
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        f = (function () {
+            this.Tag = 14.000000;
+            this._CaseName = "Radar";
+        });
+        f.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = ((this.Tag < kb.Tag) ? -1.000000 : ((this.Tag == kb.Tag) ? 0.000000 : 1.000000));
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        g = (function (kb) {
+            var lb = ({});
+            var mb = ({});
+            (mb.renderTo) = "chart";
+            null;
+            (mb.type) = "line";
+            null;
+            (mb.polar) = true;
+            null;
+            (lb.chart) = mb;
+            null;
+            fb(kb.Legend, lb);
+            var nb = ({});
+            var ob;
+            var pb = kb.Categories;
+            var qb = a(pb);
+            if ((qb == 0)) {
+                var rb = kb.XAxis;
+                if ((rb.Tag == 1.000000)) {
+                    ob = "datetime";
+                }
+                else {
+                    if ((rb.Tag == 2.000000)) {
+                        ob = "linear";
+                    }
+                    else {
+                        ob = "category";
+                    };
+                };
+            }
+            else {
+                (nb.categories) = pb;
+                null;
+                ob = "category";
+            };
+            var sb = ob;
+            (nb.type) = sb;
+            null;
+            var tb = ({});
+            var ub;
+            if ((kb.XTitle.Tag == 1.000000)) {
+                var vb = r(kb.XTitle);
+                ub = vb;
+            }
+            else {
+                ub = "";
+            };
+            var wb;
+            if ((kb.XTitle.Tag == 1.000000)) {
+                var vb = r(kb.XTitle);
+                wb = vb;
+            }
+            else {
+                wb = "";
+            };
+            (tb.text) = ub;
+            null;
+            (nb.title) = tb;
+            null;
+            (nb.lineWidth) = 0.000000;
+            null;
+            (nb.tickmarkPlacement) = "on";
+            null;
+            (lb.xAxis) = nb;
+            null;
+            var xb = ({});
+            var yb = ({});
+            var zb;
+            if ((kb.YTitle.Tag == 1.000000)) {
+                var vb = r(kb.YTitle);
+                zb = vb;
+            }
+            else {
+                zb = "";
+            };
+            var Ab;
+            if ((kb.YTitle.Tag == 1.000000)) {
+                var vb = r(kb.YTitle);
+                Ab = vb;
+            }
+            else {
+                Ab = "";
+            };
+            (yb.text) = zb;
+            null;
+            (xb.title) = yb;
+            null;
+            (xb.lineWidth) = 0.000000;
+            null;
+            (xb.min) = 0.000000;
+            null;
+            xb.gridLineInterpolation = 'polygon';
+            (lb.yAxis) = xb;
+            null;
+            ib(kb.Title, lb);
+            hb(kb.Subtitle, lb);
+            var Bb = Q(C((function (Cb) {
+                return A((function (Db) {
+                    var Eb = ({});
+                    (Eb.data) = Db.Values;
+                    null;
+                    (Eb.name) = Db.Name;
+                    null;
+                    Eb.pointPlacement = 'on';
+                    gb(Db.Type, Eb);
+                    return P(Eb);
+                }), O(kb.Data));
+            })));
+            (lb.series) = Bb;
+            null;
+            jb(kb.Tooltip, lb);
+            var Cb = eb("#chart");
+            return (function (Db) {
+                var Eb = Db;
+            })((Cb.highcharts(lb)));
+        });
+        h = (function (kb) {
+            this.factory = kb;
+        });
+        i = (function (kb) {
+            this.factory = kb;
+        });
+        j = (function (kb) {
+            this.factory = kb;
+        });
+        k = (function () {
+            this.Tag = 1.000000;
+            this._CaseName = "Highcharts";
+        });
+        k.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = ((this.Tag < kb.Tag) ? -1.000000 : ((this.Tag == kb.Tag) ? 0.000000 : 1.000000));
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        l = (function (kb) {
+            return kb.Value;;
+        });
+        m = (function (kb) {
+            return kb.Value;;
+        });
+        n = (function (kb) {
+            return kb.Value;;
+        });
+        o = (function (kb) {
+            return kb.Value;;
+        });
+        p = (function (kb) {
+            return kb.Value;;
+        });
+        q = (function (kb) {
+            return kb.Value;;
+        });
+        r = (function (kb) {
+            return kb.Value;;
+        });
+        s = (function (kb) {
+            return kb.Value;;
+        });
+        t = (function (kb) {
+            return kb.Value;;
+        });
+        u = (function (kb) {
+            return kb.Value;;
+        });
+        v = (function (kb) {
+            return kb.Value;;
+        });
+        w = (function (kb) {
+            return ((kb.Tag == 1.000000) && true);
+        });
+        x = (function (kb) {
+            return ((kb.Tag == 1.000000) && true);
+        });
+        y = (function (kb) {
+            return ((kb.Tag == 1.000000) && true);
+        });
+        z = (function (kb) {
+            return ((kb.Tag == 1.000000) && true);
+        });
+        A = (function (kb, lb) {
+            return (function (mb) {
+                return B(mb);
+            })(N(kb, lb));
+        });
+        B = (function (kb) {
+            return (function (lb) {
+                return C(lb);
+            })((function (lb) {
+                var mb = F(kb);
+                var nb = (function (ob) {
+                    var pb = { contents: ob };
+                    var qb = { contents: { Tag: 0.000000 } };
+                    var rb = { contents: false };
+                    while ((!rb.contents)) {
+                        var sb = pb.contents;
+                        if ((sb.Tag == 1.000000)) {
+                            var tb = o(sb);
+                            if (tb.MoveNext()) {
+                                qb.contents = { Tag: 1.000000, Value: tb.get_Current() };
+                                null;
+                                rb.contents = true;
+                                null;
+                            }
+                            else {
+                                pb.contents = { Tag: 0.000000 };
+                                null;
+                            };
+                        }
+                        else {
+                            if (mb.MoveNext()) {
+                                pb.contents = { Tag: 1.000000, Value: E(mb.get_Current()) };
+                                null;
+                            }
+                            else {
+                                rb.contents = true;
+                                null;
+                            };
+                        };
+                    };
+                    var ub = (new W(pb.contents, qb.contents));
+                    if ((ub.Items[0.000000].Tag == 1.000000)) {
+                        if ((ub.Items[1.000000].Tag == 1.000000)) {
+                            var vb = o(ub.Items[0.000000]);
+                            var wb = n(ub.Items[1.000000]);
+                            return { Tag: 1.000000, Value: (new Y(wb, { Tag: 1.000000, Value: vb })) };
+                        }
+                        else {
+                            return { Tag: 0.000000 };
+                        };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+                return S((function (ob) {
+                    return nb(ob);
+                }), { Tag: 0.000000 });
+            }));
+        });
+        C = (function (kb) {
+            return J((function (lb) {
+                var mb;
+                var nb;
+                mb = kb(nb);
+                return E(mb);
+            }));
+        });
+        D = (function (kb) {
+            return K((function (lb) {
+                var mb;
+                var nb;
+                mb = kb(nb);
+                return F(mb);
+            }));
+        });
+        E = (function (kb) {
+            return kb.GetEnumerator();
+        });
+        F = (function (kb) {
+            return kb.GetEnumerator();
+        });
+        G = (function (kb) {
+            return kb.GetEnumerator();
+        });
+        H = (function (kb, lb, mb) {
+            return I(kb, lb, E(mb));
+        });
+        I = (function (kb, lb, mb) {
+            var nb = { contents: 0 };
+            var ob = { contents: lb };
+            while (mb.MoveNext()) {
+                ob.contents = kb(nb.contents)(ob.contents)(mb.get_Current());
+                null;
+                nb.contents = (nb.contents + 1);
+                null;
+            };
+            return ob.contents;
+        });
+        J = (function (kb) {
+            var lb;
+            lb = (new h(kb));
+            return {
+                GetEnumerator: (function (mb) {
+                    return (function (nb, mb) {
+                        var ob;
+                        return nb.factory(ob);
+                    })(lb, mb);
+                })
+            };
+        });
+        K = (function (kb) {
+            var lb;
+            lb = (new i(kb));
+            return {
+                GetEnumerator: (function (mb) {
+                    return (function (nb, mb) {
+                        var ob;
+                        return nb.factory(ob);
+                    })(lb, mb);
+                })
+            };
+        });
+        L = (function (kb) {
+            var lb;
+            lb = (new j(kb));
+            return {
+                GetEnumerator: (function (mb) {
+                    return (function (nb, mb) {
+                        var ob;
+                        return nb.factory(ob);
+                    })(lb, mb);
+                })
+            };
+        });
+        M = (function (kb, lb) {
+            var mb;
+            return H((function (nb) {
+                return (function (ob) {
+                    return (function (pb) {
+                        return kb(nb)(pb);
+                    });
+                });
+            }), mb, lb);
+        });
+        N = (function (kb, lb) {
+            return (function (mb) {
+                return D(mb);
+            })((function (mb) {
+                var nb;
+                var ob = (function (pb) {
+                    if (pb.MoveNext()) {
+                        return { Tag: 1.000000, Value: (new Z(kb(pb.get_Current()), pb)) };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+                nb = (function (pb) {
+                    return T(ob, pb);
+                });
+                return nb(G(lb));
+            }));
+        });
+        O = (function (kb) {
+            var lb;
+            var mb = (function (nb) {
+                if ((nb < a(kb))) {
+                    return { Tag: 1.000000, Value: (new _(kb[nb], (nb + 1))) };
+                }
+                else {
+                    return { Tag: 0.000000 };
+                };
+            });
+            lb = (function (nb) {
+                return U(mb, nb);
+            });
+            return lb(0);
+        });
+        P = (function (kb) {
+            var lb;
+            var mb = (function (nb) {
+                if ((nb.Tag == 0.000000)) {
+                    return { Tag: 0.000000 };
+                }
+                else {
+                    var ob = n(nb);
+                    return { Tag: 1.000000, Value: (new X(ob, { Tag: 0.000000 })) };
+                };
+            });
+            lb = (function (nb) {
+                return R(mb, nb);
+            });
+            return lb({ Tag: 1.000000, Value: kb });
+        });
+        Q = (function (kb) {
+            var lb = b(0);
+            var mb;
+            var nb = (function (ob) {
+                return (function (pb) {
+                    lb[ob] = pb;
+                    return null;
+                });
+            });
+            mb = (function (ob) {
+                return M(nb, ob);
+            });
+            mb(kb);
+            return lb;
+        });
+        R = (function (kb, lb) {
+            return J((function (mb) {
+                var nb;
+                nb = (new ab(lb, kb));
+                return {
+                    get_Current: (function (ob) {
+                        return (function (pb, ob) {
+                            return pb.current;
+                        })(nb, ob);
+                    }), Dispose: (function (ob) {
+                        return (function (pb, ob) {
+                            ;
+                        })(nb, ob);
+                    }), MoveNext: (function (ob) {
+                        return (function (pb, ob) {
+                            var qb = (function (rb) {
+                                var sb = l(pb.acc);
+                                var tb = pb.unfold(sb);
+                                if ((tb.Tag == 1.000000)) {
+                                    var ub = s(tb).Items[0.000000];
+                                    var vb = s(tb).Items[1.000000];
+                                    pb.acc = { Tag: 1.000000, Value: vb };
+                                    pb.current = ub;
+                                    return true;
+                                }
+                                else {
+                                    pb.acc = { Tag: 0.000000 };
+                                    pb.current = null;
+                                    return false;
+                                };
+                            });
+                            return (w(pb.acc) && (function () {
+                                var rb;
+                                return qb(rb);
+                            })());
+                        })(nb, ob);
+                    }), Reset: (function (ob) {
+                        return (function (pb, ob) {
+                            pb.acc = { Tag: 1.000000, Value: pb.seed };
+                            pb.current = null;
+                        })(nb, ob);
+                    })
+                };
+            }));
+        });
+        S = (function (kb, lb) {
+            return J((function (mb) {
+                var nb;
+                nb = (new bb(lb, kb));
+                return {
+                    get_Current: (function (ob) {
+                        return (function (pb, ob) {
+                            return pb.current;
+                        })(nb, ob);
+                    }), Dispose: (function (ob) {
+                        return (function (pb, ob) {
+                            ;
+                        })(nb, ob);
+                    }), MoveNext: (function (ob) {
+                        return (function (pb, ob) {
+                            var qb = (function (rb) {
+                                var sb = m(pb.acc);
+                                var tb = pb.unfold(sb);
+                                if ((tb.Tag == 1.000000)) {
+                                    var ub = t(tb).Items[0.000000];
+                                    var vb = t(tb).Items[1.000000];
+                                    pb.acc = { Tag: 1.000000, Value: vb };
+                                    pb.current = ub;
+                                    return true;
+                                }
+                                else {
+                                    pb.acc = { Tag: 0.000000 };
+                                    pb.current = null;
+                                    return false;
+                                };
+                            });
+                            return (x(pb.acc) && (function () {
+                                var rb;
+                                return qb(rb);
+                            })());
+                        })(nb, ob);
+                    }), Reset: (function (ob) {
+                        return (function (pb, ob) {
+                            pb.acc = { Tag: 1.000000, Value: pb.seed };
+                            pb.current = null;
+                        })(nb, ob);
+                    })
+                };
+            }));
+        });
+        T = (function (kb, lb) {
+            return K((function (mb) {
+                var nb;
+                nb = (new cb(lb, kb));
+                return {
+                    get_Current: (function (ob) {
+                        return (function (pb, ob) {
+                            return pb.current;
+                        })(nb, ob);
+                    }), Dispose: (function (ob) {
+                        return (function (pb, ob) {
+                            ;
+                        })(nb, ob);
+                    }), MoveNext: (function (ob) {
+                        return (function (pb, ob) {
+                            var qb = (function (rb) {
+                                var sb = p(pb.acc);
+                                var tb = pb.unfold(sb);
+                                if ((tb.Tag == 1.000000)) {
+                                    var ub = u(tb).Items[0.000000];
+                                    var vb = u(tb).Items[1.000000];
+                                    pb.acc = { Tag: 1.000000, Value: vb };
+                                    pb.current = ub;
+                                    return true;
+                                }
+                                else {
+                                    pb.acc = { Tag: 0.000000 };
+                                    pb.current = null;
+                                    return false;
+                                };
+                            });
+                            return (y(pb.acc) && (function () {
+                                var rb;
+                                return qb(rb);
+                            })());
+                        })(nb, ob);
+                    }), Reset: (function (ob) {
+                        return (function (pb, ob) {
+                            pb.acc = { Tag: 1.000000, Value: pb.seed };
+                            pb.current = null;
+                        })(nb, ob);
+                    })
+                };
+            }));
+        });
+        U = (function (kb, lb) {
+            return L((function (mb) {
+                var nb;
+                nb = (new db(lb, kb));
+                return {
+                    get_Current: (function (ob) {
+                        return (function (pb, ob) {
+                            return pb.current;
+                        })(nb, ob);
+                    }), Dispose: (function (ob) {
+                        return (function (pb, ob) {
+                            ;
+                        })(nb, ob);
+                    }), MoveNext: (function (ob) {
+                        return (function (pb, ob) {
+                            var qb = (function (rb) {
+                                var sb = q(pb.acc);
+                                var tb = pb.unfold(sb);
+                                if ((tb.Tag == 1.000000)) {
+                                    var ub = v(tb).Items[0.000000];
+                                    var vb = v(tb).Items[1.000000];
+                                    pb.acc = { Tag: 1.000000, Value: vb };
+                                    pb.current = ub;
+                                    return true;
+                                }
+                                else {
+                                    pb.acc = { Tag: 0.000000 };
+                                    pb.current = null;
+                                    return false;
+                                };
+                            });
+                            return (z(pb.acc) && (function () {
+                                var rb;
+                                return qb(rb);
+                            })());
+                        })(nb, ob);
+                    }), Reset: (function (ob) {
+                        return (function (pb, ob) {
+                            pb.acc = { Tag: 1.000000, Value: pb.seed };
+                            pb.current = null;
+                        })(nb, ob);
+                    })
+                };
+            }));
+        });
+        V = (function (kb, lb, mb, nb, ob) {
+            this.Name = kb;
+            this.Type = lb;
+            this.Values = mb;
+            this.XType = nb;
+            this.YType = ob;
+        });
+        V.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = ((this.Name < kb.Name) ? -1.000000 : ((this.Name == kb.Name) ? 0.000000 : 1.000000));
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = this.Type.CompareTo(kb.Type);
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    var ob = 0.000000;
+                    var pb = 0.000000;
+                    while (((ob == 0.000000) && ((pb < this.Values.length) && (pb < kb.Values.length)))) {
+                        ob = this.Values[pb].CompareTo(kb.Values[pb]);
+                        pb = (pb + 1.000000);
+                    };
+                    ob = ((ob == 0.000000) ? (this.Values.length - kb.Values.length) : ob);
+                    lb = ob;
+                    if ((lb != 0.000000)) {
+                        return lb;
+                    }
+                    else {
+                        var qb = 0.000000;
+                        qb = ((this.XType < kb.XType) ? -1.000000 : ((this.XType == kb.XType) ? 0.000000 : 1.000000));
+                        lb = qb;
+                        if ((lb != 0.000000)) {
+                            return lb;
+                        }
+                        else {
+                            var rb = 0.000000;
+                            rb = ((this.YType < kb.YType) ? -1.000000 : ((this.YType == kb.YType) ? 0.000000 : 1.000000));
+                            lb = rb;
+                            if ((lb != 0.000000)) {
+                                return lb;
+                            }
+                            else {
+                                return 0.000000;
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        W = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        W.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = this.Items[0.000000].CompareTo(kb.Items[0.000000]);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = this.Items[1.000000].CompareTo(kb.Items[1.000000]);
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        X = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        X.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = this.Items[0.000000].CompareTo(kb.Items[0.000000]);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = this.Items[1.000000].CompareTo(kb.Items[1.000000]);
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        Y = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        Y.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = this.Items[0.000000].CompareTo(kb.Items[0.000000]);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = this.Items[1.000000].CompareTo(kb.Items[1.000000]);
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        Z = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        Z.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = this.Items[0.000000].CompareTo(kb.Items[0.000000]);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = this.Items[1.000000].CompareTo(kb.Items[1.000000]);
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        _ = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        _.prototype.CompareTo = (function (kb) {
+            var lb = 0.000000;
+            var mb = 0.000000;
+            mb = this.Items[0.000000].CompareTo(kb.Items[0.000000]);
+            lb = mb;
+            if ((lb != 0.000000)) {
+                return lb;
+            }
+            else {
+                var nb = 0.000000;
+                nb = ((this.Items[1.000000] < kb.Items[1.000000]) ? -1.000000 : ((this.Items[1.000000] == kb.Items[1.000000]) ? 0.000000 : 1.000000));
+                lb = nb;
+                if ((lb != 0.000000)) {
+                    return lb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        ab = (function (kb, lb) {
+            this.seed = kb;
+            this.unfold = lb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        bb = (function (kb, lb) {
+            this.seed = kb;
+            this.unfold = lb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        cb = (function (kb, lb) {
+            this.seed = kb;
+            this.unfold = lb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        db = (function (kb, lb) {
+            this.seed = kb;
+            this.unfold = lb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        eb = (function (kb) {
+            return ((window.$)(kb));
+        });
+        fb = (function (kb, lb) {
+            var mb = ({});
+            (mb.enabled) = kb;
+            null;
+            (lb.legend) = mb;
+            return null;
+        });
+        gb = (function (kb, lb) {
+            var mb;
+            if ((kb.Tag == 0.000000)) {
+                mb = "area";
+            }
+            else {
+                if ((kb.Tag == 17.000000)) {
+                    mb = "area";
+                }
+                else {
+                    if ((kb.Tag == 10.000000)) {
+                        mb = "area";
+                    }
+                    else {
+                        if ((kb.Tag == 1.000000)) {
+                            mb = "areaspline";
+                        }
+                        else {
+                            if ((kb.Tag == 2.000000)) {
+                                mb = "arearange";
+                            }
+                            else {
+                                if ((kb.Tag == 3.000000)) {
+                                    mb = "bar";
+                                }
+                                else {
+                                    if ((kb.Tag == 18.000000)) {
+                                        mb = "bar";
+                                    }
+                                    else {
+                                        if ((kb.Tag == 11.000000)) {
+                                            mb = "bar";
+                                        }
+                                        else {
+                                            if ((kb.Tag == 4.000000)) {
+                                                mb = "bubble";
+                                            }
+                                            else {
+                                                if ((kb.Tag == 5.000000)) {
+                                                    mb = "column";
+                                                }
+                                                else {
+                                                    if ((kb.Tag == 19.000000)) {
+                                                        mb = "column";
+                                                    }
+                                                    else {
+                                                        if ((kb.Tag == 12.000000)) {
+                                                            mb = "column";
+                                                        }
+                                                        else {
+                                                            if ((kb.Tag == 6.000000)) {
+                                                                mb = "";
+                                                            }
+                                                            else {
+                                                                if ((kb.Tag == 7.000000)) {
+                                                                    mb = "pie";
+                                                                }
+                                                                else {
+                                                                    if ((kb.Tag == 13.000000)) {
+                                                                        mb = "pie";
+                                                                    }
+                                                                    else {
+                                                                        if ((kb.Tag == 8.000000)) {
+                                                                            mb = "funnel";
+                                                                        }
+                                                                        else {
+                                                                            if ((kb.Tag == 9.000000)) {
+                                                                                mb = "line";
+                                                                            }
+                                                                            else {
+                                                                                if ((kb.Tag == 14.000000)) {
+                                                                                    mb = "line";
+                                                                                }
+                                                                                else {
+                                                                                    if ((kb.Tag == 15.000000)) {
+                                                                                        mb = "scatter";
+                                                                                    }
+                                                                                    else {
+                                                                                        mb = "spline";
+                                                                                    };
+                                                                                };
+                                                                            };
+                                                                        };
+                                                                    };
+                                                                };
+                                                            };
+                                                        };
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+            var nb = mb;
+            (lb.type) = nb;
+            return null;
+        });
+        hb = (function (kb, lb) {
+            if ((kb.Tag == 1.000000)) {
+                var mb = r(kb);
+                var nb = ({});
+                (nb.text) = mb;
+                null;
+                (lb.subtitle) = nb;
+                return null;
+            }
+            else {
+                ;
+            };
+        });
+        ib = (function (kb, lb) {
+            var mb = ({});
+            var nb;
+            if ((kb.Tag == 1.000000)) {
+                var ob = r(kb);
+                nb = ob;
+            }
+            else {
+                nb = "";
+            };
+            var pb;
+            if ((kb.Tag == 1.000000)) {
+                var ob = r(kb);
+                pb = ob;
+            }
+            else {
+                pb = "";
+            };
+            (mb.text) = nb;
+            null;
+            (lb.title) = mb;
+            return null;
+        });
+        jb = (function (kb, lb) {
+            if ((kb.Tag == 1.000000)) {
+                var mb = r(kb);
+                var nb = ({});
+                (nb.pointFormat) = mb;
+                null;
+                (lb.tooltip) = nb;
+                return null;
+            }
+            else {
+                ;
+            };
+        });
+        g((new e([], [(new V("Allocated Budget", (new f()), [d(["Sales", 43000]), d(["Marketing", 19000]), d(["Development", 60000]), d(["Customer Support", 35000]), d(["IT", 17000]), d(["Administration", 10000])], 18, 9)), (new V("Actual Spending", (new f()), [d(["Sales", 50000]), d(["Marketing", 39000]), d(["Development", 42000]), d(["Customer Support", 31000]), d(["IT", 26000]), d(["Administration", 14000])], 18, 9))], true, { Tag: 0.000000 }, { Tag: 1.000000, Value: "Budget VS Spending" }, { Tag: 0.000000 }, (new f()), (new c()), { Tag: 0.000000 }, { Tag: 0.000000 }, (new k()))))</script>
+</body>
+</html>

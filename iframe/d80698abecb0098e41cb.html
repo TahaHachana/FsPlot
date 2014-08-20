@@ -1,0 +1,841 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Chart</title>
+</head>
+<body>
+    <div id="chart" style="width: 900px; height: 500px;"></div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script>
+        var eb, db, cb, bb, ab, _, Z, Y, X, W, V, U, T, S, R, Q, P, O, N, M, L, K, J, I, H, G, F, E, D, C, B, A, z, y, x, w, v, u, t, s, r, q, p, o, n, m, l, k, j, i, h, g, f, e, d, c, b, a;
+        a = (function (fb, gb, hb) {
+            return b((function (ib) {
+                return (function (jb) {
+                    return (function (kb) {
+                        return fb(jb)(kb);
+                    });
+                });
+            }), gb, hb);
+        });
+        b = (function (fb, gb, hb) {
+            var ib = hb;
+            var jb = c(gb);
+            for (var kb = 1; kb <= jb; kb++) {
+                ib = fb((kb - 1))(gb[(jb - kb)])(ib);
+                null;
+            };
+            return ib;
+        });
+        c = (function (fb) {
+            return fb.length;;
+        });
+        d = (function (fb) {
+            return fb.length;;
+        });
+        e = (function (fb) {
+            return fb.length;;
+        });
+        f = (function (fb, gb) {
+            return g((function (hb) {
+                return (function (ib) {
+                    return fb(ib);
+                });
+            }), gb);
+        });
+        g = (function (fb, gb) {
+            var hb = j(d(gb));
+            for (var ib = 0; ib <= (d(gb) - 1) ; ib++) {
+                hb[ib] = fb(ib)(gb[ib]);
+                null;
+            };
+            return hb;
+        });
+        h = (function (fb, gb) {
+            var hb = i(e(gb));
+            for (var ib = 0; ib <= (e(gb) - 1) ; ib++) {
+                hb[ib] = fb(ib)(gb[ib]);
+                null;
+            };
+            return hb;
+        });
+        i = (function (fb) {
+            return new Array(fb);;
+        });
+        j = (function (fb) {
+            return new Array(fb);;
+        });
+        k = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Category";
+        });
+        k.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Tag < fb.Tag) ? -1.000000 : ((this.Tag == fb.Tag) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        l = (function (fb) {
+            return fb;
+        });
+        m = (function (fb, gb, hb, ib, jb, kb, lb, mb, nb, ob, pb) {
+            this.Categories = fb;
+            this.Data = gb;
+            this.Legend = hb;
+            this.Subtitle = ib;
+            this.Title = jb;
+            this.Tooltip = kb;
+            this.Type = lb;
+            this.XAxis = mb;
+            this.XTitle = nb;
+            this.YTitle = ob;
+            this.Library = pb;
+        });
+        m.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            var ib = 0.000000;
+            while (((hb == 0.000000) && ((ib < this.Categories.length) && (ib < fb.Categories.length)))) {
+                hb = ((this.Categories[ib] < fb.Categories[ib]) ? -1.000000 : ((this.Categories[ib] == fb.Categories[ib]) ? 0.000000 : 1.000000));
+                ib = (ib + 1.000000);
+            };
+            hb = ((hb == 0.000000) ? (this.Categories.length - fb.Categories.length) : hb);
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                var jb = 0.000000;
+                var kb = 0.000000;
+                while (((jb == 0.000000) && ((kb < this.Data.length) && (kb < fb.Data.length)))) {
+                    jb = this.Data[kb].CompareTo(fb.Data[kb]);
+                    kb = (kb + 1.000000);
+                };
+                jb = ((jb == 0.000000) ? (this.Data.length - fb.Data.length) : jb);
+                gb = jb;
+                if ((gb != 0.000000)) {
+                    return gb;
+                }
+                else {
+                    var lb = 0.000000;
+                    lb = ((this.Legend < fb.Legend) ? -1.000000 : ((this.Legend == fb.Legend) ? 0.000000 : 1.000000));
+                    gb = lb;
+                    if ((gb != 0.000000)) {
+                        return gb;
+                    }
+                    else {
+                        var mb = 0.000000;
+                        mb = this.Subtitle.CompareTo(fb.Subtitle);
+                        gb = mb;
+                        if ((gb != 0.000000)) {
+                            return gb;
+                        }
+                        else {
+                            var nb = 0.000000;
+                            nb = this.Title.CompareTo(fb.Title);
+                            gb = nb;
+                            if ((gb != 0.000000)) {
+                                return gb;
+                            }
+                            else {
+                                var ob = 0.000000;
+                                ob = this.Tooltip.CompareTo(fb.Tooltip);
+                                gb = ob;
+                                if ((gb != 0.000000)) {
+                                    return gb;
+                                }
+                                else {
+                                    var pb = 0.000000;
+                                    pb = this.Type.CompareTo(fb.Type);
+                                    gb = pb;
+                                    if ((gb != 0.000000)) {
+                                        return gb;
+                                    }
+                                    else {
+                                        var qb = 0.000000;
+                                        qb = this.XAxis.CompareTo(fb.XAxis);
+                                        gb = qb;
+                                        if ((gb != 0.000000)) {
+                                            return gb;
+                                        }
+                                        else {
+                                            var rb = 0.000000;
+                                            rb = this.XTitle.CompareTo(fb.XTitle);
+                                            gb = rb;
+                                            if ((gb != 0.000000)) {
+                                                return gb;
+                                            }
+                                            else {
+                                                var sb = 0.000000;
+                                                sb = this.YTitle.CompareTo(fb.YTitle);
+                                                gb = sb;
+                                                if ((gb != 0.000000)) {
+                                                    return gb;
+                                                }
+                                                else {
+                                                    var tb = 0.000000;
+                                                    tb = this.Library.CompareTo(fb.Library);
+                                                    gb = tb;
+                                                    if ((gb != 0.000000)) {
+                                                        return gb;
+                                                    }
+                                                    else {
+                                                        return 0.000000;
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        n = (function () {
+            this.Tag = 20.000000;
+            this._CaseName = "Geo";
+        });
+        n.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Tag < fb.Tag) ? -1.000000 : ((this.Tag == fb.Tag) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        o = (function (fb) {
+            if ((fb == 3)) {
+                return "boolean";
+            }
+            else {
+                if ((fb == 16)) {
+                    return "datetime";
+                }
+                else {
+                    if ((fb == 18)) {
+                        return "string";
+                    }
+                    else {
+                        return "number";
+                    };
+                };
+            };
+        });
+        p = (function (fb) {
+            var gb;
+            var hb;
+            var ib = (function (jb) {
+                return (function (kb) {
+                    var lb = (new google.visualization.DataTable());
+                    var mb = kb.XType;
+                    (function (nb) {
+                        var ob = nb;
+                    })((lb.addColumn(o(mb))));
+                    (function (nb) {
+                        var ob = nb;
+                    })((lb.addColumn(o(kb.YType), kb.Name)));
+                    var nb;
+                    if ((mb == 16)) {
+                        var ob;
+                        var pb = (function (qb) {
+                            var rb;
+                            var sb;
+                            var tb;
+                            var ub;
+                            var vb = (window.Date);
+                            ub = (function (wb) {
+                                return (new vb(wb));
+                            });
+                            tb = ub(u(v(qb)[0]));
+                            sb = (function (wb) {
+                                return wb;
+                            })(tb);
+                            rb = [sb, v(qb)[1]];
+                            return rb;
+                        });
+                        ob = (function (qb) {
+                            return f(pb, qb);
+                        });
+                        nb = ob(kb.Values);
+                    }
+                    else {
+                        nb = kb.Values;
+                    };
+                    var qb = nb;
+                    (function (rb) {
+                        var sb = rb;
+                    })((lb.addRows(qb)));
+                    return lb;
+                });
+            });
+            hb = (function (jb) {
+                return h(ib, jb);
+            });
+            gb = hb(fb.Data);
+            return (function (jb) {
+                return F(jb);
+            })(gb);
+        });
+        q = (function (fb, gb, hb, ib) {
+            var jb = (function (kb) {
+                var lb = ({});
+                if ((gb.Tag == 1.000000)) {
+                    var mb = O(gb);
+                    (lb.region) = mb;
+                    null;
+                }
+                else {
+                    ;
+                };
+                if ((hb.Tag == 1.000000)) {
+                    var nb = O(hb);
+                    (lb.displayMode) = nb;
+                    null;
+                }
+                else {
+                    ;
+                };
+                if ((ib.Tag == 1.000000)) {
+                    var ob = N(ib);
+                    var pb = ({});
+                    (pb.minValue) = ob.MinValue;
+                    null;
+                    (pb.maxValue) = ob.MaxValue;
+                    null;
+                    (lb.sizeAxis) = pb;
+                    null;
+                }
+                else {
+                    ;
+                };
+                var qb = (function (rb) {
+                    return r(rb);
+                })(p(fb));
+                var rb = (new google.visualization.GeoChart(((window.document).getElementById("chart"))));
+                return (rb.draw(qb, lb));
+            });
+            (google.load("visualization", "1", (new eb(["geochart"]))));
+            return (google.setOnLoadCallback((function () {
+                var kb;
+                return jb(kb);
+            })));
+        });
+        r = (function (fb) {
+            if ((fb.Tag == 1.000000)) {
+                if ((H(fb).Tag == 1.000000)) {
+                    if ((H(H(fb)).Tag == 0.000000)) {
+                        var gb = E(fb);
+                        var hb = E(H(fb));
+                        return google.visualization.data.join(gb, hb, 'full', [[0, 0]], [1], [1]);
+                    }
+                    else {
+                        var ib = fb;
+                        var jb;
+                        var kb;
+                        var lb = x(google.visualization.data.join(D(ib, 0), D(ib, 1), 'full', [[0, 0]], [1], [1]), y());
+                        kb = (function (mb) {
+                            return w(lb, mb);
+                        });
+                        var mb;
+                        var nb;
+                        var ob;
+                        var pb = 2;
+                        ob = (function (qb) {
+                            return X(pb, W(qb));
+                        });
+                        nb = ob(fb);
+                        mb = (function (qb) {
+                            return Y(qb);
+                        })(nb);
+                        jb = kb(mb);
+                        return (function (qb) {
+                            return r(qb);
+                        })(jb);
+                    };
+                }
+                else {
+                    var qb = E(fb);
+                    return qb;
+                };
+            }
+            else {
+                var rb = fb;
+                var sb;
+                var tb;
+                var ub = x(google.visualization.data.join(D(rb, 0), D(rb, 1), 'full', [[0, 0]], [1], [1]), y());
+                tb = (function (vb) {
+                    return w(ub, vb);
+                });
+                var vb;
+                var wb;
+                var xb;
+                var yb = 2;
+                xb = (function (zb) {
+                    return X(yb, W(zb));
+                });
+                wb = xb(fb);
+                vb = (function (zb) {
+                    return Y(zb);
+                })(wb);
+                sb = tb(vb);
+                return (function (zb) {
+                    return r(zb);
+                })(sb);
+            };
+        });
+        s = (function (fb) {
+            this.factory = fb;
+        });
+        t = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Google";
+        });
+        t.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Tag < fb.Tag) ? -1.000000 : ((this.Tag == fb.Tag) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        u = (function (fb) {
+            return fb;;
+        });
+        v = (function (fb) {
+            return fb;;
+        });
+        w = (function (fb, gb) {
+            return A((function (hb) {
+                return (function (ib) {
+                    return (new cb(ib, hb));
+                });
+            }), gb, G(fb));
+        });
+        x = (function (fb, gb) {
+            return (new cb(fb, gb));
+        });
+        y = (function () {
+            return (new db());
+        });
+        z = (function (fb, gb) {
+            var hb = I(fb, gb);
+            if ((hb.Tag == 1.000000)) {
+                var ib = L(hb);
+                return ib;
+            }
+            else {
+                throw ("List did not contain any matching elements");
+                return null;
+            };
+        });
+        A = (function (fb, gb, hb) {
+            return B((function (ib) {
+                return (function (jb) {
+                    return (function (kb) {
+                        return fb(jb)(kb);
+                    });
+                });
+            }), gb, hb);
+        });
+        B = (function (fb, gb, hb) {
+            return C(fb, 0, gb, hb);
+        });
+        C = (function (fb, gb, hb, ib) {
+            if ((ib.Tag == 1.000000)) {
+                var jb = ib.Item2;
+                var kb = ib.Item1;
+                return C(fb, (gb + 1), fb(gb)(hb)(kb), jb);
+            }
+            else {
+                return hb;
+            };
+        });
+        D = (function (fb, gb) {
+            return z((function (hb) {
+                return (function (ib) {
+                    return (gb == hb);
+                });
+            }), fb);
+        });
+        E = (function (fb) {
+            if ((fb.Tag == 1.000000)) {
+                var gb = fb.Item2;
+                var hb = fb.Item1;
+                return hb;
+            }
+            else {
+                throw ("List was empty");
+                return null;
+            };
+        });
+        F = (function (fb) {
+            return a((function (gb) {
+                return (function (hb) {
+                    return (new cb(gb, hb));
+                });
+            }), fb, (new db()));
+        });
+        G = (function (fb) {
+            return A((function (gb) {
+                return (function (hb) {
+                    return (new cb(hb, gb));
+                });
+            }), (new db()), fb);
+        });
+        H = (function (fb) {
+            if ((fb.Tag == 1.000000)) {
+                var gb = fb.Item2;
+                var hb = fb.Item1;
+                return gb;
+            }
+            else {
+                throw ("List was empty");
+                return null;
+            };
+        });
+        I = (function (fb, gb) {
+            return J((function (hb) {
+                return (function (ib) {
+                    if (fb(hb)(ib)) {
+                        return { Tag: 1.000000, Value: ib };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+            }), gb);
+        });
+        J = (function (fb, gb) {
+            return K(fb, 0, gb);
+        });
+        K = (function (fb, gb, hb) {
+            if ((hb.Tag == 1.000000)) {
+                var ib = hb.Item2;
+                var jb = hb.Item1;
+                var kb = fb(gb)(jb);
+                if ((kb.Tag == 0.000000)) {
+                    return K(fb, (gb + 1), ib);
+                }
+                else {
+                    return kb;
+                };
+            }
+            else {
+                return { Tag: 0.000000 };
+            };
+        });
+        L = (function (fb) {
+            return fb.Value;;
+        });
+        M = (function (fb) {
+            return fb.Value;;
+        });
+        N = (function (fb) {
+            return fb.Value;;
+        });
+        O = (function (fb) {
+            return fb.Value;;
+        });
+        P = (function (fb) {
+            return fb.Value;;
+        });
+        Q = (function (fb) {
+            return ((fb.Tag == 1.000000) && true);
+        });
+        R = (function (fb) {
+            return fb.GetEnumerator();
+        });
+        S = (function (fb, gb, hb) {
+            return T((function (ib) {
+                return (function (jb) {
+                    return (function (kb) {
+                        return fb(jb)(kb);
+                    });
+                });
+            }), gb, hb);
+        });
+        T = (function (fb, gb, hb) {
+            return U(fb, gb, R(hb));
+        });
+        U = (function (fb, gb, hb) {
+            var ib = { contents: 0 };
+            var jb = { contents: gb };
+            while (hb.MoveNext()) {
+                jb.contents = fb(ib.contents)(jb.contents)(hb.get_Current());
+                null;
+                ib.contents = (ib.contents + 1);
+                null;
+            };
+            return jb.contents;
+        });
+        V = (function (fb) {
+            var gb;
+            gb = (new s(fb));
+            return {
+                GetEnumerator: (function (hb) {
+                    return (function (ib, hb) {
+                        var jb;
+                        return ib.factory(jb);
+                    })(gb, hb);
+                })
+            };
+        });
+        W = (function (fb) {
+            var gb;
+            var hb = (function (ib) {
+                if ((ib.Tag == 1.000000)) {
+                    var jb = H(ib);
+                    var kb = E(ib);
+                    return { Tag: 1.000000, Value: (new ab(kb, jb)) };
+                }
+                else {
+                    return { Tag: 0.000000 };
+                };
+            });
+            gb = (function (ib) {
+                return Z(hb, ib);
+            });
+            return gb(fb);
+        });
+        X = (function (fb, gb) {
+            return V((function (hb) {
+                var ib = R(gb);
+                for (var jb = 1; jb <= fb; jb++) {
+                    (function (kb) {
+                        (function (lb) {
+                            var mb = lb;
+                        })(ib.MoveNext());
+                    })(jb);
+                };
+                return ib;
+            }));
+        });
+        Y = (function (fb) {
+            return (function (gb) {
+                return G(gb);
+            })(S((function (gb) {
+                return (function (hb) {
+                    return x(hb, gb);
+                });
+            }), y(), fb));
+        });
+        Z = (function (fb, gb) {
+            return V((function (hb) {
+                var ib;
+                ib = (new bb(gb, fb));
+                return {
+                    get_Current: (function (jb) {
+                        return (function (kb, jb) {
+                            return kb.current;
+                        })(ib, jb);
+                    }), Dispose: (function (jb) {
+                        return (function (kb, jb) {
+                            ;
+                        })(ib, jb);
+                    }), MoveNext: (function (jb) {
+                        return (function (kb, jb) {
+                            var lb = (function (mb) {
+                                var nb = M(kb.acc);
+                                var ob = kb.unfold(nb);
+                                if ((ob.Tag == 1.000000)) {
+                                    var pb = P(ob).Items[0.000000];
+                                    var qb = P(ob).Items[1.000000];
+                                    kb.acc = { Tag: 1.000000, Value: qb };
+                                    kb.current = pb;
+                                    return true;
+                                }
+                                else {
+                                    kb.acc = { Tag: 0.000000 };
+                                    kb.current = null;
+                                    return false;
+                                };
+                            });
+                            return (Q(kb.acc) && (function () {
+                                var mb;
+                                return lb(mb);
+                            })());
+                        })(ib, jb);
+                    }), Reset: (function (jb) {
+                        return (function (kb, jb) {
+                            kb.acc = { Tag: 1.000000, Value: kb.seed };
+                            kb.current = null;
+                        })(ib, jb);
+                    })
+                };
+            }));
+        });
+        _ = (function (fb, gb, hb, ib, jb) {
+            this.Name = fb;
+            this.Type = gb;
+            this.Values = hb;
+            this.XType = ib;
+            this.YType = jb;
+        });
+        _.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Name < fb.Name) ? -1.000000 : ((this.Name == fb.Name) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                var ib = 0.000000;
+                ib = this.Type.CompareTo(fb.Type);
+                gb = ib;
+                if ((gb != 0.000000)) {
+                    return gb;
+                }
+                else {
+                    var jb = 0.000000;
+                    var kb = 0.000000;
+                    while (((jb == 0.000000) && ((kb < this.Values.length) && (kb < fb.Values.length)))) {
+                        jb = this.Values[kb].CompareTo(fb.Values[kb]);
+                        kb = (kb + 1.000000);
+                    };
+                    jb = ((jb == 0.000000) ? (this.Values.length - fb.Values.length) : jb);
+                    gb = jb;
+                    if ((gb != 0.000000)) {
+                        return gb;
+                    }
+                    else {
+                        var lb = 0.000000;
+                        lb = ((this.XType < fb.XType) ? -1.000000 : ((this.XType == fb.XType) ? 0.000000 : 1.000000));
+                        gb = lb;
+                        if ((gb != 0.000000)) {
+                            return gb;
+                        }
+                        else {
+                            var mb = 0.000000;
+                            mb = ((this.YType < fb.YType) ? -1.000000 : ((this.YType == fb.YType) ? 0.000000 : 1.000000));
+                            gb = mb;
+                            if ((gb != 0.000000)) {
+                                return gb;
+                            }
+                            else {
+                                return 0.000000;
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        ab = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        ab.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = this.Items[0.000000].CompareTo(fb.Items[0.000000]);
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                var ib = 0.000000;
+                ib = this.Items[1.000000].CompareTo(fb.Items[1.000000]);
+                gb = ib;
+                if ((gb != 0.000000)) {
+                    return gb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        bb = (function (fb, gb) {
+            this.seed = fb;
+            this.unfold = gb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        cb = (function (Item1, Item2) {
+            this.Tag = 1.000000;
+            this._CaseName = "Cons";
+            this.Item1 = Item1;
+            this.Item2 = Item2;
+        });
+        cb.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Tag < fb.Tag) ? -1.000000 : ((this.Tag == fb.Tag) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                var ib = 0.000000;
+                ib = this.Item1.CompareTo(fb.Item1);
+                gb = ib;
+                if ((gb != 0.000000)) {
+                    return gb;
+                }
+                else {
+                    var jb = 0.000000;
+                    jb = this.Item2.CompareTo(fb.Item2);
+                    gb = jb;
+                    if ((gb != 0.000000)) {
+                        return gb;
+                    }
+                    else {
+                        return 0.000000;
+                    };
+                };
+            };
+        });
+        db = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Nil";
+        });
+        db.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            hb = ((this.Tag < fb.Tag) ? -1.000000 : ((this.Tag == fb.Tag) ? 0.000000 : 1.000000));
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        eb = (function (fb) {
+            this.packages = fb;
+        });
+        eb.prototype.CompareTo = (function (fb) {
+            var gb = 0.000000;
+            var hb = 0.000000;
+            var ib = 0.000000;
+            while (((hb == 0.000000) && ((ib < this.packages.length) && (ib < fb.packages.length)))) {
+                hb = ((this.packages[ib] < fb.packages[ib]) ? -1.000000 : ((this.packages[ib] == fb.packages[ib]) ? 0.000000 : 1.000000));
+                ib = (ib + 1.000000);
+            };
+            hb = ((hb == 0.000000) ? (this.packages.length - fb.packages.length) : hb);
+            gb = hb;
+            if ((gb != 0.000000)) {
+                return gb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        q((new m([], [(new _("Popularity", (new n()), [l(["South America", 600]), l(["Canada", 500]), l(["France", 600]), l(["Russia", 700]), l(["Australia", 600])], 18, 9))], false, { Tag: 0.000000 }, { Tag: 0.000000 }, { Tag: 0.000000 }, (new n()), (new k()), { Tag: 0.000000 }, { Tag: 0.000000 }, (new t()))), { Tag: 0.000000 }, { Tag: 1.000000, Value: "text" }, { Tag: 0.000000 })</script>
+</body>
+</html>
