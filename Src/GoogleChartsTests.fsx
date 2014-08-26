@@ -1,5 +1,5 @@
-﻿#r """.\packages\FunScript.1.1.50\lib\net40\FunScript.dll"""
-#r """.\packages\FunScript.1.1.50\lib\net40\FunScript.Interop.dll"""
+﻿#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.dll"""
+#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.Interop.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
@@ -9,7 +9,7 @@
 #r """.\bin\release\FsPlot.dll"""
 
 open System
-open FsPlot.Data
+//open FsPlot.Data
 open FsPlot.Google.Charting
 open FsPlot.Google.Options
 open FunScript
@@ -27,7 +27,7 @@ FunScript.Compiler.compile
 |> ignore
 
 module Bar =
-
+    
     let chart1 =        
         ["2010", 1000; "2011", 1170; "2012", 560; "2013", 1030]
         |> Chart.Bar
