@@ -1,0 +1,805 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Chart</title>
+</head>
+<body>
+    <div id="chart" style="width: 900px; height: 400px;"></div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script>
+        var cb, bb, ab, _, Z, Y, X, W, V, U, T, S, R, Q, P, O, N, M, L, K, J, I, H, G, F, E, D, C, B, A, z, y, x, w, v, u, t, s, r, q, p, o, n, m, l, k, j, i, h, g, f, e, d, c, b, a;
+        a = (function (db, eb, fb) {
+            return b((function (gb) {
+                return (function (hb) {
+                    return (function (ib) {
+                        return db(hb)(ib);
+                    });
+                });
+            }), eb, fb);
+        });
+        b = (function (db, eb, fb) {
+            var gb = fb;
+            var hb = c(eb);
+            for (var ib = 1; ib <= hb; ib++) {
+                gb = db((ib - 1))(eb[(hb - ib)])(gb);
+                null;
+            };
+            return gb;
+        });
+        c = (function (db) {
+            return db.length;;
+        });
+        d = (function (db) {
+            return db.length;;
+        });
+        e = (function (db) {
+            return db.length;;
+        });
+        f = (function (db, eb) {
+            return g((function (fb) {
+                return (function (gb) {
+                    return db(gb);
+                });
+            }), eb);
+        });
+        g = (function (db, eb) {
+            var fb = j(d(eb));
+            for (var gb = 0; gb <= (d(eb) - 1) ; gb++) {
+                fb[gb] = db(gb)(eb[gb]);
+                null;
+            };
+            return fb;
+        });
+        h = (function (db, eb) {
+            var fb = i(e(eb));
+            for (var gb = 0; gb <= (e(eb) - 1) ; gb++) {
+                fb[gb] = db(gb)(eb[gb]);
+                null;
+            };
+            return fb;
+        });
+        i = (function (db) {
+            return new Array(db);;
+        });
+        j = (function (db) {
+            return new Array(db);;
+        });
+        k = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Category";
+        });
+        k.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Tag < db.Tag) ? -1.000000 : ((this.Tag == db.Tag) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        l = (function (db) {
+            return db;
+        });
+        m = (function (db, eb, fb, gb, hb, ib, jb, kb, lb, mb, nb) {
+            this.Categories = db;
+            this.Data = eb;
+            this.Legend = fb;
+            this.Subtitle = gb;
+            this.Title = hb;
+            this.Tooltip = ib;
+            this.Type = jb;
+            this.XAxis = kb;
+            this.XTitle = lb;
+            this.YTitle = mb;
+            this.Library = nb;
+        });
+        m.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            var gb = 0.000000;
+            while (((fb == 0.000000) && ((gb < this.Categories.length) && (gb < db.Categories.length)))) {
+                fb = ((this.Categories[gb] < db.Categories[gb]) ? -1.000000 : ((this.Categories[gb] == db.Categories[gb]) ? 0.000000 : 1.000000));
+                gb = (gb + 1.000000);
+            };
+            fb = ((fb == 0.000000) ? (this.Categories.length - db.Categories.length) : fb);
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                var hb = 0.000000;
+                var ib = 0.000000;
+                while (((hb == 0.000000) && ((ib < this.Data.length) && (ib < db.Data.length)))) {
+                    hb = this.Data[ib].CompareTo(db.Data[ib]);
+                    ib = (ib + 1.000000);
+                };
+                hb = ((hb == 0.000000) ? (this.Data.length - db.Data.length) : hb);
+                eb = hb;
+                if ((eb != 0.000000)) {
+                    return eb;
+                }
+                else {
+                    var jb = 0.000000;
+                    jb = ((this.Legend < db.Legend) ? -1.000000 : ((this.Legend == db.Legend) ? 0.000000 : 1.000000));
+                    eb = jb;
+                    if ((eb != 0.000000)) {
+                        return eb;
+                    }
+                    else {
+                        var kb = 0.000000;
+                        kb = this.Subtitle.CompareTo(db.Subtitle);
+                        eb = kb;
+                        if ((eb != 0.000000)) {
+                            return eb;
+                        }
+                        else {
+                            var lb = 0.000000;
+                            lb = this.Title.CompareTo(db.Title);
+                            eb = lb;
+                            if ((eb != 0.000000)) {
+                                return eb;
+                            }
+                            else {
+                                var mb = 0.000000;
+                                mb = this.Tooltip.CompareTo(db.Tooltip);
+                                eb = mb;
+                                if ((eb != 0.000000)) {
+                                    return eb;
+                                }
+                                else {
+                                    var nb = 0.000000;
+                                    nb = this.Type.CompareTo(db.Type);
+                                    eb = nb;
+                                    if ((eb != 0.000000)) {
+                                        return eb;
+                                    }
+                                    else {
+                                        var ob = 0.000000;
+                                        ob = this.XAxis.CompareTo(db.XAxis);
+                                        eb = ob;
+                                        if ((eb != 0.000000)) {
+                                            return eb;
+                                        }
+                                        else {
+                                            var pb = 0.000000;
+                                            pb = this.XTitle.CompareTo(db.XTitle);
+                                            eb = pb;
+                                            if ((eb != 0.000000)) {
+                                                return eb;
+                                            }
+                                            else {
+                                                var qb = 0.000000;
+                                                qb = this.YTitle.CompareTo(db.YTitle);
+                                                eb = qb;
+                                                if ((eb != 0.000000)) {
+                                                    return eb;
+                                                }
+                                                else {
+                                                    var rb = 0.000000;
+                                                    rb = this.Library.CompareTo(db.Library);
+                                                    eb = rb;
+                                                    if ((eb != 0.000000)) {
+                                                        return eb;
+                                                    }
+                                                    else {
+                                                        return 0.000000;
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        n = (function () {
+            this.Tag = 21.000000;
+            this._CaseName = "Map";
+        });
+        n.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Tag < db.Tag) ? -1.000000 : ((this.Tag == db.Tag) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        o = (function (db) {
+            if ((db == 3)) {
+                return "boolean";
+            }
+            else {
+                if ((db == 16)) {
+                    return "datetime";
+                }
+                else {
+                    if ((db == 18)) {
+                        return "string";
+                    }
+                    else {
+                        return "number";
+                    };
+                };
+            };
+        });
+        p = (function (db) {
+            var eb;
+            var fb;
+            var gb = (function (hb) {
+                return (function (ib) {
+                    var jb = (new google.visualization.DataTable());
+                    var kb = ib.XType;
+                    (function (lb) {
+                        var mb = lb;
+                    })((jb.addColumn(o(kb))));
+                    (function (lb) {
+                        var mb = lb;
+                    })((jb.addColumn(o(ib.YType), ib.Name)));
+                    var lb;
+                    if ((kb == 16)) {
+                        var mb;
+                        var nb = (function (ob) {
+                            var pb;
+                            var qb;
+                            var rb;
+                            var sb;
+                            var tb = (window.Date);
+                            sb = (function (ub) {
+                                return (new tb(ub));
+                            });
+                            rb = sb(u(v(ob)[0]));
+                            qb = (function (ub) {
+                                return ub;
+                            })(rb);
+                            pb = [qb, v(ob)[1]];
+                            return pb;
+                        });
+                        mb = (function (ob) {
+                            return f(nb, ob);
+                        });
+                        lb = mb(ib.Values);
+                    }
+                    else {
+                        lb = ib.Values;
+                    };
+                    var ob = lb;
+                    (function (pb) {
+                        var qb = pb;
+                    })((jb.addRows(ob)));
+                    return jb;
+                });
+            });
+            fb = (function (hb) {
+                return h(gb, hb);
+            });
+            eb = fb(db.Data);
+            return (function (hb) {
+                return F(hb);
+            })(eb);
+        });
+        q = (function (db) {
+            if ((db.Tag == 1.000000)) {
+                if ((H(db).Tag == 1.000000)) {
+                    if ((H(H(db)).Tag == 0.000000)) {
+                        var eb = E(db);
+                        var fb = E(H(db));
+                        return google.visualization.data.join(eb, fb, 'full', [[0, 0]], [1], [1]);
+                    }
+                    else {
+                        var gb = db;
+                        var hb;
+                        var ib;
+                        var jb = x(google.visualization.data.join(D(gb, 0), D(gb, 1), 'full', [[0, 0]], [1], [1]), y());
+                        ib = (function (kb) {
+                            return w(jb, kb);
+                        });
+                        var kb;
+                        var lb;
+                        var mb;
+                        var nb = 2;
+                        mb = (function (ob) {
+                            return V(nb, U(ob));
+                        });
+                        lb = mb(db);
+                        kb = (function (ob) {
+                            return W(ob);
+                        })(lb);
+                        hb = ib(kb);
+                        return (function (ob) {
+                            return q(ob);
+                        })(hb);
+                    };
+                }
+                else {
+                    var ob = E(db);
+                    return ob;
+                };
+            }
+            else {
+                var pb = db;
+                var qb;
+                var rb;
+                var sb = x(google.visualization.data.join(D(pb, 0), D(pb, 1), 'full', [[0, 0]], [1], [1]), y());
+                rb = (function (tb) {
+                    return w(sb, tb);
+                });
+                var tb;
+                var ub;
+                var vb;
+                var wb = 2;
+                vb = (function (xb) {
+                    return V(wb, U(xb));
+                });
+                ub = vb(db);
+                tb = (function (xb) {
+                    return W(xb);
+                })(ub);
+                qb = rb(tb);
+                return (function (xb) {
+                    return q(xb);
+                })(qb);
+            };
+        });
+        r = (function (db) {
+            var eb = (function (fb) {
+                var gb = { showTip: true };
+                var hb = (function (ib) {
+                    return q(ib);
+                })(p(db));
+                var ib = new google.visualization.Map(document.getElementById('chart'));
+                return ib.draw(hb, gb);
+            });
+            (google.load("visualization", "1", (new cb(["map"]))));
+            return (google.setOnLoadCallback((function () {
+                var fb;
+                return eb(fb);
+            })));
+        });
+        s = (function (db) {
+            this.factory = db;
+        });
+        t = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Google";
+        });
+        t.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Tag < db.Tag) ? -1.000000 : ((this.Tag == db.Tag) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        u = (function (db) {
+            return db;;
+        });
+        v = (function (db) {
+            return db;;
+        });
+        w = (function (db, eb) {
+            return A((function (fb) {
+                return (function (gb) {
+                    return (new ab(gb, fb));
+                });
+            }), eb, G(db));
+        });
+        x = (function (db, eb) {
+            return (new ab(db, eb));
+        });
+        y = (function () {
+            return (new bb());
+        });
+        z = (function (db, eb) {
+            var fb = I(db, eb);
+            if ((fb.Tag == 1.000000)) {
+                var gb = L(fb);
+                return gb;
+            }
+            else {
+                throw ("List did not contain any matching elements");
+                return null;
+            };
+        });
+        A = (function (db, eb, fb) {
+            return B((function (gb) {
+                return (function (hb) {
+                    return (function (ib) {
+                        return db(hb)(ib);
+                    });
+                });
+            }), eb, fb);
+        });
+        B = (function (db, eb, fb) {
+            return C(db, 0, eb, fb);
+        });
+        C = (function (db, eb, fb, gb) {
+            if ((gb.Tag == 1.000000)) {
+                var hb = gb.Item2;
+                var ib = gb.Item1;
+                return C(db, (eb + 1), db(eb)(fb)(ib), hb);
+            }
+            else {
+                return fb;
+            };
+        });
+        D = (function (db, eb) {
+            return z((function (fb) {
+                return (function (gb) {
+                    return (eb == fb);
+                });
+            }), db);
+        });
+        E = (function (db) {
+            if ((db.Tag == 1.000000)) {
+                var eb = db.Item2;
+                var fb = db.Item1;
+                return fb;
+            }
+            else {
+                throw ("List was empty");
+                return null;
+            };
+        });
+        F = (function (db) {
+            return a((function (eb) {
+                return (function (fb) {
+                    return (new ab(eb, fb));
+                });
+            }), db, (new bb()));
+        });
+        G = (function (db) {
+            return A((function (eb) {
+                return (function (fb) {
+                    return (new ab(fb, eb));
+                });
+            }), (new bb()), db);
+        });
+        H = (function (db) {
+            if ((db.Tag == 1.000000)) {
+                var eb = db.Item2;
+                var fb = db.Item1;
+                return eb;
+            }
+            else {
+                throw ("List was empty");
+                return null;
+            };
+        });
+        I = (function (db, eb) {
+            return J((function (fb) {
+                return (function (gb) {
+                    if (db(fb)(gb)) {
+                        return { Tag: 1.000000, Value: gb };
+                    }
+                    else {
+                        return { Tag: 0.000000 };
+                    };
+                });
+            }), eb);
+        });
+        J = (function (db, eb) {
+            return K(db, 0, eb);
+        });
+        K = (function (db, eb, fb) {
+            if ((fb.Tag == 1.000000)) {
+                var gb = fb.Item2;
+                var hb = fb.Item1;
+                var ib = db(eb)(hb);
+                if ((ib.Tag == 0.000000)) {
+                    return K(db, (eb + 1), gb);
+                }
+                else {
+                    return ib;
+                };
+            }
+            else {
+                return { Tag: 0.000000 };
+            };
+        });
+        L = (function (db) {
+            return db.Value;;
+        });
+        M = (function (db) {
+            return db.Value;;
+        });
+        N = (function (db) {
+            return db.Value;;
+        });
+        O = (function (db) {
+            return ((db.Tag == 1.000000) && true);
+        });
+        P = (function (db) {
+            return db.GetEnumerator();
+        });
+        Q = (function (db, eb, fb) {
+            return R((function (gb) {
+                return (function (hb) {
+                    return (function (ib) {
+                        return db(hb)(ib);
+                    });
+                });
+            }), eb, fb);
+        });
+        R = (function (db, eb, fb) {
+            return S(db, eb, P(fb));
+        });
+        S = (function (db, eb, fb) {
+            var gb = { contents: 0 };
+            var hb = { contents: eb };
+            while (fb.MoveNext()) {
+                hb.contents = db(gb.contents)(hb.contents)(fb.get_Current());
+                null;
+                gb.contents = (gb.contents + 1);
+                null;
+            };
+            return hb.contents;
+        });
+        T = (function (db) {
+            var eb;
+            eb = (new s(db));
+            return {
+                GetEnumerator: (function (fb) {
+                    return (function (gb, fb) {
+                        var hb;
+                        return gb.factory(hb);
+                    })(eb, fb);
+                })
+            };
+        });
+        U = (function (db) {
+            var eb;
+            var fb = (function (gb) {
+                if ((gb.Tag == 1.000000)) {
+                    var hb = H(gb);
+                    var ib = E(gb);
+                    return { Tag: 1.000000, Value: (new Z(ib, hb)) };
+                }
+                else {
+                    return { Tag: 0.000000 };
+                };
+            });
+            eb = (function (gb) {
+                return X(fb, gb);
+            });
+            return eb(db);
+        });
+        V = (function (db, eb) {
+            return T((function (fb) {
+                var gb = P(eb);
+                for (var hb = 1; hb <= db; hb++) {
+                    (function (ib) {
+                        (function (jb) {
+                            var kb = jb;
+                        })(gb.MoveNext());
+                    })(hb);
+                };
+                return gb;
+            }));
+        });
+        W = (function (db) {
+            return (function (eb) {
+                return G(eb);
+            })(Q((function (eb) {
+                return (function (fb) {
+                    return x(fb, eb);
+                });
+            }), y(), db));
+        });
+        X = (function (db, eb) {
+            return T((function (fb) {
+                var gb;
+                gb = (new _(eb, db));
+                return {
+                    get_Current: (function (hb) {
+                        return (function (ib, hb) {
+                            return ib.current;
+                        })(gb, hb);
+                    }), Dispose: (function (hb) {
+                        return (function (ib, hb) {
+                            ;
+                        })(gb, hb);
+                    }), MoveNext: (function (hb) {
+                        return (function (ib, hb) {
+                            var jb = (function (kb) {
+                                var lb = M(ib.acc);
+                                var mb = ib.unfold(lb);
+                                if ((mb.Tag == 1.000000)) {
+                                    var nb = N(mb).Items[0.000000];
+                                    var ob = N(mb).Items[1.000000];
+                                    ib.acc = { Tag: 1.000000, Value: ob };
+                                    ib.current = nb;
+                                    return true;
+                                }
+                                else {
+                                    ib.acc = { Tag: 0.000000 };
+                                    ib.current = null;
+                                    return false;
+                                };
+                            });
+                            return (O(ib.acc) && (function () {
+                                var kb;
+                                return jb(kb);
+                            })());
+                        })(gb, hb);
+                    }), Reset: (function (hb) {
+                        return (function (ib, hb) {
+                            ib.acc = { Tag: 1.000000, Value: ib.seed };
+                            ib.current = null;
+                        })(gb, hb);
+                    })
+                };
+            }));
+        });
+        Y = (function (db, eb, fb, gb, hb) {
+            this.Name = db;
+            this.Type = eb;
+            this.Values = fb;
+            this.XType = gb;
+            this.YType = hb;
+        });
+        Y.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Name < db.Name) ? -1.000000 : ((this.Name == db.Name) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                var gb = 0.000000;
+                gb = this.Type.CompareTo(db.Type);
+                eb = gb;
+                if ((eb != 0.000000)) {
+                    return eb;
+                }
+                else {
+                    var hb = 0.000000;
+                    var ib = 0.000000;
+                    while (((hb == 0.000000) && ((ib < this.Values.length) && (ib < db.Values.length)))) {
+                        hb = this.Values[ib].CompareTo(db.Values[ib]);
+                        ib = (ib + 1.000000);
+                    };
+                    hb = ((hb == 0.000000) ? (this.Values.length - db.Values.length) : hb);
+                    eb = hb;
+                    if ((eb != 0.000000)) {
+                        return eb;
+                    }
+                    else {
+                        var jb = 0.000000;
+                        jb = ((this.XType < db.XType) ? -1.000000 : ((this.XType == db.XType) ? 0.000000 : 1.000000));
+                        eb = jb;
+                        if ((eb != 0.000000)) {
+                            return eb;
+                        }
+                        else {
+                            var kb = 0.000000;
+                            kb = ((this.YType < db.YType) ? -1.000000 : ((this.YType == db.YType) ? 0.000000 : 1.000000));
+                            eb = kb;
+                            if ((eb != 0.000000)) {
+                                return eb;
+                            }
+                            else {
+                                return 0.000000;
+                            };
+                        };
+                    };
+                };
+            };
+        });
+        Z = (function (Item0, Item1) {
+            this.Items = [Item0, Item1];
+            this.Items = [Item0, Item1];
+        });
+        Z.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = this.Items[0.000000].CompareTo(db.Items[0.000000]);
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                var gb = 0.000000;
+                gb = this.Items[1.000000].CompareTo(db.Items[1.000000]);
+                eb = gb;
+                if ((eb != 0.000000)) {
+                    return eb;
+                }
+                else {
+                    return 0.000000;
+                };
+            };
+        });
+        _ = (function (db, eb) {
+            this.seed = db;
+            this.unfold = eb;
+            this.acc = { Tag: 1.000000, Value: this.seed };
+            this.current = null;
+        });
+        ab = (function (Item1, Item2) {
+            this.Tag = 1.000000;
+            this._CaseName = "Cons";
+            this.Item1 = Item1;
+            this.Item2 = Item2;
+        });
+        ab.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Tag < db.Tag) ? -1.000000 : ((this.Tag == db.Tag) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                var gb = 0.000000;
+                gb = this.Item1.CompareTo(db.Item1);
+                eb = gb;
+                if ((eb != 0.000000)) {
+                    return eb;
+                }
+                else {
+                    var hb = 0.000000;
+                    hb = this.Item2.CompareTo(db.Item2);
+                    eb = hb;
+                    if ((eb != 0.000000)) {
+                        return eb;
+                    }
+                    else {
+                        return 0.000000;
+                    };
+                };
+            };
+        });
+        bb = (function () {
+            this.Tag = 0.000000;
+            this._CaseName = "Nil";
+        });
+        bb.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            fb = ((this.Tag < db.Tag) ? -1.000000 : ((this.Tag == db.Tag) ? 0.000000 : 1.000000));
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        cb = (function (db) {
+            this.packages = db;
+        });
+        cb.prototype.CompareTo = (function (db) {
+            var eb = 0.000000;
+            var fb = 0.000000;
+            var gb = 0.000000;
+            while (((fb == 0.000000) && ((gb < this.packages.length) && (gb < db.packages.length)))) {
+                fb = ((this.packages[gb] < db.packages[gb]) ? -1.000000 : ((this.packages[gb] == db.packages[gb]) ? 0.000000 : 1.000000));
+                gb = (gb + 1.000000);
+            };
+            fb = ((fb == 0.000000) ? (this.packages.length - db.packages.length) : fb);
+            eb = fb;
+            if ((eb != 0.000000)) {
+                return eb;
+            }
+            else {
+                return 0.000000;
+            };
+        });
+        r((new m([], [(new Y("", (new n()), [l(["China", "China: 1,363,800,000"]), l(["India", "India: 1,242,620,000"]), l(["US", "US: 317,842,000"]), l(["Indonesia", "Indonesia: 247,424,598"]), l(["Brazil", "Brazil: 201,032,714"]), l(["Pakistan", "Pakistan: 186,134,000"]), l(["Nigeria", "Nigeria: 173,615,000"]), l(["Bangladesh", "Bangladesh: 152,518,015"]), l(["Russia", "Russia: 146,019,512"]), l(["Japan", "Japan: 127,120,000"])], 18, 18))], false, { Tag: 0.000000 }, { Tag: 0.000000 }, { Tag: 0.000000 }, (new n()), (new k()), { Tag: 0.000000 }, { Tag: 0.000000 }, (new t()))))</script>
+</body>
+</html>

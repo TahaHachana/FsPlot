@@ -16,7 +16,7 @@
 #r """..\packages\Selenium.WebDriver.2.42.0\lib\net40\WebDriver.dll"""
 #r """..\packages\Microsoft.AspNet.SignalR.Core.2.0.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll"""
 #r """..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll"""
-#r """..\packages\FsPlot.0.6.3\Lib\net45\FsPlot.dll"""
+#r """..\packages\FsPlot.0.6.4\Lib\net45\FsPlot.dll"""
 
 open FunScript.TypeScript
 

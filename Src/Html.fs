@@ -17,6 +17,7 @@ let dynamicHighcharts chartType address js =
     | _ -> Html.dynamicCommon address js
 
 
-let google chartType = Google.Html.common
-//    match chartType with
-//    | _ -> Google.Html.common
+let google chartType = //Google.Html.common
+    match chartType with
+    | Map -> Google.Html.map
+    | _ -> Google.Html.common

@@ -8,8 +8,8 @@ open View
 
 module Site =
 
-    let ( => ) text url =
-        A [HRef url] -< [Text text]
+//    let ( => ) text url =
+//        A [HRef url] -< [Text text]
 
 //    let Links (ctx: Context<Action>) =
 //        UL [
@@ -43,6 +43,12 @@ module Site =
             url
             (Chart id)
             <| View.dynamicChart title demos
+
+    let mapchartSitelet url id title demos =
+        Sitelet.Content
+            url
+            (Chart id)
+            <| View.mapchart title demos
 
     let Main =
         Sitelet.Sum [
@@ -321,6 +327,14 @@ module Site =
                 [
                     Demo.New "77d10bd3194a2309e7fe" "Highcharts Dynamic Spline Chart"
                 ]
+            mapchartSitelet
+                "/chart/google-maps-chart"
+                41
+                "Google Maps Chart"
+                [
+                    Demo.New "d77a110ea4ecc14382a1" "Maps Chart - Named Locations"
+                    Demo.New "cae86d93e8914a7ddb15" "Maps Chart - Geocoded Locations"                    
+                ]
 
         ]
 
@@ -373,6 +387,7 @@ type Website() =
                 Chart 38
                 Chart 39
                 Chart 40
+                Chart 41
             ]
 
 [<assembly: Website(typeof<Website>)>]

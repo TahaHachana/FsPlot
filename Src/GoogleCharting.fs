@@ -457,20 +457,20 @@ type Geochart =
 
     /// <summary>Creates a geo chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="label">The data label displayed in the legend.</param>
-    /// <param name="region">The area to display on the geochart.</param>
-    /// <param name="mode">The geochart type: auto, regions, markers or text.</param>
-    /// <param name="sizeAxis">The range used to display proportional marker values.</param>
+    /// <param name="Name">The data set name.</param>
+    /// <param name="Region">The area to display on the geochart.</param>
+    /// <param name="Mode">The geochart type: auto, regions, markers or text.</param>
+    /// <param name="SizeAxis">The range used to display proportional marker values.</param>
     static member New(data:seq<string * #value>, ?Name, ?Region, ?Mode, ?SizeAxis) =
         let chartData = ChartConfig.Google None [|Series.Geo(data, defaultArg Name "")|] None None None None Geo None None
         GoogleGeochart.Create chartData Region Mode SizeAxis
 
     /// <summary>Creates a geo chart.</summary>
     /// <param name="series">The chart's data.</param>
-    /// <param name="labels">The data categories displayed in the legend.</param>
-    /// <param name="region">The area to display on the geochart.</param>
-    /// <param name="mode">The geochart type: auto, regions, markers or text.</param>
-    /// <param name="sizeAxis">The range used to display proportional marker values.</param>
+    /// <param name="Names">The data sets names.</param>
+    /// <param name="Region">The area to display on the geochart.</param>
+    /// <param name="Mode">The geochart type: auto, regions, markers or text.</param>
+    /// <param name="SizeAxis">The range used to display proportional marker values.</param>
     static member New(data:seq<string * #value * #value>, ?Names, ?Region, ?Mode, ?SizeAxis) =
         let s1 =
             data
@@ -522,4 +522,92 @@ type Geochart =
     static member SavePng fileName (geochart:GoogleGeochart) =
         geochart.SavePng fileName
         geochart
+
+type GoogleMapchart() as chart =
+    
+    [<DefaultValue>] val mutable private config: ChartConfig    
+
+    let mutable jsFun = Google.Js.map
+    let htmlFun = Html.google
+
+    let guid = Guid.NewGuid().ToString()
+    let htmlFile = Path.GetTempPath() + guid + ".html"
+    do File.WriteAllText(htmlFile, "")
+    let browser = Browser.start htmlFile
+
+    let ctx = System.Threading.SynchronizationContext.Current
+
+    let agent =
+        MailboxProcessor<ChartConfig>.Start(fun inbox ->
+            let rec loop() =
+                async {
+                    let! msg = inbox.Receive()
+                    match inbox.CurrentQueueLength with
+                    | 0 ->
+                        let js = jsFun msg
+                        match inbox.CurrentQueueLength with
+                        | 0 ->
+                            let html = htmlFun msg.Type js
+                            match inbox.CurrentQueueLength with
+                            | 0 ->
+                                System.IO.File.WriteAllText(htmlFile, html)
+                                browser.Navigate().Refresh()
+                                return! loop()
+                            | _ -> return! loop()
+                        | _ -> return! loop()
+                    | _ -> return! loop()
+                }
+            loop())
+
+    static member internal Create x =
+        let gc = GoogleMapchart()
+        gc.config <- x
+        gc.Refresh()
+        gc
+
+    member internal __.Refresh() = agent.Post chart.config
+
+    /// Close the chart's window.
+    member __.Close() =
+        browser.Quit()
+        File.Delete htmlFile
+
+    /// Save the chart as a PNG image.
+    member __.SavePng(fileName) =
+        browser
+            .GetScreenshot()
+            .SaveAsFile(fileName, Drawing.Imaging.ImageFormat.Png)
+
+type Lat = float
+type Long = float
+
+type Mapchart =
+
+    /// <summary>Creates a map chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    static member New(data:seq<string * string>) =
+        let chartData = ChartConfig.Google None [|Series.Map data|] None None None None Map None None
+        GoogleMapchart.Create chartData
+
+    /// <summary>Creates a map chart.</summary>
+    /// <param name="series">The chart's data.</param>
+    static member New(data:seq<Lat * Long * string>) =
+        let s1 =
+            data
+            |> Seq.map (fun (k, v, _) -> k, v)
+            |> Series.Map
+        let s2 =
+            data
+            |> Seq.map (fun (k, _, v) -> k, v)
+            |> Series.Map
+        let chartData = ChartConfig.Google None [|s1; s2|] None None None None Map None None
+        GoogleMapchart.Create chartData
+
+    /// Close the chart's window.
+    static member Close (mapchart:GoogleMapchart) = mapchart.Close()
+
+    /// Save the chart as a PNG image.
+    static member SavePng fileName (mapchart:GoogleMapchart) =
+        mapchart.SavePng fileName
+        mapchart
 

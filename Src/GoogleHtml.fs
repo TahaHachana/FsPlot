@@ -12,3 +12,16 @@ let common js =
             js
             "</script></body></html>"
         ]
+
+/// Generates the HTML document for map charts.
+let map js =
+    String.concat
+        ""
+        [
+            "<!DOCTYPE html><html><head><title>Google Chart</title></head><body>"
+            """<div id="chart" style="width: 900px; height: 400px;"></div>"""
+            """<script type="text/javascript" src="https://www.google.com/jsapi"></script>"""
+            "<script>"
+            js
+            "</script></body></html>"
+        ]

@@ -28,6 +28,7 @@ type ChartType =
     | StackedBar
     | StackedColumn
     | Geo
+    | Map
 
 module internal Utils =
 
@@ -230,3 +231,6 @@ type Series =
     
     static member Geo(values:seq<string * #value>, ?name) =
         Series.New(Geo, values, name)
+
+    static member Map(values:seq<#key * #value>, ?name) =
+        Series.New(Map, values, name)

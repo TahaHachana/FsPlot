@@ -62,3 +62,18 @@ let dynamicChart title (demos:Demo list) =
 //                    IFrame [Src <| "../iframe/" + demoId + ".html"; Class "chart-iframe"]
                 ]
         ]
+
+let mapchart title (demos:Demo list) =
+     Skin.withChartTemplate ("FsPlot · " + title) <| fun ctx ->
+        [
+            for demo in demos do
+                let demoId = demo.Id
+                yield Div [Id demoId] -< [
+                    H2 [Class "page-header demo-header"] -< [Text demo.Heading]
+                    Div [Id "gist"] -< [
+                        Script [Src <| "https://gist.github.com/TahaHachana/" + demoId + ".js"]
+                    ]
+                    IFrame [Src <| "../iframe/" + demoId + ".html"; Class "map-chart-iframe"]
+                ]
+        ]
+

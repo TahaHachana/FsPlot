@@ -13,6 +13,15 @@ open FsPlot.Google.Options
 [<JSEmitInline("google.visualization.data.join({0}, {1}, 'full', [[0,0]], [1], [1])")>]
 let join dt1 dt2 : google.visualization.DataTable = failwith ""
 
+[<JSEmitInline "{ showTip: true }">]
+let mapChartOptions() : obj = failwith ""
+
+[<JSEmitInline "new google.visualization.Map(document.getElementById('chart'))">]
+let mapChart() : obj = failwith ""
+
+[<JSEmitInline "{0}.draw({1}, {2})">]
+let drawMap (map:obj) (data:google.visualization.DataTable) (options:obj) : unit = failwith ""
+
 [<ReflectedDefinition>]
 module Chart =
     
@@ -269,6 +278,21 @@ module Chart =
 
         drawOnLoad drawChart
 
+    let map (config:ChartConfig) =
+        let drawChart() =
+            let options =  mapChartOptions()
+
+            let data =
+                dataTables config
+                |> joinDataTables
+
+            let map = mapChart()
+            
+            drawMap map data options
+
+        google.Globals.load("visualization", "1", {packages = [|"map"|]})
+        google.Globals.setOnLoadCallback drawChart
+    
 let inline compile expr =
     Compiler.Compile(
         expr,
@@ -305,3 +329,7 @@ let stackedBar config =
 let stackedColumn config =
     let configExpr = quoteChartConfig config
     compile <@ Chart.stackedColumn %%configExpr @>
+
+let map config =
+    let configExpr = quoteChartConfig config
+    compile <@ Chart.map %%configExpr @>
