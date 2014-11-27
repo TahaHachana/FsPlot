@@ -1,5 +1,5 @@
-﻿#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.dll"""
-#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.Interop.dll"""
+﻿#r """.\packages\FunScript.1.1.86\lib\net40\FunScript.dll"""
+#r """.\packages\FunScript.1.1.86\lib\net40\FunScript.Interop.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
@@ -24,6 +24,8 @@ Compiler.compile
         createEmpty<google.visualization.BarChartOptions>() |> ignore
     @>
 |> ignore
+
+FsPlot.Settings.FSPlotSettings.chromeDriverDirectory <- @"C:\Users\AHMED\Desktop\chromedriver_win32"
 
 module Area =
     

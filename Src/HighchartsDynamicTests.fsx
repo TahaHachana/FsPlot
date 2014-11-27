@@ -1,15 +1,15 @@
-﻿#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.dll"""
-#r """.\packages\FunScript.1.1.54\lib\net40\FunScript.Interop.dll"""
+﻿#r """.\packages\FunScript.1.1.86\lib\net40\FunScript.dll"""
+#r """.\packages\FunScript.1.1.86\lib\net40\FunScript.Interop.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.lib.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.lib.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.jquery.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.jquery.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.highcharts.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.highcharts.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.signalr.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.signalr.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.gapi.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.gapi.dll"""
 #r """.\packages\FunScript.TypeScript.Binding.google_visualization.1.1.0.37\lib\net40\FunScript.TypeScript.Binding.google_visualization.dll"""
-#r """.\packages\Microsoft.AspNet.Cors.5.1.0\lib\net45\System.Web.Cors.dll"""
-#r """.\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll"""
-#r """.\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll"""
-#r """.\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll"""
+#r """.\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll"""
+#r """.\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll"""
+#r """.\packages\Microsoft.Owin.Hosting.3.0.0\lib\net45\Microsoft.Owin.Hosting.dll"""
+#r """.\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll"""
 #r """.\packages\Owin.1.0\lib\net40\Owin.dll"""
 #r """.\bin\release\FsPlot.dll"""
 
@@ -28,6 +28,8 @@ FunScript.Compiler.compile
         createEmpty<google.visualization.BarChartOptions>() |> ignore
     @>
 |> ignore
+
+FsPlot.Settings.FSPlotSettings.chromeDriverDirectory <- @"C:\Users\AHMED\Desktop\chromedriver_win32"
 
 module Area =
 
